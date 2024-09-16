@@ -1,0 +1,34 @@
+---
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+import { contentfulClient } from "../../lib/contentful";
+import type { Page } from "../../lib/contentful";
+import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
+
+export async function getStaticPaths() {
+  const entries = await contentfulClient.getEntries<Page>({
+    content_type: "wiki",
+  });
+  const pages = entries.items.map((item) => ({
+    params: { slug: item.fields.slug },
+    props: {
+      title: item.fields.title,
+      content: documentToHtmlString(item.fields.pageContent),
+      date: new Date(item.fields.date).toLocaleDateString(),
+      description: item.fields.description,
+    },
+  }));
+  return pages;
+}
+const { content, title, date, description } = Astro.props;
+---
+
+<StarlightPage
+  frontmatter={{
+    title: title,
+    description: description,
+    tableOfContents: false,
+  }}
+>
+  <!-- <time>{date}</time> -->
+  <article set:html={content} />
+</StarlightPage>

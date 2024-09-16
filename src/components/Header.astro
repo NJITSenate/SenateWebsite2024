@@ -1,0 +1,278 @@
+---
+import type { Props } from "@astrojs/starlight/props";
+import Search from "@astrojs/starlight/components/Search.astro";
+import SiteTitle from "@astrojs/starlight/components/SiteTitle.astro";
+import SocialIcons from "@astrojs/starlight/components/SocialIcons.astro";
+import LanguageSelect from "@astrojs/starlight/components/LanguageSelect.astro";
+import ThemeSelect from "@astrojs/starlight/components/ThemeSelect.astro";
+let { siteTitleHref, siteTitleText } = Astro.props;
+---
+
+<div class="header sl-flex">
+  <div class="title-wrapper sl-flex">
+    <!-- <SiteTitle {...Astro.props} /> -->
+    <a href={siteTitleHref} class="site-title sl-flex">
+      <svg
+        width="125"
+        height="50"
+        viewBox="0 0 1749 516"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <style type="text/css">
+            @import url("https://fonts.googleapis.com/css2?family=Urbanist");
+            @keyframes movefromcenter {
+              0% {
+                transform: translateX(-50%);
+              }
+              100% {
+                transform: translateX(0%);
+              }
+            }
+            @keyframes movefromcenter2 {
+              0% {
+                transform: translateX(50%);
+              }
+              100% {
+                transform: translateX(0%);
+              }
+            }
+            @keyframes movefromcenter3 {
+              0% {
+                transform: translateY(-50%);
+              }
+              100% {
+                transform: translateY(0%);
+              }
+            }
+            @keyframes movefromcenter4 {
+              0% {
+                transform: translateY(50%);
+              }
+              100% {
+                transform: translateY(0%);
+              }
+            }
+            @keyframes fadein {
+              0% {
+                opacity: 0;
+              }
+              100% {
+                opacity: 1;
+              }
+            }
+            #line2 {
+              animation: movefromcenter2 1s ease-out;
+            }
+
+            #line4 {
+              animation: movefromcenter 1s ease-out;
+            }
+
+            #line3 {
+              animation: movefromcenter3 1s ease-out;
+            }
+            #line1 {
+              animation: movefromcenter4 1s ease-out;
+            }
+            #line5 {
+              animation: movefromcenter4 1s ease-out;
+            }
+            text {
+              animation: fadein 1s ease-out 1.5s forwards;
+              opacity: 0;
+            }
+          </style>
+        </defs>
+        <text
+          fill="white"
+          xml:space="preserve"
+          style="white-space: pre"
+          font-family="Urbanist"
+          font-size="356"
+          font-weight="100"
+          letter-spacing="0.04em"
+          ><tspan x="221.81" y="381.1">SENATE</tspan></text
+        >
+        <text
+          fill="white"
+          xml:space="preserve"
+          style="white-space: pre"
+          font-family="Urbanist"
+          font-size="52"
+          letter-spacing="0.01em"><tspan x="239.32" y="480.2">NEW</tspan></text
+        >
+        <text
+          fill="white"
+          xml:space="preserve"
+          style="white-space: pre"
+          font-family="Urbanist"
+          font-size="52"
+          letter-spacing="0.09em"
+          ><tspan x="407.224" y="480.2">JERSEY</tspan></text
+        >
+        <text
+          fill="white"
+          xml:space="preserve"
+          style="white-space: pre"
+          font-family="Urbanist"
+          font-size="52"
+          letter-spacing="0.06em"
+          ><tspan x="664.071" y="480.2">INSTITUTE</tspan></text
+        >
+        <text
+          fill="white"
+          xml:space="preserve"
+          style="white-space: pre"
+          font-family="Urbanist"
+          font-size="52"
+          letter-spacing="0.04em"><tspan x="987.435" y="480.2">OF</tspan></text
+        >
+        <text
+          fill="white"
+          xml:space="preserve"
+          style="white-space: pre"
+          font-family="Urbanist"
+          font-size="52"
+          letter-spacing="0.08em"
+          ><tspan x="1112.46" y="480.2">TECHNOLOGY</tspan></text
+        >
+        <line
+          id="line1"
+          x1="28"
+          y1="457.5"
+          x2="123"
+          y2="457.5"
+          stroke="#A32F2C"
+          stroke-width="20"></line>
+        <line
+          id="line5"
+          x1="1597"
+          y1="456.5"
+          x2="1692"
+          y2="456.5"
+          stroke="#A32F2C"
+          stroke-width="20"></line>
+        <line
+          id="line3"
+          x1="28"
+          y1="29.5"
+          x2="1692"
+          y2="29.5001"
+          stroke="#A32F2C"
+          stroke-width="20"></line>
+        <line
+          id="line2"
+          x1="35.5"
+          y1="464"
+          x2="35.5"
+          y2="22"
+          stroke="#A32F2C"
+          stroke-width="20"></line>
+        <line
+          id="line4"
+          x1="1684.5"
+          y1="464"
+          x2="1684.5"
+          y2="22"
+          stroke="#A32F2C"
+          stroke-width="20"></line>
+      </svg>
+    </a>
+    <span class="sr-only">{siteTitleText}</span>
+  </div>
+  <div class="links">
+    <a href="/wiki">Student Org Wiki</a>
+    <a href="/senators">Senators</a>
+  </div>
+  <div class="sl-flex site-search">
+    <Search {...Astro.props} />
+  </div>
+  <div class="sl-hidden md:sl-flex right-group">
+    <div class="sl-flex social-icons">
+      <SocialIcons {...Astro.props} />
+    </div>
+    <ThemeSelect {...Astro.props} />
+    <LanguageSelect {...Astro.props} />
+  </div>
+</div>
+
+<style>
+  .header {
+    gap: var(--sl-nav-gap);
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    padding: var(--sl-nav-pad-y) var(--sl-nav-pad-x);
+  }
+
+  .title-wrapper {
+    /* Prevent long titles overflowing and covering the search and menu buttons on narrow viewports. */
+    overflow: hidden;
+  }
+
+  .right-group,
+  .social-icons {
+    gap: 1rem;
+    align-items: center;
+  }
+  .social-icons::after {
+    content: "";
+    height: 2rem;
+    border-inline-end: 1px solid var(--sl-color-gray-5);
+  }
+  :global(.header select) {
+    background-image: none;
+  }
+  @media (min-width: 50rem) {
+    :global(:root[data-has-sidebar]) {
+      --__sidebar-pad: calc(2 * var(--sl-nav-pad-x));
+    }
+    :global(:root:not([data-has-toc])) {
+      --__toc-width: 0rem;
+    }
+    .header {
+      --__sidebar-width: max(
+        0rem,
+        var(--sl-content-inline-start, 0rem) - var(--sl-nav-pad-x)
+      );
+      --__main-column-fr: calc(
+        (
+            100% + var(--__sidebar-pad, 0rem) -
+              var(--__toc-width, var(--sl-sidebar-width)) -
+              (2 * var(--__toc-width, var(--sl-nav-pad-x))) -
+              var(--sl-content-inline-start, 0rem) - var(--sl-content-width)
+          ) / 2
+      );
+      display: grid;
+      grid-template-columns:
+        /* 1 (site title): runs up until the main content column’s left edge or the width of the title, whichever is the largest  */
+        minmax(
+          calc(
+            var(--__sidebar-width) +
+              max(0rem, var(--__main-column-fr) - var(--sl-nav-gap))
+          ),
+          auto
+        )
+        /* 2 (search box): all free space that is available. */
+        1fr
+        1fr /* 3 (right items): use the space that these need. */
+        /* 3 (right items): use the space that these need. */
+        auto;
+      align-content: center;
+    }
+  }
+  .links {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .links a {
+    text-decoration: none;
+  }
+  .links a:hover {
+    text-decoration: underline;
+  }
+</style>

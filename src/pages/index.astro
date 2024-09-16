@@ -1,0 +1,259 @@
+---
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+let title = "Home";
+let description = "Welcome to the NJIT Student Senate website!";
+import { CardGrid, LinkCard } from "@astrojs/starlight/components";
+import Image from "astro/components/Image.astro";
+import CustomCard from "../../src/components/CustomCard.astro";
+import Carousel from "../../src/components/Carousel.astro";
+
+const response = await fetch(new URL("/clubs.json", Astro.url));
+let clubs = await response.json();
+
+// const response = await fetch(
+//   "https://njit.campuslabs.com/engage/api/discovery/search/organizations?top=240"
+// );
+// let clubs = await response.json();
+// clubs = clubs.value.map((e) => {
+//   return {
+//     website: "https://njit.campuslabs.com/engage/organization/" + e.WebsiteKey,
+//     name: e.Name,
+//     ShortName: e.ShortName,
+//     Summary: e.Summary,
+//     Description: e.Description,
+//     pfp: "https://se-images.campuslabs.com/clink/images/" + e.ProfilePicture,
+//   };
+// });
+---
+
+<StarlightPage
+  frontmatter={{
+    title: title,
+    description: description,
+    tableOfContents: false,
+    template: "splash",
+    head: [
+      {
+        tag: "style",
+        content: `
+      h1#_top{
+      display: none;
+      }
+      .content-panel {
+      border-top:unset!important;
+      }
+      `,
+      },
+    ],
+  }}
+>
+  <h1 class="title not-content">Welcome to the NJIT Student Senate Website!</h1>
+  <br />
+  <p class="ribbon text-xs lg:text-xl w-8/12 !mx-auto font-bold">
+    Of the Students, By the Students, For the Students
+  </p>
+  <br />
+  <Carousel />
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    {
+      [
+        {
+          title: "Senate GBM 12/34/56",
+          description: "description description description",
+          link: "#",
+          author: "author",
+          date: "date",
+          varient: "red",
+          content: "The next Senate GBM is on 12/34/56!",
+        },
+        {
+          title: "Come to office hours",
+          description: "description description description",
+          link: "#",
+          author: "author",
+          date: "date",
+          varient: "blue",
+          content: "Come to office hours! I'm lonely!",
+        },
+        {
+          title: "Multicultural Fest!",
+          description: "description description description",
+          link: "#",
+          author: "author",
+          date: "date",
+          varient: "red",
+          content:
+            "Happening on the green! We have food! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        },
+        {
+          title: "Poker Night",
+          description: "description description description",
+          link: "#",
+          author: "author",
+          date: "date",
+          varient: "blue",
+          content: "Come play poker with us!",
+        },
+      ].map((card) => (
+        <CustomCard
+          title={card.title}
+          description={card.description}
+          author={card.author}
+          date={card.date}
+          link={card.link}
+          varient={card.varient}
+        >
+          {card.content}
+        </CustomCard>
+      ))
+    }
+  </div>
+  <h2 class="ribbon text-xs lg:text-xl w-8/12 !mx-auto font-bold">Clubs</h2>
+  <div
+    class="not-content grid grid-cols-[repeat(auto-fit,minmax(35px,1fr))] gap-1 p-1"
+  >
+    {
+      clubs.map((club) => (
+        <a
+          href={club.website}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="col-span-1 flex align-center club"
+          title={club.name}
+        >
+          <Image
+            src={
+              club.pfp === "https://se-images.campuslabs.com/clink/images/null"
+                ? "https://placekitten.com/200/200"
+                : club.pfp
+            }
+            alt={club.name}
+            class="rounded-full w-10 h-10 hover:scale-125 transition-transform duration-300 ease-in-out"
+            width="40"
+            height="40"
+            title={club.name}
+          />
+        </a>
+      ))
+    }
+  </div>
+  <script>
+    //make random clubs spin
+    const clubs = document.querySelectorAll(".club");
+    setInterval(() => {
+      const randomClub = clubs[Math.floor(Math.random() * clubs.length)];
+      randomClub.classList.add("animate-spin");
+      setTimeout(() => {
+        randomClub.classList.remove("animate-spin");
+      }, 3000);
+    }, 4000);
+  </script>
+  <br />
+  <br />
+  <h2 class="ribbon text-xs lg:text-xl w-8/12 !mx-auto font-bold">
+    Upcoming Events
+  </h2>
+  <div class="not-content">
+    <iframe
+      class="not-content"
+      src="https://njit.campuslabs.com/engage/opportunityboard"
+      title="Upcoming Events"></iframe>
+  </div>
+
+  <style>
+    iframe {
+      width: 100%;
+      border: none;
+      height: 20em;
+    }
+    :root {
+      --color-primary: #bc2c43;
+      --color-secondary: #233251;
+      --color-background: #242525;
+
+      background: #242525 !important;
+    }
+    :root[data-theme="light"] body {
+      --color-background: #fff8f0;
+    }
+    body {
+      background: var(--color-background) !important;
+    }
+
+    .title {
+      font-weight: 300 !important;
+      text-align: center;
+      position: relative;
+      display: block;
+      padding: 30px 0;
+    }
+    .title::before {
+      content: "";
+      /* make a line above */
+      position: absolute;
+      top: -5px;
+      left: 33%;
+      width: 66%;
+      height: 5px;
+      background-color: var(--color-primary);
+      transform: translateX(-50%);
+    }
+    .title::after {
+      content: "";
+      /* make a line below */
+      position: absolute;
+      bottom: -5px;
+      left: 66%;
+      width: 66%;
+      height: 5px;
+      background-color: var(--color-secondary);
+      transform: translateX(-50%);
+    }
+
+    .ribbon {
+      position: relative;
+      margin: 0 100px 20px;
+      padding: 10px 40px;
+      text-align: center;
+      background-color: var(--color-secondary);
+      color: #fff !important;
+      text-transform: uppercase;
+    }
+
+    .ribbon::before,
+    .ribbon::after {
+      content: "";
+      width: 80px;
+      height: 100%;
+      background-color: var(--color-secondary);
+
+      /* position ribbon ends behind and slightly lower */
+      position: absolute;
+      z-index: -1;
+      top: 20px;
+
+      /* clip ribbon end shape */
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 25% 50%);
+
+      /* draw and position the folded ribbon bit */
+      background-image: linear-gradient(
+        45deg,
+        transparent 50%,
+        var(--color-primary) 50%
+      );
+      background-size: 20px 20px;
+      background-repeat: no-repeat;
+      background-position: bottom right;
+    }
+
+    .ribbon::before {
+      left: -60px;
+    }
+
+    .ribbon::after {
+      right: -60px;
+      transform: scaleX(-1); /* flip horizontally */
+    }
+  </style>
+</StarlightPage>

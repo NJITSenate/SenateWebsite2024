@@ -1,0 +1,181 @@
+---
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+let title = "Home";
+let description = "Welcome to the NJIT Student Senate website!";
+import { CardGrid, LinkCard } from "@astrojs/starlight/components";
+import Image from "astro/components/Image.astro";
+import CustomCard from "../components/CustomCard.astro";
+import Image from "astro/components/Image.astro";
+
+// let data_doc = await fetch(
+//   "https://docs.google.com/document/d/[ID]/export"
+// );
+// let data2 = await data_doc.text();
+// console.log(data2);
+
+let data_sheets = await fetch(
+  "https://docs.google.com/spreadsheets/d/15UTtled3QtfaKHF5DvWWUIWtVRWac3zKZvTPnlueyP0/export?format=csv"
+);
+let data = await data_sheets.text();
+//csv to json
+let json = data.split("\n").map((line) => {
+  let [role, f_name, l_name, email] = line.split(",");
+  return { role, f_name, l_name, email };
+});
+console.log(json);
+---
+
+<StarlightPage
+  frontmatter={{
+    title: title,
+    description: description,
+    tableOfContents: false,
+    template: "splash",
+    head: [
+      {
+        tag: "style",
+        content: `
+      h1#_top{
+      display: none;
+      }
+      .content-panel {
+      border-top:unset!important;
+      }
+      `,
+      },
+    ],
+  }}
+>
+  <h1 class="title not-content">Welcome to the NJIT Student Senate website!</h1>
+  <br />
+  <br />
+  <!-- <h2 class="ribbon text-xs !mb-20 lg:text-xl w-8/12 !mx-auto font-bold">
+    Senators
+  </h2> -->
+
+  <div class="gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    {
+      json.map((senator) =>
+        senator.f_name === "" ? (
+          //  make a full row for the lable
+          <div class="col-span-full">
+            <h2 class="ribbon text-xs lg:text-xl w-8/12 !mx-auto font-bold">
+              {senator.role}
+            </h2>
+          </div>
+        ) : senator.f_name === "VACANT" ? null : (
+          <CustomCard
+            link={`mailto:${senator.email}`}
+            title={`${senator.role}`}
+            description={`${senator.f_name} ${senator.l_name}`}
+            author={`${senator.email}`}
+          >
+            <span class="flex flex-row items-center">
+              <Image
+                src={`https://imageplaceholder.net/600`}
+                alt={`${senator.f_name} ${senator.l_name}`}
+                width={100}
+                height={100}
+              />
+              <p class="ml-2 dark:text-gray-300">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum,
+                quas minima quaerat recusandae exercitationem unde?
+              </p>
+            </span>
+          </CustomCard>
+        )
+      )
+    }
+  </div>
+
+  <style>
+    :root {
+      --color-primary: #bc2c43;
+      --color-secondary: #233251;
+      --color-background: #242525;
+
+      background: #242525 !important;
+    }
+    :root[data-theme="light"] body {
+      --color-background: #fff8f0;
+    }
+    body {
+      background: var(--color-background) !important;
+    }
+
+    .title {
+      font-weight: 300 !important;
+      text-align: center;
+      position: relative;
+      display: block;
+      padding: 30px 0;
+    }
+    .title::before {
+      content: "";
+      /* make a line above */
+      position: absolute;
+      top: -5px;
+      left: 33%;
+      width: 66%;
+      height: 5px;
+      background-color: var(--color-primary);
+      transform: translateX(-50%);
+    }
+    .title::after {
+      content: "";
+      /* make a line below */
+      position: absolute;
+      bottom: -5px;
+      left: 66%;
+      width: 66%;
+      height: 5px;
+      background-color: var(--color-secondary);
+      transform: translateX(-50%);
+    }
+
+    .ribbon {
+      position: relative;
+      margin: 0 100px 20px;
+      padding: 10px 40px;
+      text-align: center;
+      background-color: var(--color-secondary);
+      color: #fff !important;
+      text-transform: uppercase;
+    }
+
+    .ribbon::before,
+    .ribbon::after {
+      content: "";
+      width: 80px;
+      height: 100%;
+      background-color: var(--color-secondary);
+
+      /* position ribbon ends behind and slightly lower */
+      position: absolute;
+      z-index: -1;
+      top: 20px;
+
+      /* clip ribbon end shape */
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 25% 50%);
+
+      /* draw and position the folded ribbon bit */
+      background-image: linear-gradient(
+        45deg,
+        transparent 50%,
+        var(--color-primary) 50%
+      );
+      background-size: 20px 20px;
+      background-repeat: no-repeat;
+      background-position: bottom right;
+    }
+
+    .ribbon::before {
+      left: -60px;
+    }
+
+    .ribbon::after {
+      right: -60px;
+      transform: scaleX(-1); /* flip horizontally */
+    }
+  </style>
+</StarlightPage>
