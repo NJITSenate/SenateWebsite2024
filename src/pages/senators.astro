@@ -14,26 +14,43 @@ import "../styles/no-padding.css";
 // console.log(data2);
 
 let data_sheets = await fetch(
-  "https://docs.google.com/spreadsheets/d/15UTtled3QtfaKHF5DvWWUIWtVRWac3zKZvTPnlueyP0/export?format=csv"
+  "https://docs.google.com/spreadsheets/d/1II800-_nlNJ_YAj_SIghSoWSaVp7FDvd6FquiHU1T84/export?format=csv"
 );
 let data = await data_sheets.text();
 //csv to json
 let json = data.split("\n").map((line) => {
+  // if (line.replace(/,/g, "").replace("\r", "") === "") return;
   let [role, f_name, l_name, email] = line.split(",");
-  return { role, f_name, l_name, email };
+  return {
+    role,
+    f_name,
+    l_name,
+    email,
+    pic: "https://imageplaceholder.net/600",
+  };
 });
-
+// //remove undefined
+// json = json.reduce((acc, curr) => {
+//   if (curr) acc.push(curr);
+//   return acc;
+// }, []);
 let metadata_sheet = await fetch(
   "https://docs.google.com/spreadsheets/d/1tqFA7RIWxHS_JNYORKpUAI5cNfslHdds-DLjwBgiHJo/export?format=csv"
 );
 let metadata = await metadata_sheet.text();
 //csv to json
 let metadata_json = metadata.split("\n").map((line) => {
-  let [role, f_name, l_name, pic, desc] = line.split(",");
-  return { role, f_name, l_name, pic, desc };
+  let [email, pic] = line.split(",");
+  return { email, pic };
 });
 metadata_json = metadata_json.slice(1, metadata_json.length);
-console.log(metadata_json);
+//new json with metadata added
+json = json.map((senator) => {
+  let meta = metadata_json.find(
+    (meta) => meta.email.trim() === senator.email.trim()
+  );
+  return { ...senator, pic: meta?.pic ?? senator.pic };
+});
 ---
 
 <StarlightPage
@@ -108,13 +125,7 @@ console.log(metadata_json);
               title={`${senator.f_name} ${senator.l_name}`}
             >
               <Image
-                src={`${
-                  metadata_json.find(
-                    (meta) =>
-                      meta.f_name === senator.f_name &&
-                      meta.l_name === senator.l_name
-                  )?.pic ?? "https://imageplaceholder.net/600"
-                }`}
+                src={`${senator.pic}`}
                 alt={`${senator.f_name} ${senator.l_name}`}
                 width="300"
                 height="300"
