@@ -77,31 +77,54 @@ console.log(metadata_json);
             </h2>
           ) : // </div>
           senator.f_name === "VACANT" ? null : (
-            <CustomCard
-              link={`mailto:${senator.email}`}
-              title={`${senator.role}`}
-              description={`${senator.f_name} ${senator.l_name}`}
-              author={`${senator.email}`}
+            // <CustomCard
+            //   link={`mailto:${senator.email}`}
+            //   title={`${senator.role}`}
+            //   description={`${senator.f_name} ${senator.l_name}`}
+            //   author={`${senator.email}`}
+            // >
+            //   <span class="flex flex-row items-center">
+            //     <Image
+            //       src={`${
+            //         metadata_json.find(
+            //           (meta) =>
+            //             meta.f_name === senator.f_name &&
+            //             meta.l_name === senator.l_name
+            //         )?.pic ?? "https://imageplaceholder.net/600"
+            //       }`}
+            //       alt={`${senator.f_name} ${senator.l_name}`}
+            //       width={100}
+            //       height={100}
+            //     />
+            //     <p class="ml-2 dark:text-gray-300">
+            //       Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            //       Ipsum, quas minima quaerat recusandae exercitationem unde?
+            //     </p>
+            //   </span>
+            // </CustomCard>
+            <a
+              href={`mailto:${senator.email}`}
+              class="col-span-1 flex align-center club justify-center relative"
+              title={`${senator.f_name} ${senator.l_name}`}
             >
-              <span class="flex flex-row items-center">
-                <Image
-                  src={`${
-                    metadata_json.find(
-                      (meta) =>
-                        meta.f_name === senator.f_name &&
-                        meta.l_name === senator.l_name
-                    )?.pic ?? "https://imageplaceholder.net/600"
-                  }`}
-                  alt={`${senator.f_name} ${senator.l_name}`}
-                  width={100}
-                  height={100}
-                />
-                <p class="ml-2 dark:text-gray-300">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Ipsum, quas minima quaerat recusandae exercitationem unde?
-                </p>
-              </span>
-            </CustomCard>
+              <Image
+                src={`${
+                  metadata_json.find(
+                    (meta) =>
+                      meta.f_name === senator.f_name &&
+                      meta.l_name === senator.l_name
+                  )?.pic ?? "https://imageplaceholder.net/600"
+                }`}
+                alt={`${senator.f_name} ${senator.l_name}`}
+                width="300"
+                height="300"
+              />
+              <p class="text-gray-300 p-2 absolute bottom-0 left-0 right-0 bg-[#233251]">
+                {senator.f_name} {senator.l_name}
+                <br />
+                {senator.role}
+              </p>
+            </a>
           )
         )
       }
