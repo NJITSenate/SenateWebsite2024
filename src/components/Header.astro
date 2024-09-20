@@ -8,7 +8,7 @@ import ThemeSelect from "@astrojs/starlight/components/ThemeSelect.astro";
 let { siteTitleHref, siteTitleText } = Astro.props;
 ---
 
-<div class="header sl-flex">
+<div class="header !flex !justify-evenly !relative">
   <div class="title-wrapper sl-flex">
     <!-- <SiteTitle {...Astro.props} /> -->
     <a href={siteTitleHref} class="site-title sl-flex">
@@ -182,19 +182,28 @@ let { siteTitleHref, siteTitleText } = Astro.props;
     </a>
     <span class="sr-only">{siteTitleText}</span>
   </div>
-  <div class="links">
+  <div class="links !flex mx-auto !justify-center !w-max"></div>
+  <div
+    class="links !flex mx-auto !justify-center !w-max absolute sm:!left-1/2 sm:!right-[unset] sm:!transform sm:!-translate-x-1/2 right-0"
+  >
     <a href="/wiki">Student Org Wiki</a>
+    <a
+      href="https://drive.google.com/drive/folders/1dRdTx6p-dnzlyfG22WMCNzGCpEutX3KD"
+      >Senate Drive</a
+    >
     <a href="/senators">Senators</a>
   </div>
-  <div class="sl-flex site-search">
+  <!-- <div class="sl-flex site-search">
     <Search {...Astro.props} />
-  </div>
-  <div class="sl-hidden md:sl-flex right-group">
+  </div> -->
+  <div
+    class="sl-hidden md:!inline-flex !w-min max-w-fit !items-center !justify-end"
+  >
     <div class="sl-flex social-icons">
       <SocialIcons {...Astro.props} />
     </div>
     <ThemeSelect {...Astro.props} />
-    <LanguageSelect {...Astro.props} />
+    <!-- <LanguageSelect {...Astro.props} /> -->
   </div>
 </div>
 

@@ -1,11 +1,11 @@
 ---
 import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
-let title = "Home";
-let description = "Welcome to the NJIT Student Senate website!";
+let title = "Senators";
+let description = "The NJIT Student Senate members";
 import { CardGrid, LinkCard } from "@astrojs/starlight/components";
-import Image from "astro/components/Image.astro";
 import CustomCard from "../components/CustomCard.astro";
 import Image from "astro/components/Image.astro";
+import "../styles/no-padding.css";
 
 // let data_doc = await fetch(
 //   "https://docs.google.com/document/d/[ID]/export"
@@ -22,7 +22,18 @@ let json = data.split("\n").map((line) => {
   let [role, f_name, l_name, email] = line.split(",");
   return { role, f_name, l_name, email };
 });
-console.log(json);
+
+let metadata_sheet = await fetch(
+  "https://docs.google.com/spreadsheets/d/1tqFA7RIWxHS_JNYORKpUAI5cNfslHdds-DLjwBgiHJo/export?format=csv"
+);
+let metadata = await metadata_sheet.text();
+//csv to json
+let metadata_json = metadata.split("\n").map((line) => {
+  let [role, f_name, l_name, pic, desc] = line.split(",");
+  return { role, f_name, l_name, pic, desc };
+});
+metadata_json = metadata_json.slice(1, metadata_json.length);
+console.log(metadata_json);
 ---
 
 <StarlightPage
@@ -53,42 +64,55 @@ console.log(json);
     Senators
   </h2> -->
 
-  <div class="gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-    {
-      json.map((senator) =>
-        senator.f_name === "" ? (
-          //  make a full row for the lable
-          <div class="col-span-full">
-            <h2 class="ribbon text-xs lg:text-xl w-8/12 !mx-auto font-bold">
+  <!-- <div class="gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"> -->
+  <div class="not-content">
+    <div class="flex flex-wrap justify-center gap-2 !w-full">
+      {
+        json.map((senator) =>
+          senator.f_name === "" ? (
+            //  make a full row for the lable
+            // <div class="col-span-full">
+            <h2 class="ribbon text-sm lg:text-xl !w-full mx-20 lg:!mx-60 font-bold">
               {senator.role}
             </h2>
-          </div>
-        ) : senator.f_name === "VACANT" ? null : (
-          <CustomCard
-            link={`mailto:${senator.email}`}
-            title={`${senator.role}`}
-            description={`${senator.f_name} ${senator.l_name}`}
-            author={`${senator.email}`}
-          >
-            <span class="flex flex-row items-center">
-              <Image
-                src={`https://imageplaceholder.net/600`}
-                alt={`${senator.f_name} ${senator.l_name}`}
-                width={100}
-                height={100}
-              />
-              <p class="ml-2 dark:text-gray-300">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum,
-                quas minima quaerat recusandae exercitationem unde?
-              </p>
-            </span>
-          </CustomCard>
+          ) : // </div>
+          senator.f_name === "VACANT" ? null : (
+            <CustomCard
+              link={`mailto:${senator.email}`}
+              title={`${senator.role}`}
+              description={`${senator.f_name} ${senator.l_name}`}
+              author={`${senator.email}`}
+            >
+              <span class="flex flex-row items-center">
+                <Image
+                  src={`${
+                    metadata_json.find(
+                      (meta) =>
+                        meta.f_name === senator.f_name &&
+                        meta.l_name === senator.l_name
+                    )?.pic ?? "https://imageplaceholder.net/600"
+                  }`}
+                  alt={`${senator.f_name} ${senator.l_name}`}
+                  width={100}
+                  height={100}
+                />
+                <p class="ml-2 dark:text-gray-300">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Ipsum, quas minima quaerat recusandae exercitationem unde?
+                </p>
+              </span>
+            </CustomCard>
+          )
         )
-      )
-    }
+      }
+    </div>
   </div>
 
   <style>
+    .sl-container {
+      margin: 0 !important;
+      margin-inline: 0 !important;
+    }
     :root {
       --color-primary: #bc2c43;
       --color-secondary: #233251;

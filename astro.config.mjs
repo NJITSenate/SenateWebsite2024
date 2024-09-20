@@ -1,29 +1,34 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import { loadEnv } from "vite";
-const {
-  CONTENTFUL_DELIVERY_TOKEN,
-  CONTENTFUL_SPACE_ID,
-  CONTENTFUL_PREVIEW_TOKEN,
-  DEV
-} = loadEnv(process.env.NODE_ENV, process.cwd(), "");
-import contentful from 'contentful';
 import tailwind from "@astrojs/tailwind";
-const client = contentful.createClient({
-  space: CONTENTFUL_SPACE_ID,
-  environment: 'master',
-  // defaults to 'master' if not set
-  accessToken: DEV ? CONTENTFUL_PREVIEW_TOKEN : CONTENTFUL_DELIVERY_TOKEN
+let data_sheets = await fetch(
+  "https://docs.google.com/spreadsheets/d/1iO9LJBg739viwl7r_Pscbw9jrAl9U3k48KL6nFfNQ2M/export?format=csv"
+);
+let data = await data_sheets.text();
+//csv to json
+let drive_doc_ids = data.split("\n").slice(1).map((line) => {
+ 
+  let [Name, user_friendly_slug, description, uri] = line.split(",");
+  return { Name, user_friendly_slug, description, uri };
 });
-const itemsObject = await client.getEntries({
-  content_type: 'wiki',
-  select: 'fields.slug,fields.title'
-}).then(entry => entry.items.map(item => {
+let itemsObject = drive_doc_ids.map((item) => {
   return {
-    label: item.fields.title,
-    link: `/wiki/${item.fields.slug}`
+    label: item.Name,
+    link: `/wiki/${item.user_friendly_slug}`
   };
-})).catch(console.error);
+}
+);
+
+// await client.getEntries({
+//   content_type: 'wiki',
+//   select: 'fields.slug,fields.title'
+// }).then(entry => entry.items.map(item => {
+//   return {
+//     label: item.fields.title,
+//     link: `/wiki/${item.fields.slug}`
+//   };
+// })).catch(console.error);
 
 // https://astro.build/config
 export default defineConfig({

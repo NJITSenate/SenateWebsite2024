@@ -43,6 +43,9 @@ header select {
   /* make inver of background color */
   filter: invert(1);
 }
+[data-theme="dark"] #_top {
+  color: #e2e8f0 !important;
+}
 
 * {
   font-family: "Red Hat Display", sans-serif;

@@ -1,0 +1,11 @@
+.sl-container {
+  margin: 0 auto !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* padding: 0 20em; */
+}
+.sl-markdown-content {
+  width: 80%;
+}

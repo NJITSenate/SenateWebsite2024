@@ -10,21 +10,23 @@ const { title, description, author, date, link, varient } = Astro.props;
   <div
     class=`head p-2 text-white ${varient === "red" ? "bg-[#BC2C43]" : "bg-[#233251]"}`
   >
-    <h3 class="card_title">
+    <h3 class="card_title dark:text-gray-300">
       {title}
     </h3>
-    <p class="card_description">
+    <p class="card_description dark:text-gray-300">
       {description}
     </p>
   </div>
-  <div class=`flex-1 line-clamp-4 m-4 card_content text-black`>
+  <div
+    class=`flex-1 line-clamp-4 m-4 card_content text-black dark:text-gray-300`
+  >
     <slot />
   </div>
   <div class=`card_footer text-black flex justify-between px-3`>
-    <p class="card_author">
+    <p class="card_author dark:text-gray-300">
       {author}
     </p>
-    <p class="card_date">
+    <p class="card_date dark:text-gray-300">
       {date}
     </p>
   </div>

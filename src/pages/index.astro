@@ -2,28 +2,43 @@
 import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
 let title = "Home";
 let description = "Welcome to the NJIT Student Senate website!";
-import { CardGrid, LinkCard } from "@astrojs/starlight/components";
 import Image from "astro/components/Image.astro";
 import CustomCard from "../../src/components/CustomCard.astro";
 import Carousel from "../../src/components/Carousel.astro";
-
-const response = await fetch(new URL("/clubs.json", Astro.url));
-let clubs = await response.json();
-
-// const response = await fetch(
-//   "https://njit.campuslabs.com/engage/api/discovery/search/organizations?top=240"
-// );
+//-------------------
+//fetch clubs from local clubs.json for testing
+// const response = await fetch(new URL("/clubs.json", Astro.url));
 // let clubs = await response.json();
-// clubs = clubs.value.map((e) => {
-//   return {
-//     website: "https://njit.campuslabs.com/engage/organization/" + e.WebsiteKey,
-//     name: e.Name,
-//     ShortName: e.ShortName,
-//     Summary: e.Summary,
-//     Description: e.Description,
-//     pfp: "https://se-images.campuslabs.com/clink/images/" + e.ProfilePicture,
-//   };
-// });
+//-------------------
+// //fetch clubs from campuslabs (so live data)
+const response = await fetch(
+  "https://njit.campuslabs.com/engage/api/discovery/search/organizations?orderBy[0]=UpperName asc&top=150&filter=(BranchId%20eq%20296346)"
+);
+let clubs = await response.json();
+clubs = clubs.value.map((e) => {
+  return {
+    website: "https://njit.campuslabs.com/engage/organization/" + e.WebsiteKey,
+    name: e.Name,
+    ShortName: e.ShortName,
+    Summary: e.Summary,
+    Description: e.Description,
+    pfp: "https://se-images.campuslabs.com/clink/images/" + e.ProfilePicture,
+  };
+});
+//-----------------
+
+// https://docs.google.com/spreadsheets/d/11pXrj7FqBO5hMXyJgBB8XwrXfiBXs-nMxPtudWqcjnw
+let data_sheets = await fetch(
+  "https://docs.google.com/spreadsheets/d/11pXrj7FqBO5hMXyJgBB8XwrXfiBXs-nMxPtudWqcjnw/export?format=csv"
+);
+let data = await data_sheets.text();
+//csv to json
+let announcment_data = data.split("\n").map((line) => {
+  let [title, desc, date, content, author, link, variant] = line.split(",");
+  return { title, desc, date, content, author, link, variant };
+});
+announcment_data = announcment_data.slice(1, announcment_data.length);
+console.log(announcment_data);
 ---
 
 <StarlightPage
@@ -55,54 +70,16 @@ let clubs = await response.json();
   <br />
   <Carousel />
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
     {
-      [
-        {
-          title: "Senate GBM 12/34/56",
-          description: "description description description",
-          link: "#",
-          author: "author",
-          date: "date",
-          varient: "red",
-          content: "The next Senate GBM is on 12/34/56!",
-        },
-        {
-          title: "Come to office hours",
-          description: "description description description",
-          link: "#",
-          author: "author",
-          date: "date",
-          varient: "blue",
-          content: "Come to office hours! I'm lonely!",
-        },
-        {
-          title: "Multicultural Fest!",
-          description: "description description description",
-          link: "#",
-          author: "author",
-          date: "date",
-          varient: "red",
-          content:
-            "Happening on the green! We have food! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        },
-        {
-          title: "Poker Night",
-          description: "description description description",
-          link: "#",
-          author: "author",
-          date: "date",
-          varient: "blue",
-          content: "Come play poker with us!",
-        },
-      ].map((card) => (
+      announcment_data.map((card) => (
         <CustomCard
           title={card.title}
-          description={card.description}
+          description={card.desc}
           author={card.author}
           date={card.date}
           link={card.link}
-          varient={card.varient}
+          varient={card.variant.replace("\r", "")}
         >
           {card.content}
         </CustomCard>
@@ -111,7 +88,7 @@ let clubs = await response.json();
   </div>
   <h2 class="ribbon text-xs lg:text-xl w-8/12 !mx-auto font-bold">Clubs</h2>
   <div
-    class="not-content grid grid-cols-[repeat(auto-fit,minmax(35px,1fr))] gap-1 p-1"
+    class="not-content grid grid-cols-[repeat(auto-fit,minmax(35px,1fr))] gap-1 p-1 rounded-full"
   >
     {
       clubs.map((club) => (
@@ -119,7 +96,7 @@ let clubs = await response.json();
           href={club.website}
           target="_blank"
           rel="noopener noreferrer"
-          class="col-span-1 flex align-center club"
+          class="col-span-1 flex align-center club justify-center bg-[#fff8f0] rounded-full"
           title={club.name}
         >
           <Image
@@ -129,9 +106,9 @@ let clubs = await response.json();
                 : club.pfp
             }
             alt={club.name}
-            class="rounded-full w-10 h-10 hover:scale-125 transition-transform duration-300 ease-in-out"
-            width="40"
-            height="40"
+            class="rounded-full h-10 p-1 hover:scale-125 transition-transform duration-300 ease-in-out "
+            width="50"
+            height="50"
             title={club.name}
           />
         </a>
