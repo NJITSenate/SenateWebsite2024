@@ -38,7 +38,7 @@ let announcment_data = data.split("\n").map((line) => {
   return { title, desc, date, content, author, link, variant };
 });
 announcment_data = announcment_data.slice(1, announcment_data.length);
-console.log(announcment_data);
+// console.log(announcment_data);
 ---
 
 <StarlightPage
@@ -96,7 +96,7 @@ console.log(announcment_data);
           href={club.website}
           target="_blank"
           rel="noopener noreferrer"
-          class="col-span-1 flex align-center club justify-center bg-[#fff8f0] rounded-full"
+          class="col-span-1 flex align-center club justify-center bg-[#fff8f0] rounded-full dark:bg-[#242525]"
           title={club.name}
         >
           <Image

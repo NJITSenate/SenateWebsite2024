@@ -33,6 +33,7 @@ let itemsObject = drive_doc_ids.map((item) => {
 // https://astro.build/config
 export default defineConfig({
   integrations: [starlight({
+    disable404Route: true,
     favicon: './favicon.png',
     components: {
       Header: './src/components/Header.astro'

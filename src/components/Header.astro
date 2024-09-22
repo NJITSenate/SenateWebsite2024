@@ -1,14 +1,18 @@
 ---
 import type { Props } from "@astrojs/starlight/props";
-import Search from "@astrojs/starlight/components/Search.astro";
-import SiteTitle from "@astrojs/starlight/components/SiteTitle.astro";
+// import Search from "@astrojs/starlight/components/Search.astro";
+// import SiteTitle from "@astrojs/starlight/components/SiteTitle.astro";
 import SocialIcons from "@astrojs/starlight/components/SocialIcons.astro";
-import LanguageSelect from "@astrojs/starlight/components/LanguageSelect.astro";
+// import LanguageSelect from "@astrojs/starlight/components/LanguageSelect.astro";
 import ThemeSelect from "@astrojs/starlight/components/ThemeSelect.astro";
 import { Icon } from "@astrojs/starlight/components";
 let { siteTitleHref, siteTitleText } = Astro.props;
+import { ViewTransitions } from "astro:transitions";
 ---
 
+<head>
+  <ViewTransitions />
+</head>
 <div class="header !flex !justify-evenly !relative">
   <div class="title-wrapper sl-flex">
     <!-- <SiteTitle {...Astro.props} /> -->
@@ -19,10 +23,13 @@ let { siteTitleHref, siteTitleText } = Astro.props;
         viewBox="0 0 1749 516"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        style="width: 200px;"
       >
         <defs>
           <style type="text/css">
-            @import url("https://fonts.googleapis.com/css2?family=Urbanist");
+            /* @import url("https://fonts.googleapis.com/css2?family=Urbanist:wght@100&display=swap"); */
+            /* @import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap'); */
+            @import url("https://fonts.googleapis.com/css2?family=Urbanist:wght@100&display=swap");
             @keyframes movefromcenter {
               0% {
                 transform: translateX(-50%);
@@ -89,12 +96,9 @@ let { siteTitleHref, siteTitleText } = Astro.props;
         <text
           fill="white"
           xml:space="preserve"
-          style="white-space: pre"
+          style="white-space: pre;"
           font-family="Urbanist"
-          font-size="356"
-          font-weight="100"
-          letter-spacing="0.04em"
-          ><tspan x="221.81" y="381.1">SENATE</tspan></text
+          font-size="356"><tspan x="221.81" y="381.1">SENATE</tspan></text
         >
         <text
           fill="white"
