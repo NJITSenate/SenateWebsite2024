@@ -27,6 +27,7 @@ let json = data.split("\n").map((line) => {
     l_name,
     email,
     pic: "https://imageplaceholder.net/600",
+    pic2: "https://imageplaceholder.net/600",
   };
 });
 // //remove undefined
@@ -40,8 +41,8 @@ let metadata_sheet = await fetch(
 let metadata = await metadata_sheet.text();
 //csv to json
 let metadata_json = metadata.split("\n").map((line) => {
-  let [email, pic] = line.split(",");
-  return { email, pic };
+  let [email, pic, pic2] = line.split(",");
+  return { email, pic, pic2 };
 });
 metadata_json = metadata_json.slice(1, metadata_json.length);
 //new json with metadata added
@@ -49,7 +50,11 @@ json = json.map((senator) => {
   let meta = metadata_json.find(
     (meta) => meta.email.trim() === senator.email.trim()
   );
-  return { ...senator, pic: meta?.pic ?? senator.pic };
+  return {
+    ...senator,
+    pic: meta?.pic ?? senator.pic,
+    pic2: meta?.pic2 ?? senator.pic2,
+  };
 });
 ---
 
@@ -121,7 +126,7 @@ json = json.map((senator) => {
             // </CustomCard>
             <a
               href={`mailto:${senator.email}`}
-              class="col-span-1 flex align-center club justify-center relative"
+              class="col-span-1 flex align-center club justify-center relative overflow-hidden"
               title={`${senator.f_name} ${senator.l_name}`}
             >
               <Image
@@ -129,8 +134,16 @@ json = json.map((senator) => {
                 alt={`${senator.f_name} ${senator.l_name}`}
                 width="300"
                 height="300"
+                class="hover:opacity-0"
               />
-              <p class="text-gray-300 p-2 absolute bottom-0 left-0 right-0 bg-[#233251]">
+              <Image
+                src={`${senator.pic2}`}
+                alt={`${senator.f_name} ${senator.l_name}`}
+                width="300"
+                height="300"
+                class="hover:opacity-100 absolute top-0 left-0 opacity-0"
+              />
+              <p class="text-gray-300 p-2 absolute bottom-0 left-0 right-0 bg-[#233251] shadow-[0_-4px_15px_rgba(0,0,0,0.25)]">
                 {senator.f_name} {senator.l_name}
                 <br />
                 {senator.role}

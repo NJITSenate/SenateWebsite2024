@@ -9,9 +9,10 @@ export async function getStaticPaths() {
   let data = await data_sheets.text();
   //csv to json
   let drive_doc_ids = data.split("\n").map((line) => {
-    let [Name, user_friendly_slug, description, uri] = line.split(",");
+    let [Name, user_friendly_slug, description, uri, category, hidden] =
+      line.split(",");
     // uri = uri.replace("\r", "");
-    return { Name, user_friendly_slug, description, uri };
+    return { Name, user_friendly_slug, description, uri, category, hidden };
   });
 
   //check the slug and if it matches the slug in the google doc, then return the content

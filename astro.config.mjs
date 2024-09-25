@@ -9,16 +9,41 @@ let data = await data_sheets.text();
 //csv to json
 let drive_doc_ids = data.split("\n").slice(1).map((line) => {
  
-  let [Name, user_friendly_slug, description, uri] = line.split(",");
-  return { Name, user_friendly_slug, description, uri };
+  let [Name, user_friendly_slug, description, uri, category, hidden] = line.split(",");
+  return { Name, user_friendly_slug, description, uri, category, hidden };
 });
-let itemsObject = drive_doc_ids.map((item) => {
+// let itemsObject = drive_doc_ids.map((item) => {
+//   return {
+//     label: item.Name,
+//     link: `/wiki/${item.user_friendly_slug}`
+//   };
+// }
+// );
+//get a list of categories that have at least one item that is not hidden
+let categories = drive_doc_ids
+  .filter((item) => item.hidden !== "TRUE")
+  .map((item) => item.category);
+//remove duplicates
+categories = [...new Set(categories)];
+
+let itemsObject = categories.map((category) => {
   return {
-    label: item.Name,
-    link: `/wiki/${item.user_friendly_slug}`
+    label: category,
+    items: drive_doc_ids
+      .filter((item) => item.category === category && item.hidden !== "TRUE")
+      .map((item) => {
+        return {
+          label: item.Name,
+          link: `/wiki/${item.user_friendly_slug}`
+        };
+      })
   };
 }
 );
+
+
+
+
 
 // await client.getEntries({
 //   content_type: 'wiki',
