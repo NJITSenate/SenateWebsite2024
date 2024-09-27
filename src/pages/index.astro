@@ -7,25 +7,15 @@ import CustomCard from "../../src/components/CustomCard.astro";
 import Carousel from "../../src/components/Carousel.astro";
 import { Tabs, TabItem } from "@astrojs/starlight/components";
 import { parse } from "csv/sync";
-const roles_tabs = await fetch(new URL("/roles.json", Astro.url));
-let roles: {
-  [key: string]: {
-    [key: string]: {
-      label: string;
-      content: {
-        title: string;
-        description: string;
-      };
-    };
-  };
-} = await roles_tabs.json();
-
-//-------------------
-//fetch clubs from local clubs.json for testing
-// const response = await fetch(new URL("/clubs.json", Astro.url));
-// let clubs = await response.json();
-//-------------------
-// //fetch clubs from campuslabs (so live data)
+import fs from "fs";
+let roles = (await fs.promises.readFile("./public/roles.json")).toString();
+roles = JSON.parse(roles);
+// //-------------------
+// //fetch clubs from local clubs.json for testing
+// // const response = await fetch(new URL("/clubs.json", Astro.url));
+// // let clubs = await response.json();
+// //-------------------
+// // //fetch clubs from campuslabs (so live data)
 const response = await fetch(
   "https://njit.campuslabs.com/engage/api/discovery/search/organizations?orderBy[0]=UpperName asc&top=150&filter=(BranchId%20eq%20296346)"
 );
@@ -40,12 +30,15 @@ clubs = clubs.value.map((e) => {
     pfp: "https://se-images.campuslabs.com/clink/images/" + e.ProfilePicture,
   };
 });
-//-----------------
+// //-----------------
 
-// https://docs.google.com/spreadsheets/d/11pXrj7FqBO5hMXyJgBB8XwrXfiBXs-nMxPtudWqcjnw
 let data_sheets = await fetch(
   "https://docs.google.com/spreadsheets/d/11pXrj7FqBO5hMXyJgBB8XwrXfiBXs-nMxPtudWqcjnw/export?format=csv"
 );
+console.log(
+  "fetching https://docs.google.com/spreadsheets/d/11pXrj7FqBO5hMXyJgBB8XwrXfiBXs-nMxPtudWqcjnw/export?format=csv"
+);
+
 let data = await data_sheets.text();
 const rawRecords = parse(data);
 let announcment_data = rawRecords.map((record: string[]) => {
@@ -86,7 +79,7 @@ announcment_data = announcment_data.slice(1, announcment_data.length);
 
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
     {
-      announcment_data.map((card) => (
+      announcment_data.map((card: any) => (
         <CustomCard
           title={card.title}
           description={card.desc}
@@ -123,7 +116,7 @@ announcment_data = announcment_data.slice(1, announcment_data.length);
     class="not-content grid grid-cols-[repeat(auto-fit,minmax(35px,1fr))] gap-1 p-1 rounded-full"
   >
     {
-      clubs.map((club) => (
+      clubs.map((club: any) => (
         <a
           href={club.website}
           target="_blank"
