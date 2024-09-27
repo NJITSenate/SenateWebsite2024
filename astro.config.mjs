@@ -64,7 +64,7 @@ export default defineConfig({
       noExternal: ['execa', 'is-stream', 'npm-run-path'],
     },
   },  
-  site: 'https://NJITSenate.github.io',
+  site: 'https://njitsenate.org/',
   base: 'SenateWebsite2024',
   integrations: [starlight({
     disable404Route: true,
