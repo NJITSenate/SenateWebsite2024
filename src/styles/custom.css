@@ -1,0 +1,53 @@
+@import url("https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap");
+/* Dark mode colors. */
+/* :root {
+  --sl-color-accent-low: #1e2336;
+  --sl-color-accent: #5663a9;
+  --sl-color-accent-high: #c1c7e1;
+  --sl-color-white: #ffffff;
+  --sl-color-gray-1: #ecedf2;
+  --sl-color-gray-2: #c0c2c7;
+  --sl-color-gray-3: #888b96;
+  --sl-color-gray-4: #555861;
+  --sl-color-gray-5: #353841;
+  --sl-color-gray-6: #24262f;
+  --sl-color-black: #17181c;
+} */
+/* Light mode colors. */
+/* :root[data-theme="light"] {
+  --sl-color-accent-low: #d1d6ea;
+  --sl-color-accent: #5865ab;
+  --sl-color-accent-high: #2a304e;
+  --sl-color-white: #17181c;
+  --sl-color-gray-1: #24262f;
+  --sl-color-gray-2: #353841;
+  --sl-color-gray-3: #555861;
+  --sl-color-gray-4: #888b96;
+  --sl-color-gray-5: #c0c2c7;
+  --sl-color-gray-6: #ecedf2;
+  --sl-color-gray-7: #f5f6f8;
+  --sl-color-black: #ffffff;
+} */
+
+header {
+  background-color: #233251 !important;
+}
+header p,
+header a,
+header svg,
+header select {
+  color: #ffffff !important;
+}
+:root[data-theme="light"] header .site-search button svg {
+  /* make inver of background color */
+  filter: invert(1);
+}
+[data-theme="dark"] #_top {
+  color: #e2e8f0 !important;
+}
+
+*:not(svg *) {
+  font-family: "Red Hat Display", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}

@@ -1,0 +1,33 @@
+---
+const { title, description, author, date, link, varient } = Astro.props;
+---
+
+<!-- box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.5); -->
+<a
+  class={`flex flex-col shadow-[10px_10px_0px_rgba(0,_0,_0,_0.5)] not-content max-w-sm m-2 dark:bg-gray-800 no-underline hover:scale-95 transition-transform duration-150 ease-in-out transform hover:shadow-[0px_0px_0px_0px] hover:translate-y-1 hover:translate-x-1 max-h-64  ${varient === "red" ? "bg-[#FFDCE1]" : "bg-[#D1E0FF]"} mx-auto `}
+  href={link}
+>
+  <div
+    class=`head p-2 text-white ${varient === "red" ? "bg-[#BC2C43]" : "bg-[#233251]"}`
+  >
+    <h3 class="card_title dark:text-gray-300">
+      {title}
+    </h3>
+    <p class="card_description dark:text-gray-300">
+      {description}
+    </p>
+  </div>
+  <div
+    class=`flex-1 line-clamp-4 m-4 card_content text-black dark:text-gray-300`
+  >
+    <slot />
+  </div>
+  <div class=`card_footer text-black flex justify-between px-3`>
+    <p class="card_author dark:text-gray-300">
+      {author}
+    </p>
+    <p class="card_date dark:text-gray-300">
+      {date}
+    </p>
+  </div>
+</a>

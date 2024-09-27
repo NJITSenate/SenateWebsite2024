@@ -1,0 +1,106 @@
+{
+  "ExecutiveBoard": [
+    {
+      "label": "President",
+      "content": {
+        "title": "President",
+        "description": "The President leads all NJIT Student Senate meetings, enforces governing documents, and serves as the student representative on key university committees, including the NJIT Board of Trustees. They deliver a State of the Student Report each semester and work closely with the University President and other committees."
+      }
+    },
+    {
+      "label": "VPA",
+      "content": {
+        "title": "Vice President of Administration",
+        "description": "The VP of Administration oversees parliamentary procedures, manages academic affairs, and coordinates the work of representatives within the Senate. They meet regularly with key university officials and help transition new senators into their roles."
+      }
+    },
+    {
+      "label": "VPF",
+      "content": {
+        "title": "Vice President of Finance",
+        "description": "Responsible for managing the Senate's financial operations, the VP of Finance oversees budget allocations, ensures financial policies are followed, and publishes a yearly financial report. They manage reimbursements, student organization finances, and present executive reports on financial matters."
+      }
+    },
+    {
+      "label": "VPSA",
+      "content": {
+        "title": "Vice President of Student Affairs",
+        "description": "This VP focuses on advocating for student rights and improving campus life. They chair the Student Affairs Committee, meet with university administrators, and report on governmental policies affecting students."
+      }
+    },
+    {
+      "label": "DSO",
+      "content": {
+        "title": "Director of Student Organizations",
+        "description": "This Director supervises student organizations, helps them maintain active status, and updates important resources like the Student Organization Handbook and Highlander Hub. They also chair the Student Organizations Committee and manage the organization cabinet meetings."
+      }
+    },
+    {
+      "label": "DPR",
+      "content": {
+        "title": "Director of Public Relations",
+        "description": "Responsible for all NJIT Student Senate events and communications, the Director oversees social media accounts and ensures effective public relations strategies. They coordinate Senate events and manage the Senate's online presence."
+      }
+    },
+    {
+      "label": "Secretary",
+      "content": {
+        "title": "Secretary",
+        "description": "The Secretary manages the documentation and internal records of Senate meetings, ensures the Senate office is staffed, and coordinates agenda distribution. They also oversee the internal operating budget and maintain Senate files."
+      }
+    }
+  ],
+  "Representatives": [
+    {
+      "label": "College/School Representatives",
+      "content": {
+        "title": "College/School Representatives",
+        "description": "College/School Representatives meet with their respective deans and Major Representatives regularly to discuss academic issues and ensure goals are met. They submit progress reports, chair college-wide meetings, and maintain records of all their activities in the Senate Shared Drive."
+      }
+    },
+    {
+      "label": "Major Representatives",
+      "content": {
+        "title": "Major Representatives",
+        "description": "Major Representatives meet with department chairs to advocate for students within their department. They submit reports on their progress and meet with their College Representatives to ensure their goals align with the broader student body."
+      }
+    },
+    {
+      "label": "First-Year Representatives",
+      "content": {
+        "title": "First-Year Representatives",
+        "description": "First-Year Representatives act as liaisons between their class and the university, submitting reports on class issues and organizing an event for first-year students. They also serve on one of the NJIT Student Senate committees and collaborate to address first-year concerns."
+      }
+    }
+  ],
+  "Officers": [
+    {
+      "label": "Senior Class President",
+      "content": {
+        "title": "Senior Class President",
+        "description": "The Senior Class President leads the Senior Class Committee, meets biweekly with university officials, and serves as a liaison for the senior class. They organize events, submit reports, and recruit members for the Senior Class Committee."
+      }
+    },
+    {
+      "label": "Diversity and Inclusion Officer",
+      "content": {
+        "title": "Diversity and Inclusion Officer",
+        "description": "This officer leads the Diversity and Inclusion Committee, working closely with the Office of Student Life to promote diversity on campus. They organize inclusivity events, address policy concerns, and report on progress within Senate meetings."
+      }
+    },
+    {
+      "label": "Commuter Representative",
+      "content": {
+        "title": "Commuter Representative",
+        "description": "This representative serves on the Student Affairs Committee, acting as a voice for the commuter student population. They organize commuter-centered events, collaborate with the Off Campus Commuter Association, and submit reports on commuter issues."
+      }
+    },
+    {
+      "label": "Residence Life Representative",
+      "content": {
+        "title": "Residence Life Representative",
+        "description": "Representing the resident student body, this role liaises with the Residence Hall Association and attends to resident-specific concerns. They also organize and participate in resident-centered events while providing updates to the Student Affairs Committee."
+      }
+    }
+  ]
+}

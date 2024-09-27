@@ -1,0 +1,253 @@
+---
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+let title = "Senators";
+let description = "The NJIT Student Senate members";
+import { CardGrid, LinkCard } from "@astrojs/starlight/components";
+import CustomCard from "../components/CustomCard.astro";
+import Image from "astro/components/Image.astro";
+import "../styles/no-padding.css";
+import { parse } from "csv/sync";
+
+let data_sheets = await fetch(
+  "https://docs.google.com/spreadsheets/d/1II800-_nlNJ_YAj_SIghSoWSaVp7FDvd6FquiHU1T84/export?format=csv"
+);
+console.log(
+  "fetching https://docs.google.com/spreadsheets/d/1II800-_nlNJ_YAj_SIghSoWSaVp7FDvd6FquiHU1T84/export?format=csv"
+);
+let data = await data_sheets.text();
+//csv to json
+let json = parse(data);
+json = json.slice(1, json.length);
+let metadata_sheet = await fetch(
+  "https://docs.google.com/spreadsheets/d/1tqFA7RIWxHS_JNYORKpUAI5cNfslHdds-DLjwBgiHJo/export?format=csv"
+);
+console.log(
+  "fetching https://docs.google.com/spreadsheets/d/1tqFA7RIWxHS_JNYORKpUAI5cNfslHdds-DLjwBgiHJo/export?format=csv"
+);
+
+json = json.map((senator) => {
+  return {
+    role: senator[0],
+    f_name: senator[1],
+    l_name: senator[2],
+    email: senator[3],
+  };
+});
+let metadata = await metadata_sheet.text();
+//csv to json
+let metadata_json = parse(metadata);
+metadata_json = metadata_json.slice(1, metadata_json.length);
+metadata_json = metadata_json.map((meta) => {
+  return {
+    email: meta[0],
+    pic: meta[1],
+    pic2: meta[2],
+  };
+});
+json = json.map((senator) => {
+  let meta = metadata_json.find(
+    (meta) => meta.email.trim() === senator.email.trim()
+  );
+  return senator.f_name !== "VACANT"
+    ? {
+        ...senator,
+        pic: meta?.pic ?? senator.pic ?? "https://imageplaceholder.net/600",
+        pic2: meta?.pic2 ?? senator.pic2 ?? "https://imageplaceholder.net/600",
+      }
+    : null;
+});
+json = json.filter((senator) => senator !== null);
+---
+
+<StarlightPage
+  frontmatter={{
+    title: title,
+    description: description,
+    tableOfContents: false,
+    template: "splash",
+    head: [
+      {
+        tag: "style",
+        content: `
+      h1#_top{
+      display: none;
+      }
+      .content-panel {
+      border-top:unset!important;
+      }
+      `,
+      },
+    ],
+  }}
+>
+  <h1 class="title not-content">Welcome to the NJIT Student Senate website!</h1>
+  <br />
+  <br />
+  <!-- <h2 class="ribbon text-xs !mb-20 lg:text-xl w-8/12 !mx-auto font-bold">
+    Senators
+  </h2> -->
+
+  <!-- <div class="gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"> -->
+  <div class="not-content">
+    <div class="flex flex-wrap justify-center gap-2 !w-full">
+      {
+        json.map((senator) =>
+          senator.f_name === "" ? (
+            //  make a full row for the lable
+            // <div class="col-span-full">
+            <h2 class="ribbon text-sm lg:text-xl !w-full mx-20 lg:!mx-60 font-bold">
+              {senator.role}
+            </h2>
+          ) : // </div>
+          senator.f_name === "VACANT" ? null : (
+            // <CustomCard
+            //   link={`mailto:${senator.email}`}
+            //   title={`${senator.role}`}
+            //   description={`${senator.f_name} ${senator.l_name}`}
+            //   author={`${senator.email}`}
+            // >
+            //   <span class="flex flex-row items-center">
+            //     <Image
+            //       src={`${
+            //         metadata_json.find(
+            //           (meta) =>
+            //             meta.f_name === senator.f_name &&
+            //             meta.l_name === senator.l_name
+            //         )?.pic ?? "https://imageplaceholder.net/600"
+            //       }`}
+            //       alt={`${senator.f_name} ${senator.l_name}`}
+            //       width={100}
+            //       height={100}
+            //     />
+            //     <p class="ml-2 dark:text-gray-300">
+            //       Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            //       Ipsum, quas minima quaerat recusandae exercitationem unde?
+            //     </p>
+            //   </span>
+            // </CustomCard>
+            <a
+              href={`mailto:${senator.email}`}
+              class="col-span-1 flex align-center club justify-center relative overflow-hidden"
+              title={`${senator.f_name} ${senator.l_name}`}
+            >
+              <Image
+                src={`${senator.pic}`}
+                alt={`${senator.f_name} ${senator.l_name}`}
+                width="300"
+                height="300"
+                class="hover:opacity-0"
+              />
+              <Image
+                src={`${senator.pic2}`}
+                alt={`${senator.f_name} ${senator.l_name}`}
+                width="300"
+                height="300"
+                class="hover:opacity-100 absolute top-0 left-0 opacity-0"
+              />
+              <p class="text-gray-300 p-2 absolute bottom-0 left-0 right-0 bg-[#233251] shadow-[0_-4px_15px_rgba(0,0,0,0.25)]">
+                {senator.f_name} {senator.l_name}
+                <br />
+                {senator.role}
+              </p>
+            </a>
+          )
+        )
+      }
+    </div>
+  </div>
+
+  <style>
+    .sl-container {
+      margin: 0 !important;
+      margin-inline: 0 !important;
+    }
+    :root {
+      --color-primary: #bc2c43;
+      --color-secondary: #233251;
+      --color-background: #242525;
+
+      background: #242525 !important;
+    }
+    :root[data-theme="light"] body {
+      --color-background: #fff8f0;
+    }
+    body {
+      background: var(--color-background) !important;
+    }
+
+    .title {
+      font-weight: 300 !important;
+      text-align: center;
+      position: relative;
+      display: block;
+      padding: 30px 0;
+    }
+    .title::before {
+      content: "";
+      /* make a line above */
+      position: absolute;
+      top: -5px;
+      left: 33%;
+      width: 66%;
+      height: 5px;
+      background-color: var(--color-primary);
+      transform: translateX(-50%);
+    }
+    .title::after {
+      content: "";
+      /* make a line below */
+      position: absolute;
+      bottom: -5px;
+      left: 66%;
+      width: 66%;
+      height: 5px;
+      background-color: var(--color-secondary);
+      transform: translateX(-50%);
+    }
+
+    .ribbon {
+      position: relative;
+      margin: 0 100px 20px;
+      padding: 10px 40px;
+      text-align: center;
+      background-color: var(--color-secondary);
+      color: #fff !important;
+      text-transform: uppercase;
+    }
+
+    .ribbon::before,
+    .ribbon::after {
+      content: "";
+      width: 80px;
+      height: 100%;
+      background-color: var(--color-secondary);
+
+      /* position ribbon ends behind and slightly lower */
+      position: absolute;
+      z-index: -1;
+      top: 20px;
+
+      /* clip ribbon end shape */
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 25% 50%);
+
+      /* draw and position the folded ribbon bit */
+      background-image: linear-gradient(
+        45deg,
+        transparent 50%,
+        var(--color-primary) 50%
+      );
+      background-size: 20px 20px;
+      background-repeat: no-repeat;
+      background-position: bottom right;
+    }
+
+    .ribbon::before {
+      left: -60px;
+    }
+
+    .ribbon::after {
+      right: -60px;
+      transform: scaleX(-1); /* flip horizontally */
+    }
+  </style>
+</StarlightPage>

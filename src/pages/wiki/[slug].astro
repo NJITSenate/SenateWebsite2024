@@ -1,0 +1,94 @@
+---
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+let { slug } = Astro.params;
+import { parse } from "csv/sync";
+
+export async function getStaticPaths() {
+  let data_sheets = await fetch(
+    "https://docs.google.com/spreadsheets/d/1iO9LJBg739viwl7r_Pscbw9jrAl9U3k48KL6nFfNQ2M/export?format=csv"
+  );
+  console.log(
+    "fetching https://docs.google.com/spreadsheets/d/1iO9LJBg739viwl7r_Pscbw9jrAl9U3k48KL6nFfNQ2M/export?format=csv"
+  );
+
+  let data = await data_sheets.text();
+  //csv to json
+  let drive_doc_ids = parse(data);
+  drive_doc_ids = drive_doc_ids.map((doc: string[]) => {
+    return {
+      name: doc[0],
+      slug: doc[1],
+      description: doc[2],
+      uri: doc[3],
+      category: doc[4],
+      hidden: doc[5],
+    };
+  });
+  let pages: any = [];
+  for (let i = 1; i < drive_doc_ids.length; i++) {
+    let data_doc = await fetch(`${drive_doc_ids[i].uri}/export`);
+    console.log("fetching", drive_doc_ids[i].uri);
+
+    let data2 = await data_doc.text();
+    let page_info = {
+      params: { slug: drive_doc_ids[i].slug },
+      props: {
+        title: drive_doc_ids[i].name,
+        content: data2,
+        description: drive_doc_ids[i].description,
+        hidden: drive_doc_ids[i].hidden,
+      },
+    };
+    pages.push(page_info);
+  }
+  return pages;
+}
+const { content, title, date, description, hidden } = Astro.props;
+---
+
+<StarlightPage
+  frontmatter={{
+    title: title,
+    description: description,
+    tableOfContents: false,
+    template: hidden === "TRUE" ? "splash" : "doc",
+    head: [
+      {
+        tag: "style",
+        content: `
+          ${
+            hidden === "TRUE"
+              ? `
+      h1#_top{
+      display: none;
+      }
+      .content-panel {
+      border-top:unset!important;
+      }
+      .sl-container {
+  margin: 0 auto !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* padding: 0 20em; */
+  max-width: 90% !important;
+      }
+      `
+              : ""
+          }
+        `,
+      },
+    ],
+  }}
+>
+  <article class="[&_*]:dark:!text-gray-300" set:html={content} />
+</StarlightPage>
+
+<style>
+  @media (prefers-color-scheme: dark) {
+    #_top {
+      color: #e2e8f0 !important;
+    }
+  }
+</style>
