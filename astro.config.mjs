@@ -1,29 +1,30 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import { loadEnv } from "vite";
+import { parse } from "csv/sync";
 import tailwind from "@astrojs/tailwind";
 let data_sheets = await fetch(
   "https://docs.google.com/spreadsheets/d/1iO9LJBg739viwl7r_Pscbw9jrAl9U3k48KL6nFfNQ2M/export?format=csv"
 );
 let data = await data_sheets.text();
 //csv to json
-let drive_doc_ids = data.split("\n").slice(1).map((line) => {
- 
-  let [Name, user_friendly_slug, description, uri, category, hidden] = line.split(",");
-  return { Name, user_friendly_slug, description, uri, category, hidden };
+let drive_doc_ids = parse(data);
+drive_doc_ids = drive_doc_ids.map((doc) => {
+  return {
+    name: doc[0],
+    slug: doc[1],
+    description: doc[2],
+    uri: doc[3],
+    category: doc[4],
+    hidden: doc[5],
+  };
 });
-// let itemsObject = drive_doc_ids.map((item) => {
-//   return {
-//     label: item.Name,
-//     link: `/wiki/${item.user_friendly_slug}`
-//   };
-// }
-// );
-//get a list of categories that have at least one item that is not hidden
+
+drive_doc_ids = drive_doc_ids.slice(1);
+
 let categories = drive_doc_ids
   .filter((item) => item.hidden !== "TRUE")
   .map((item) => item.category);
-//remove duplicates
 categories = [...new Set(categories)];
 
 let itemsObject = categories.map((category) => {
@@ -33,8 +34,8 @@ let itemsObject = categories.map((category) => {
       .filter((item) => item.category === category && item.hidden !== "TRUE")
       .map((item) => {
         return {
-          label: item.Name,
-          link: `/wiki/${item.user_friendly_slug}`
+          label: item.name,
+          link: `/wiki/${item.slug}`
         };
       })
   };
@@ -57,6 +58,12 @@ let itemsObject = categories.map((category) => {
 
 // https://astro.build/config
 export default defineConfig({
+  "output": "static",
+  vite: {
+    ssr: {
+      noExternal: ['execa', 'is-stream', 'npm-run-path'],
+    },
+  },
   integrations: [starlight({
     disable404Route: true,
     favicon: './favicon.png',

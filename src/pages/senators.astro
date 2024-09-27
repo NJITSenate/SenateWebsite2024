@@ -6,56 +6,51 @@ import { CardGrid, LinkCard } from "@astrojs/starlight/components";
 import CustomCard from "../components/CustomCard.astro";
 import Image from "astro/components/Image.astro";
 import "../styles/no-padding.css";
-
-// let data_doc = await fetch(
-//   "https://docs.google.com/document/d/[ID]/export"
-// );
-// let data2 = await data_doc.text();
-// console.log(data2);
+import { parse } from "csv/sync";
 
 let data_sheets = await fetch(
   "https://docs.google.com/spreadsheets/d/1II800-_nlNJ_YAj_SIghSoWSaVp7FDvd6FquiHU1T84/export?format=csv"
 );
 let data = await data_sheets.text();
 //csv to json
-let json = data.split("\n").map((line) => {
-  // if (line.replace(/,/g, "").replace("\r", "") === "") return;
-  let [role, f_name, l_name, email] = line.split(",");
-  return {
-    role,
-    f_name,
-    l_name,
-    email,
-    pic: "https://imageplaceholder.net/600",
-    pic2: "https://imageplaceholder.net/600",
-  };
-});
-// //remove undefined
-// json = json.reduce((acc, curr) => {
-//   if (curr) acc.push(curr);
-//   return acc;
-// }, []);
+let json = parse(data);
+json = json.slice(1, json.length);
 let metadata_sheet = await fetch(
   "https://docs.google.com/spreadsheets/d/1tqFA7RIWxHS_JNYORKpUAI5cNfslHdds-DLjwBgiHJo/export?format=csv"
 );
+json = json.map((senator) => {
+  return {
+    role: senator[0],
+    f_name: senator[1],
+    l_name: senator[2],
+    email: senator[3],
+  };
+});
 let metadata = await metadata_sheet.text();
 //csv to json
-let metadata_json = metadata.split("\n").map((line) => {
-  let [email, pic, pic2] = line.split(",");
-  return { email, pic, pic2 };
-});
+let metadata_json = parse(metadata);
 metadata_json = metadata_json.slice(1, metadata_json.length);
-//new json with metadata added
+metadata_json = metadata_json.map((meta) => {
+  return {
+    email: meta[0],
+    pic: meta[1],
+    pic2: meta[2],
+  };
+});
 json = json.map((senator) => {
   let meta = metadata_json.find(
     (meta) => meta.email.trim() === senator.email.trim()
   );
-  return {
-    ...senator,
-    pic: meta?.pic ?? senator.pic,
-    pic2: meta?.pic2 ?? senator.pic2,
-  };
+  return senator.f_name !== "VACANT"
+    ? {
+        ...senator,
+        pic: meta?.pic ?? senator.pic ?? "https://imageplaceholder.net/600",
+        pic2: meta?.pic2 ?? senator.pic2 ?? "https://imageplaceholder.net/600",
+      }
+    : null;
 });
+json = json.filter((senator) => senator !== null);
+console.log(json);
 ---
 
 <StarlightPage
