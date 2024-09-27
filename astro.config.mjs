@@ -63,7 +63,9 @@ export default defineConfig({
     ssr: {
       noExternal: ['execa', 'is-stream', 'npm-run-path'],
     },
-  },
+  },  
+  site: 'https://NJITSenate.github.io',
+  base: 'SenateWebsite2024',
   integrations: [starlight({
     disable404Route: true,
     favicon: './favicon.png',
