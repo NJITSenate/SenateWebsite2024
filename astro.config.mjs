@@ -65,7 +65,7 @@ export default defineConfig({
     },
   },  
   site: 'https://njitsenate.org/',
-  base: 'SenateWebsite2024',
+  // base: 'SenateWebsite2024',
   integrations: [starlight({
     disable404Route: true,
     favicon: './favicon.png',
