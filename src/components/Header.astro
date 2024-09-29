@@ -308,7 +308,7 @@ import { ViewTransitions } from "astro:transitions";
   </style>
 </div>
 <script>
-  const launchDate = new Date("2024-10-09T18:30:00Z").getTime();
+  const launchDate = new Date("2024-10-09T20:00:00Z").getTime();
   let content = document.querySelector("body .page") as HTMLElement;
   let newroot = document.body.appendChild(document.createElement("div"));
 
@@ -330,7 +330,6 @@ import { ViewTransitions } from "astro:transitions";
     );
     const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-    content.style.display = "none";
     newroot.innerHTML = `
       <div class="h-screen flex justify-center items-center flex-col">
         <h1 class="text-4xl"
@@ -354,5 +353,6 @@ import { ViewTransitions } from "astro:transitions";
   }
 
   const countdownInterval = setInterval(updateCountdown, 1000);
+  content.style.display = "none";
   updateCountdown();
 </script>
