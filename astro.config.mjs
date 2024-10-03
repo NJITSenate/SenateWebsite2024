@@ -89,8 +89,18 @@ export default defineConfig({
       alt: "NJIT Student Senate Logo"
     },
     sidebar: [{
-      label: 'Student Org Wiki',
-      items: itemsObject
+      label: 'Senate Wiki',
+      items: [{
+        label: 'Join Student Senate',
+        link: '/wiki/join'
+      },...itemsObject]
+    },{
+      label: 'Student Orgs Info',
+      items:[ {
+        label: 'Making New Clubs',
+        link: '/wiki/making-new-clubs'
+      }
+    ]
     }],
     customCss: ['./src/styles/custom.css',"./src/tailwind.css"],
     head:[

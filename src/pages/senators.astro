@@ -48,15 +48,22 @@ json = json.map((senator) => {
   let meta = metadata_json.find(
     (meta) => meta.email.trim() === senator.email.trim()
   );
-  return senator.f_name !== "VACANT"
-    ? {
-        ...senator,
-        pic: meta?.pic ?? senator.pic ?? "https://imageplaceholder.net/600",
-        pic2: meta?.pic2 ?? senator.pic2 ?? "https://imageplaceholder.net/600",
-      }
-    : null;
+  // return senator.f_name !== "VACANT"
+  return {
+    ...senator,
+    pic: meta?.pic ?? senator.pic ?? "https://imageplaceholder.net/600",
+    pic2: meta?.pic2 ?? senator.pic2 ?? "https://imageplaceholder.net/600",
+  };
+  // : null;
 });
+
 json = json.filter((senator) => senator !== null);
+//remove the vacant senators for where the role is student at large N
+json = json.filter((senator) =>
+  senator.role.includes("Student at Large")
+    ? senator.f_name !== "VACANT"
+    : senator
+);
 ---
 
 <StarlightPage
@@ -95,11 +102,12 @@ json = json.filter((senator) => senator !== null);
           senator.f_name === "" ? (
             //  make a full row for the lable
             // <div class="col-span-full">
-            <h2 class="ribbon text-sm lg:text-xl !w-full mx-20 lg:!mx-60 font-bold">
+            <h2 class="ribbon text-xs lg:text-xl !w-full mx-20 lg:!mx-60 font-bold">
               {senator.role}
             </h2>
-          ) : // </div>
-          senator.f_name === "VACANT" ? null : (
+          ) : (
+            // </div>
+            // senator.f_name === "VACANT" ? null : (
             // <CustomCard
             //   link={`mailto:${senator.email}`}
             //   title={`${senator.role}`}
@@ -127,7 +135,7 @@ json = json.filter((senator) => senator !== null);
             // </CustomCard>
             <a
               href={`mailto:${senator.email}`}
-              class="col-span-1 flex align-center club justify-center relative overflow-hidden"
+              class={`col-span-1 flex align-center club justify-center relative overflow-hidden `}
               title={`${senator.f_name} ${senator.l_name}`}
             >
               <Image
@@ -144,7 +152,9 @@ json = json.filter((senator) => senator !== null);
                 height="300"
                 class="hover:opacity-100 absolute top-0 left-0 opacity-0"
               />
-              <p class="text-gray-300 p-2 absolute bottom-0 left-0 right-0 bg-[#233251] shadow-[0_-4px_15px_rgba(0,0,0,0.25)]">
+              <p
+                class={`text-gray-300 p-2 absolute bottom-0 left-0 right-0 ${senator.f_name === "VACANT" ? "bg-[#bc2c43]" : "bg-[#233251]"} shadow-[0_-4px_15px_rgba(0,0,0,0.25)]`}
+              >
                 {senator.f_name} {senator.l_name}
                 <br />
                 {senator.role}
@@ -161,7 +171,7 @@ json = json.filter((senator) => senator !== null);
       margin: 0 !important;
       margin-inline: 0 !important;
     }
-    
+
     .title {
       font-weight: 300 !important;
       text-align: center;
