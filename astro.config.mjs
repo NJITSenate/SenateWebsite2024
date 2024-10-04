@@ -51,7 +51,7 @@ async function thisFn(driveId, catagory) {
 }
 let temp=[]
 
-let itemsObject =await thisFn("1oTTXkMehSivsM1MM4vmqL3u6XRgIpLai", "Uncatagorized Pages").then(
+let itemsObject =await thisFn("1oTTXkMehSivsM1MM4vmqL3u6XRgIpLai", undefined).then(
   async () => {
     let data_sheets = await fetch(
       "https://docs.google.com/spreadsheets/d/1iO9LJBg739viwl7r_Pscbw9jrAl9U3k48KL6nFfNQ2M/export?format=csv"
@@ -73,20 +73,6 @@ let itemsObject =await thisFn("1oTTXkMehSivsM1MM4vmqL3u6XRgIpLai", "Uncatagorize
     drive_doc_ids = [...drive_doc_ids, ...pageDataArr];
     //remove hidden pages
     drive_doc_ids = drive_doc_ids.filter((doc) => doc.hidden == "FALSE");
-
-
-    //make a object in the form of :
-    /*
-
-  {
-  label: 'category',
-  items: [{
-    label: 'name',
-    link: 'uri'
-  }]
-    
-  }
-    */
   console.log(drive_doc_ids);
   let catagorys=[]
 drive_doc_ids.map((doc) => {
@@ -95,6 +81,8 @@ drive_doc_ids.map((doc) => {
   );
  
   catagorys = [...new Set(catagorys)];
+//remove undefined
+catagorys = catagorys.filter((catagory) => catagory != undefined);  
   let itemsObject = catagorys.map((catagory) => {
     let obj={
       label: catagory,
@@ -116,28 +104,27 @@ drive_doc_ids.map((doc) => {
 
     //add the ones without a category to the obj
     let uncategorized = drive_doc_ids.filter((doc) => doc.catagory == ""||doc.catagory == undefined||doc.catagory == null);
-    uncategorized.map((doc) => {
-      obj.items.push({
-        label:doc.name,
-        link: "/wiki/" +doc.slug,
-      });
-    }
-    );
-    console.log(obj);
-    
+  // add to the top level
+  temp = uncategorized.map((doc) => {
+    return {
+      label: doc.name,
+      link: "/wiki/" + doc.slug,
+    };
+  }
+  );
+  
+  //remove undefined
+  obj.items = obj.items.filter((item) => item != undefined
+  );
 
-    return obj;
+  
+    
+    return [...temp,obj];
   }
   );
   return itemsObject;
 }
 );
-
-
-  
-
-
-
 
 
 // https://astro.build/config
@@ -172,20 +159,7 @@ export default defineConfig({
       replacesTitle: true,
       alt: "NJIT Student Senate Logo"
     },
-    sidebar: [{
-      label: 'Senate Wiki',
-      items: [{
-        label: 'Join Student Senate',
-        link: '/wiki/join'
-      },...itemsObject]
-    },{
-      label: 'Student Orgs Info',
-      items:[ {
-        label: 'Making New Clubs',
-        link: '/wiki/making-new-clubs'
-      }
-    ]
-    }],
+    sidebar: (itemsObject).flat(),
     customCss: ['./src/styles/custom.css',"./src/tailwind.css"],
     head:[
     {
