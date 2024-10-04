@@ -3,58 +3,129 @@ import starlight from '@astrojs/starlight';
 import { loadEnv } from "vite";
 import { parse } from "csv/sync";
 import tailwind from "@astrojs/tailwind";
-let data_sheets = await fetch(
-  "https://docs.google.com/spreadsheets/d/1iO9LJBg739viwl7r_Pscbw9jrAl9U3k48KL6nFfNQ2M/export?format=csv"
-);
-let data = await data_sheets.text();
-//csv to json
-let drive_doc_ids = parse(data);
-drive_doc_ids = drive_doc_ids.map((doc) => {
-  return {
-    name: doc[0],
-    slug: doc[1],
-    description: doc[2],
-    uri: doc[3],
-    category: doc[4],
-    hidden: doc[5],
-  };
-});
+import * as jsdom from "jsdom";
 
-drive_doc_ids = drive_doc_ids.slice(1);
 
-let categories = drive_doc_ids
-  .filter((item) => item.hidden !== "TRUE")
-  .map((item) => item.category);
-categories = [...new Set(categories)];
+  let pageDataArr = [];
+async function thisFn(driveId, catagory) {
+  let folder = await fetch(
+    "https://drive.google.com/drive/folders/" + driveId
+  );
+  let folder_data = await folder.text();
+  const folder_doc = new jsdom.JSDOM(folder_data).window.document;
+  let links = folder_doc.querySelectorAll("[data-id]");
+  let lins_arr = [...links];
+  //if there is a aria-label="Google Drive Folder" in it, it is a folder
+  let folders = lins_arr.filter((link) =>
+    link.querySelector("[aria-label='Google Drive Folder']")
+  );
+  let docs = lins_arr.filter(
+    (link) =>
+      //not folders
+      !link.querySelector("[aria-label='Google Drive Folder']")
+  );
+  for (let i = 0; i < folders.length; i++) {
+    await thisFn(
+      folders[i].getAttribute("data-id"),
+      folders[i].querySelector("[data-tooltip]")?.textContent
+    );
+  }
+  for (let i = 0; i < docs.length; i++) {
+    if (docs[i].getAttribute("data-id") == "_gd") continue;
+    pageDataArr.push({
+      id: docs[i].getAttribute("data-id"),
+      uri:
+        "https://docs.google.com/document/d/" +
+        docs[i].getAttribute("data-id"),
+      type: docs[i].getAttribute("data-target"),
+      name: docs[i].querySelector("[data-list-item-target] div[jsname]")
+        ?.textContent,
+      slug: docs[i]
+        .querySelector("[data-list-item-target] div[jsname]")
+        ?.textContent.replace(/\s+/g, "-")
+        .toLowerCase(),
+      catagory: catagory,
+      hidden: "FALSE",
+    });
+  }
+}
+let temp=[]
 
-let itemsObject = categories.map((category) => {
-  return {
-    label: category,
-    items: drive_doc_ids
-      .filter((item) => item.category === category && item.hidden !== "TRUE")
-      .map((item) => {
-        return {
-          label: item.name,
-          link: `/wiki/${item.slug}`
-        };
-      })
-  };
+let itemsObject =await thisFn("1oTTXkMehSivsM1MM4vmqL3u6XRgIpLai", undefined).then(
+  async () => {
+    let data_sheets = await fetch(
+      "https://docs.google.com/spreadsheets/d/1iO9LJBg739viwl7r_Pscbw9jrAl9U3k48KL6nFfNQ2M/export?format=csv"
+    );
+
+    let data = await data_sheets.text();
+    //csv to json
+    let drive_doc_ids = parse(data);
+    drive_doc_ids = drive_doc_ids.map((doc) => {
+      return {
+        name: doc[0],
+        slug: doc[1],
+        uri: doc[3],
+        category: doc[4],
+        hidden: doc[5],
+      };
+    });
+    //merge the two arrays
+    drive_doc_ids = [...drive_doc_ids, ...pageDataArr];
+    //remove hidden pages
+    drive_doc_ids = drive_doc_ids.filter((doc) => doc.hidden == "FALSE");
+  console.log(drive_doc_ids);
+  let catagorys=[]
+drive_doc_ids.map((doc) => {
+    catagorys.push(doc.catagory)
+  }
+  );
+ 
+  catagorys = [...new Set(catagorys)];
+//remove undefined
+catagorys = catagorys.filter((catagory) => catagory != undefined);  
+  let itemsObject = catagorys.map((catagory) => {
+    let obj={
+      label: catagory,
+      items: [
+       ... drive_doc_ids.map((doc) => {
+          if (doc.catagory == catagory) {
+            return {
+              label:doc.name,
+              link: "/wiki/" +doc.slug,
+            };
+          }
+        }
+        )
+
+    ]
+    }
+    //remove undefined 
+    obj.items = obj.items.filter((item) => item != undefined);
+
+    //add the ones without a category to the obj
+    let uncategorized = drive_doc_ids.filter((doc) => doc.catagory == ""||doc.catagory == undefined||doc.catagory == null);
+  // add to the top level
+  temp = uncategorized.map((doc) => {
+    return {
+      label: doc.name,
+      link: "/wiki/" + doc.slug,
+    };
+  }
+  );
+  
+  //remove undefined
+  obj.items = obj.items.filter((item) => item != undefined
+  );
+
+  
+    
+    return [...temp,obj];
+  }
+  );
+  return itemsObject;
 }
 );
 
-
-
-
-
-// await client.getEntries({
-//   content_type: 'wiki',
-//   select: 'fields.slug,fields.title'
-// }).then(entry => entry.items.map(item => {
-//   return {
-//     label: item.fields.title,
-//     link: `/wiki/${item.fields.slug}`
-//   };
-// })).catch(console.error);
 
 // https://astro.build/config
 export default defineConfig({
@@ -88,20 +159,7 @@ export default defineConfig({
       replacesTitle: true,
       alt: "NJIT Student Senate Logo"
     },
-    sidebar: [{
-      label: 'Senate Wiki',
-      items: [{
-        label: 'Join Student Senate',
-        link: '/wiki/join'
-      },...itemsObject]
-    },{
-      label: 'Student Orgs Info',
-      items:[ {
-        label: 'Making New Clubs',
-        link: '/wiki/making-new-clubs'
-      }
-    ]
-    }],
+    sidebar: (itemsObject).flat(),
     customCss: ['./src/styles/custom.css',"./src/tailwind.css"],
     head:[
     {
