@@ -141,9 +141,10 @@ export default defineConfig({
     disable404Route: true,
     favicon: './favicon.png',
     components: {
-      Header: './src/components/Header.astro'
+      Header: './src/components/Header.astro',
+      Footer: './src/components/Footer.astro',
     },
-    title: 'NJIT Student Senate Wiki',
+    title: 'NJIT Student Senate',
     social: {
       instagram:"https://www.instagram.com/njit_senate/",
       // "linkedin":"https://www.linkedin.com/company/njitstudentsenate/",
@@ -152,7 +153,7 @@ export default defineConfig({
       // "x.com":"https://twitter.com/NJIT_Senate",
       "discord":"https://discord.com/invite/Qh6safJNwM",
       // "github":"https://github.com/NJITSenate",
-      "email":"mailto:senate@njit.edu"
+      "email":"mailto:senate@njit.edu",
     },
     logo: {
       "src": "/public/SVG_Logo.svg",
