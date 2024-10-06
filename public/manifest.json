@@ -1,0 +1,15 @@
+{
+  "short_name": "NJIT Senate",
+  "name": "NJIT Student Senate",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "550x550",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#233251",
+  "background_color": "#fff8f0"
+}

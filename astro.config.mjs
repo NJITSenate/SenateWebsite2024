@@ -22,7 +22,6 @@ async function recursiveFolderSearch(driveId, catagory) {
   let docs = lins_arr.filter(
     (link) =>{
       let aria_label_type = link.querySelector("[aria-label]")?.getAttribute("aria-label").split("Google")[1];
-      console.log(aria_label_type??link.querySelector("[aria-label]"))
       // only of the aria_label_type is Docs , so not Sheets, Slides, Drive Folder, etc
       if(aria_label_type == null) return false;
       return aria_label_type.trim().toLowerCase() == "docs"; 
@@ -173,6 +172,19 @@ attrs:{
   src:"https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.js"
 
 },
+    },{
+      tag:"meta",
+      attrs:{
+        name:"theme-color",
+        content:"#233251"
+      }
+    },
+    {
+      tag:"meta",
+      attrs:{
+        name:"manifest",
+        content:"/manifest.json"
+      }
     }
     ]
   }),     tailwind({

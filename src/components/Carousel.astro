@@ -2,36 +2,49 @@
 // modified from:
 // https://flowbite.com/docs/components/carousel/
 
-import Image from "astro/components/Image.astro";
+import { Picture } from "astro:assets";
+
+import img1 from "../assets/carousel_imgs/img1.jpg";
+import img2 from "../assets/carousel_imgs/img2.jpg";
+import img3 from "../assets/carousel_imgs/img3.jpg";
+import img4 from "../assets/carousel_imgs/img4.jpg";
+import img5 from "../assets/carousel_imgs/img5.jpg";
+import img6 from "../assets/carousel_imgs/img6.jpg";
+import img7 from "../assets/carousel_imgs/img7.jpg";
+import img8 from "../assets/carousel_imgs/img8.jpg";
+
 let carousel = [
-  //images and their descriptions
   {
-    src: "/carousel_imgs/DSC_0749.jpg",
-    alt: "Student Senate Event Image",
+    src: img1,
+    alt: "Student Senate Event Image 1",
   },
   {
-    src: "/carousel_imgs/DSC_0778.jpg",
-    alt: "Student Senate Event Image",
+    src: img2,
+    alt: "Student Senate Event Image 2",
   },
   {
-    src: "/carousel_imgs/DSC_0791.jpg",
-    alt: "Student Senate Event Image",
+    src: img3,
+    alt: "Student Senate Event Image 3",
   },
   {
-    src: "/carousel_imgs/DSC_1814.jpg",
-    alt: "Student Senate Event Image",
+    src: img4,
+    alt: "Student Senate Event Image 4",
   },
   {
-    src: "/carousel_imgs/DSC_1842.jpg",
-    alt: "Student Senate Event Image",
+    src: img5,
+    alt: "Student Senate Event Image 5",
   },
   {
-    src: "/carousel_imgs/DSC_1867.jpg",
-    alt: "Student Senate Event Image",
+    src: img6,
+    alt: "Student Senate Event Image 6",
   },
   {
-    src: "/carousel_imgs/DSC_1948.jpg",
-    alt: "Student Senate Event Image",
+    src: img7,
+    alt: "Student Senate Event Image 7",
+  },
+  {
+    src: img8,
+    alt: "Student Senate Event Image 8",
   },
 ];
 ---
@@ -46,13 +59,15 @@ let carousel = [
             slide,
             index //map through the images
           ) => (
-            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-              <Image
-                width="1600"
-                height="900"
-                src={slide.src /*image source*/}
+            <div class={"duration-700 ease-in-out"} data-carousel-item>
+              <Picture
+                widths={[320, 640, 768, 1024, 1280, 1536, 1920]}
+                height={1080}
+                width={1920}
+                src={slide.src}
+                formats={["avif", "webp"]}
                 class="absolute block w-full h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                alt={slide.alt /*image description*/}
+                alt={slide.alt}
               />
             </div>
           )
