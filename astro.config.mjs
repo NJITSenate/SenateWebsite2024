@@ -7,32 +7,35 @@ import * as jsdom from "jsdom";
 
 
   let pageDataArr = [];
-async function thisFn(driveId, catagory) {
+async function recursiveFolderSearch(driveId, catagory) {
   let folder = await fetch(
     "https://drive.google.com/drive/folders/" + driveId
   );
-  let folder_data = await folder.text();
-  const folder_doc = new jsdom.JSDOM(folder_data).window.document;
-  let links = folder_doc.querySelectorAll("[data-id]");
-  let lins_arr = [...links];
+  let folder_data = await folder.text();//get the html of the folder page on google drive
+  const folder_doc = new jsdom.JSDOM(folder_data).window.document; //parse the html
+  let links = folder_doc.querySelectorAll("[data-id]");//get all the links in the folder with a data-id attribute
+  let lins_arr = [...links]; //convert the nodelist to an array
   //if there is a aria-label="Google Drive Folder" in it, it is a folder
   let folders = lins_arr.filter((link) =>
     link.querySelector("[aria-label='Google Drive Folder']")
   );
   let docs = lins_arr.filter(
-    (link) =>
-      //not folders
-      !link.querySelector("[aria-label='Google Drive Folder']")
-  );
-  for (let i = 0; i < folders.length; i++) {
-    await thisFn(
+    (link) =>{
+      let aria_label_type = link.querySelector("[aria-label]")?.getAttribute("aria-label").split("Google")[1];
+      // only of the aria_label_type is Docs , so not Sheets, Slides, Drive Folder, etc
+      if(aria_label_type == null) return false;
+      return aria_label_type.trim().toLowerCase() == "docs"; 
+    } );
+
+  for (let i = 0; i < folders.length; i++) {//for all the folders in the folder, call the function again
+    await recursiveFolderSearch(
       folders[i].getAttribute("data-id"),
       folders[i].querySelector("[data-tooltip]")?.textContent
     );
   }
   for (let i = 0; i < docs.length; i++) {
-    if (docs[i].getAttribute("data-id") == "_gd") continue;
-    pageDataArr.push({
+    if (docs[i].getAttribute("data-id") == "_gd") continue;//if the data-id is _gd, skip it
+    pageDataArr.push({//format the data
       id: docs[i].getAttribute("data-id"),
       uri:
         "https://docs.google.com/document/d/" +
@@ -45,14 +48,15 @@ async function thisFn(driveId, catagory) {
         ?.textContent.replace(/\s+/g, "-")
         .toLowerCase(),
       catagory: catagory,
-      hidden: "FALSE",
+      hidden: "FALSE",//we assume these are visible
     });
   }
 }
 let temp=[]
 
-let itemsObject =await thisFn("1oTTXkMehSivsM1MM4vmqL3u6XRgIpLai", undefined).then(
-  async () => {
+let itemsObject =await recursiveFolderSearch("1oTTXkMehSivsM1MM4vmqL3u6XRgIpLai", undefined)//call the function with the root folder id
+.then(
+  async () => {//for other pages that are not in the drive
     let data_sheets = await fetch(
       "https://docs.google.com/spreadsheets/d/1iO9LJBg739viwl7r_Pscbw9jrAl9U3k48KL6nFfNQ2M/export?format=csv"
     );
@@ -73,7 +77,7 @@ let itemsObject =await thisFn("1oTTXkMehSivsM1MM4vmqL3u6XRgIpLai", undefined).th
     drive_doc_ids = [...drive_doc_ids, ...pageDataArr];
     //remove hidden pages
     drive_doc_ids = drive_doc_ids.filter((doc) => doc.hidden == "FALSE");
-  console.log(drive_doc_ids);
+  // console.log(drive_doc_ids);
   let catagorys=[]
 drive_doc_ids.map((doc) => {
     catagorys.push(doc.catagory)
@@ -81,7 +85,6 @@ drive_doc_ids.map((doc) => {
   );
  
   catagorys = [...new Set(catagorys)];
-//remove undefined
 catagorys = catagorys.filter((catagory) => catagory != undefined);  
   let itemsObject = catagorys.map((catagory) => {
     let obj={
@@ -113,8 +116,7 @@ catagorys = catagorys.filter((catagory) => catagory != undefined);
   }
   );
   
-  //remove undefined
-  obj.items = obj.items.filter((item) => item != undefined
+    obj.items = obj.items.filter((item) => item != undefined
   );
 
   
@@ -141,9 +143,10 @@ export default defineConfig({
     disable404Route: true,
     favicon: './favicon.png',
     components: {
-      Header: './src/components/Header.astro'
+      Header: './src/components/Header.astro',
+      Footer: './src/components/Footer.astro',
     },
-    title: 'NJIT Student Senate Wiki',
+    title: 'NJIT Student Senate',
     social: {
       instagram:"https://www.instagram.com/njit_senate/",
       // "linkedin":"https://www.linkedin.com/company/njitstudentsenate/",
@@ -152,7 +155,7 @@ export default defineConfig({
       // "x.com":"https://twitter.com/NJIT_Senate",
       "discord":"https://discord.com/invite/Qh6safJNwM",
       // "github":"https://github.com/NJITSenate",
-      "email":"mailto:senate@njit.edu"
+      "email":"mailto:senate@njit.edu",
     },
     logo: {
       "src": "/public/SVG_Logo.svg",
@@ -169,6 +172,19 @@ attrs:{
   src:"https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.js"
 
 },
+    },{
+      tag:"meta",
+      attrs:{
+        name:"theme-color",
+        content:"#233251"
+      }
+    },
+    {
+      tag:"meta",
+      attrs:{
+        name:"manifest",
+        content:"/manifest.json"
+      }
     }
     ]
   }),     tailwind({
