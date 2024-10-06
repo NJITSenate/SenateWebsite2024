@@ -7,15 +7,10 @@ import SocialIcons from "@astrojs/starlight/components/SocialIcons.astro";
 import ThemeSelect from "@astrojs/starlight/components/ThemeSelect.astro";
 import { Icon } from "@astrojs/starlight/components";
 let { siteTitleHref, siteTitleText } = Astro.props;
-import { ViewTransitions } from "astro:transitions";
 ---
 
-<head>
-  <ViewTransitions />
-</head>
 <div class="header !flex !justify-evenly !relative">
   <div class="title-wrapper sl-flex">
-    <!-- <SiteTitle {...Astro.props} /> -->
     <a href={siteTitleHref} class="site-title sl-flex">
       <svg
         width="125"
@@ -27,8 +22,6 @@ import { ViewTransitions } from "astro:transitions";
       >
         <defs>
           <style type="text/css">
-            /* @import url("https://fonts.googleapis.com/css2?family=Urbanist:wght@100&display=swap"); */
-            /* @import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap'); */
             @import url("https://fonts.googleapis.com/css2?family=Urbanist:wght@100&display=swap");
             @keyframes movefromcenter {
               0% {
@@ -215,9 +208,7 @@ import { ViewTransitions } from "astro:transitions";
     >
     <a href="/senators">Senators</a>
   </div>
-  <!-- <div class="sl-flex site-search">
-    <Search {...Astro.props} />
-  </div> -->
+
   <div
     class="sl-hidden lg:!inline-flex !w-min max-w-fit !items-center !justify-end"
   >
@@ -225,7 +216,6 @@ import { ViewTransitions } from "astro:transitions";
       <SocialIcons {...Astro.props} />
     </div>
     <ThemeSelect {...Astro.props} />
-    <!-- <LanguageSelect {...Astro.props} /> -->
   </div>
 
   <style>
@@ -308,29 +298,32 @@ import { ViewTransitions } from "astro:transitions";
   </style>
 </div>
 <script>
-  const launchDate = new Date("2024-10-09T20:00:00Z").getTime();
-  let content = document.querySelector("body .page") as HTMLElement;
-  let newroot = document.body.appendChild(document.createElement("div"));
+  let urlParams = new URLSearchParams(window.location.search);
+  let skipCountdown = urlParams.get("skipCountdown");
+  if (!skipCountdown) {
+    const launchDate = new Date("2024-10-09T20:00:00Z").getTime();
+    let content = document.querySelector("body .page") as HTMLElement;
+    let newroot = document.body.appendChild(document.createElement("div"));
 
-  function updateCountdown() {
-    const now = new Date().getTime();
-    const timeLeft = launchDate - now;
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const timeLeft = launchDate - now;
 
-    if (timeLeft <= 0) {
-      newroot.innerHTML = `
+      if (timeLeft <= 0) {
+        newroot.innerHTML = `
       `;
-      content.style.display = "";
-      clearInterval(countdownInterval);
-      return;
-    }
+        content.style.display = "";
+        clearInterval(countdownInterval);
+        return;
+      }
 
-    const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-    const hours = Math.floor(
-      (timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-    );
-    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-    newroot.innerHTML = `
+      const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+      const hours = Math.floor(
+        (timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+      newroot.innerHTML = `
       <div class="h-screen flex justify-center items-center flex-col">
         <h1 class="text-4xl"
         >Countdown to Website Launch</h1> <br/>
@@ -350,9 +343,10 @@ import { ViewTransitions } from "astro:transitions";
     <a href="https://discord.gg/Qh6safJNwM">discord server</a> for the latest updates
     and announcements!</div>
     `;
-  }
+    }
 
-  const countdownInterval = setInterval(updateCountdown, 1000);
-  content.style.display = "none";
-  updateCountdown();
+    const countdownInterval = setInterval(updateCountdown, 1000);
+    content.style.display = "none";
+    updateCountdown();
+  }
 </script>
