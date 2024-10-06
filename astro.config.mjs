@@ -73,7 +73,7 @@ let itemsObject =await thisFn("1oTTXkMehSivsM1MM4vmqL3u6XRgIpLai", undefined).th
     drive_doc_ids = [...drive_doc_ids, ...pageDataArr];
     //remove hidden pages
     drive_doc_ids = drive_doc_ids.filter((doc) => doc.hidden == "FALSE");
-  console.log(drive_doc_ids);
+  // console.log(drive_doc_ids);
   let catagorys=[]
 drive_doc_ids.map((doc) => {
     catagorys.push(doc.catagory)

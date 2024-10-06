@@ -8,12 +8,10 @@ import Carousel from "../../src/components/Carousel.astro";
 import { Tabs, TabItem } from "@astrojs/starlight/components";
 import { parse } from "csv/sync";
 import fs from "fs";
+// //-------------------
+// //fetch roles from local roles.json for the tabs
 let roles = (await fs.promises.readFile("./public/roles.json")).toString();
 roles = JSON.parse(roles);
-// //-------------------
-// //fetch clubs from local clubs.json for testing
-// // const response = await fetch(new URL("/clubs.json", Astro.url));
-// // let clubs = await response.json();
 // //-------------------
 // // //fetch clubs from campuslabs (so live data)
 const response = await fetch(
@@ -31,21 +29,20 @@ clubs = clubs.value.map((e) => {
   };
 });
 // //-----------------
-
-let data_sheets = await fetch(
+//fetch announcments from google sheets
+let announcment_data = (await fetch(
   "https://docs.google.com/spreadsheets/d/11pXrj7FqBO5hMXyJgBB8XwrXfiBXs-nMxPtudWqcjnw/export?format=csv"
-);
+)) as any;
 console.log(
   "fetching https://docs.google.com/spreadsheets/d/11pXrj7FqBO5hMXyJgBB8XwrXfiBXs-nMxPtudWqcjnw/export?format=csv"
 );
 
-let data = await data_sheets.text();
-const rawRecords = parse(data);
-let announcment_data = rawRecords.map((record: string[]) => {
+announcment_data = await announcment_data.text(); //get the data in text format
+announcment_data = parse(announcment_data, { from_line: 2 }); //parse the csv data and skip the first line
+announcment_data = announcment_data.map((record: string[]) => {
   let [title, desc, date, content, author, link, variant] = record;
   return { title, desc, date, content, author, link, variant };
 });
-announcment_data = announcment_data.slice(1, announcment_data.length);
 ---
 
 <StarlightPage
@@ -148,8 +145,8 @@ announcment_data = announcment_data.slice(1, announcment_data.length);
       randomClub.classList.add("animate-spin");
       setTimeout(() => {
         randomClub.classList.remove("animate-spin");
-      }, 3000);
-    }, 4000);
+      }, 2000); //spin for 3 seconds
+    }, 2000); //every 3 seconds
   </script>
   <br />
   <br />
