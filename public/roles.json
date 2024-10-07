@@ -18,28 +18,28 @@
       "label": "VPF",
       "content": {
         "title": "Vice President of Finance",
-        "description": "Responsible for managing the Senate's financial operations, the VP of Finance oversees budget allocations, ensures financial policies are followed, and publishes a yearly financial report. They manage reimbursements, student organization finances, and present executive reports on financial matters."
+        "description": "Responsible for managing the Senate's financial operations, the VP of Finance oversees budget allocations, ensures financial policies are followed, and publishes a yearly financial report. They manage student organization finances, and present executive reports on financial matters."
       }
     },
     {
       "label": "VPSA",
       "content": {
         "title": "Vice President of Student Affairs",
-        "description": "This VP focuses on advocating for student rights and improving campus life. They chair the Student Affairs Committee, meet with university administrators, and report on governmental policies affecting students."
+        "description": "The VP of Student Affairs focuses on advocating for student rights and improving campus life. They chair the Student Affairs Committee, meet with university administrators, and report on governmental policies affecting students."
       }
     },
     {
       "label": "DSO",
       "content": {
         "title": "Director of Student Organizations",
-        "description": "This Director supervises student organizations, helps them maintain active status, and updates important resources like the Student Organization Handbook and Highlander Hub. They also chair the Student Organizations Committee and manage the organization cabinet meetings."
+        "description": "The Director of Student Organizations supervises student organizations, helps them maintain active status, and updates important resources like the Student Organization bylaws and Highlander Hub. They also chair the Student Organizations Committee and manage the organization cabinet meetings."
       }
     },
     {
       "label": "DPR",
       "content": {
         "title": "Director of Public Relations",
-        "description": "Responsible for all NJIT Student Senate events and communications, the Director oversees social media accounts and ensures effective public relations strategies. They coordinate Senate events and manage the Senate's online presence."
+        "description": "The Director of Public Relations is responsible for all NJIT Student Senate events and communications. They oversee social media accounts and ensures effective public relations strategies. They coordinate Senate events and manage the Senate's online presence."
       }
     },
     {
@@ -55,7 +55,7 @@
       "label": "College/School Representatives",
       "content": {
         "title": "College/School Representatives",
-        "description": "College/School Representatives meet with their respective deans and Major Representatives regularly to discuss academic issues and ensure goals are met. They submit progress reports, chair college-wide meetings, and maintain records of all their activities in the Senate Shared Drive."
+        "description": "College/School Representatives meet with their respective deans and Major Representatives under their college/school regularly to discuss academic issues and ensure goals are met. They submit progress reports, chair college-wide meetings, and maintain records of all their activities in the Senate Shared Drive."
       }
     },
     {
@@ -82,24 +82,24 @@
       }
     },
     {
-      "label": "Diversity and Inclusion Officer",
+      "label": "Diversity, Equity, and Inclusion Officer",
       "content": {
-        "title": "Diversity and Inclusion Officer",
-        "description": "This officer leads the Diversity and Inclusion Committee, working closely with the Office of Student Life to promote diversity on campus. They organize inclusivity events, address policy concerns, and report on progress within Senate meetings."
+        "title": "Diversity, Equity, and Inclusion Officer",
+        "description": "This officer leads the Diversity, Equity, and Inclusion Committee, working closely with the Office of Inclusive Excellence to promote diversity on campus. They organize inclusivity events, address policy concerns, and report on progress within Senate meetings."
       }
     },
     {
       "label": "Commuter Representative",
       "content": {
         "title": "Commuter Representative",
-        "description": "This representative serves on the Student Affairs Committee, acting as a voice for the commuter student population. They organize commuter-centered events, collaborate with the Off Campus Commuter Association, and submit reports on commuter issues."
+        "description": "This representative serves on the Student Affairs Committee, acting as a voice for the commuter student population. They organize commuter-centered events, collaborate with the Off Campus Commuter Association (OCCA), and submit reports on commuter issues."
       }
     },
     {
       "label": "Residence Life Representative",
       "content": {
         "title": "Residence Life Representative",
-        "description": "Representing the resident student body, this role liaises with the Residence Hall Association and attends to resident-specific concerns. They also organize and participate in resident-centered events while providing updates to the Student Affairs Committee."
+        "description": "Representing the resident student body, this role liaises with the Residence Hall Association (RHA) and attends to resident-specific concerns. They also organize and participate in resident-centered events while providing updates to the Student Affairs Committee."
       }
     }
   ]
