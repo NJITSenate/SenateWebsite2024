@@ -1,0 +1,107 @@
+---
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+let { slug } = Astro.params;
+import { parse } from "csv/sync";
+import * as jsdom from "jsdom";
+let pageDataArr: any = [];
+async function thisFn(driveId: string, catagory: string) {
+  let folder = await fetch("https://drive.google.com/drive/folders/" + driveId);
+  let folder_data = await folder.text();
+  const folder_doc = new jsdom.JSDOM(folder_data).window.document;
+  let links = folder_doc.querySelectorAll("[data-id]");
+  let lins_arr = [...links];
+  //if there is a aria-label="Google Drive Folder" in it, it is a folder
+  let folders = lins_arr.filter((link) =>
+    link.querySelector("[aria-label='Google Drive Folder']")
+  );
+  let docs = lins_arr.filter(
+    (link) =>
+      //not folders
+      !link.querySelector("[aria-label='Google Drive Folder']")
+  );
+  for (let i = 0; i < folders.length; i++) {
+    await thisFn(
+      folders[i].getAttribute("data-id"),
+      folders[i].querySelector("[data-tooltip]")?.textContent
+    );
+  }
+  for (let i = 0; i < docs.length; i++) {
+    if (docs[i].getAttribute("data-id") == "_gd") continue;
+    pageDataArr.push({
+      id: docs[i].getAttribute("data-id"),
+      uri:
+        "https://docs.google.com/document/d/" + docs[i].getAttribute("data-id"),
+      type: docs[i].getAttribute("data-target"),
+      name: docs[i].querySelector("[data-list-item-target] div[jsname]")
+        ?.textContent,
+      slug: docs[i]
+        .querySelector("[data-list-item-target] div[jsname]")
+        ?.textContent.trim()
+        .replace(/[^A-Za-z0-9]+/g, "-")
+        .toLowerCase(),
+      catagory: catagory,
+      hidden: "TRUE",
+    });
+  }
+}
+await thisFn("1MpChG0_fguI7sX3Th43xpgmbZnERDv-K", "Senate Mins");
+---
+
+<StarlightPage
+  frontmatter={{
+    title: "Minutes",
+    tableOfContents: false,
+    template: "splash",
+    head: [
+      {
+        tag: "style",
+        content: `
+          ${`
+      h1#_top{
+      display: none;
+      }
+      .content-panel {
+      border-top:unset!important;
+      }
+      .sl-container {
+  margin: 0 auto !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* padding: 0 20em; */
+  max-width: 90% !important;
+      }
+      `}
+        `,
+      },
+    ],
+  }}
+>
+  <div class="text-center">
+    <h1>Minutes</h1>
+    <p>
+      Here are the minutes from past Senate meetings. Click on a link to view
+      the minutes.
+    </p>
+    <br />
+    {
+      pageDataArr.map((page) => (
+        <>
+          <a href={`/minutes/${page.slug}`} target="_blank">
+            {page.name}
+          </a>
+          <br />
+        </>
+      ))
+    }
+  </div>
+</StarlightPage>
+
+<style>
+  @media (prefers-color-scheme: dark) {
+    #_top {
+      color: #e2e8f0 !important;
+    }
+  }
+</style>
