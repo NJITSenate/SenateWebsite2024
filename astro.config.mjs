@@ -131,6 +131,11 @@ catagorys = catagorys.filter((catagory) => catagory != undefined);
 
 // https://astro.build/config
 export default defineConfig({
+  image: {
+    remotePatterns: [
+      { protocol: "https" }
+    ]
+  },
   "output": "static",
   vite: {
     ssr: {
