@@ -7,7 +7,7 @@ import * as jsdom from "jsdom";
 
 
   let pageDataArr = [];
-async function recursiveFolderSearch(driveId, catagory) {
+async function recursiveFolderSearch(driveId, category) {
   let folder = await fetch(
     "https://drive.google.com/drive/folders/" + driveId
   );
@@ -47,7 +47,7 @@ async function recursiveFolderSearch(driveId, catagory) {
         .querySelector("[data-list-item-target] div[jsname]")
         ?.textContent.replace(/\s+/g, "-")
         .toLowerCase(),
-      catagory: catagory,
+      category: category,
       hidden: "FALSE",//we assume these are visible
     });
   }
@@ -73,26 +73,31 @@ let itemsObject =await recursiveFolderSearch("1oTTXkMehSivsM1MM4vmqL3u6XRgIpLai"
         category: doc[4],
         hidden: doc[5],
       };
-    });
+    });    
     //merge the two arrays
     drive_doc_ids = [...drive_doc_ids, ...pageDataArr];    
     //remove hidden pages
     drive_doc_ids = drive_doc_ids.filter((doc) => doc.hidden == "FALSE");
   // console.log(drive_doc_ids);
-  let catagorys=[]
+  let categorys=[]
 drive_doc_ids.map((doc) => {
-    catagorys.push(doc.catagory)
+  console.log(doc);
+  
+    categorys.push(doc.category)
   }
   );
  
-  catagorys = [...new Set(catagorys)];
-catagorys = catagorys.filter((catagory) => catagory != undefined);  
-  let itemsObject = catagorys.map((catagory) => {
+  categorys = [...new Set(categorys)];
+  //remove undefined, null, and empty strings
+categorys = categorys.filter((category) => category != undefined && category != "" && category != null);
+console.log(categorys);
+
+  let itemsObject = categorys.map((category) => {
     let obj={
-      label: catagory,
+      label: category,
       items: [
        ... drive_doc_ids.map((doc) => {
-          if (doc.catagory == catagory) {
+          if (doc.category == category) {
             return {
               label:doc.name,
               link: "/pages/" +doc.slug,
@@ -112,7 +117,7 @@ catagorys = catagorys.filter((catagory) => catagory != undefined);
     return [...temp, obj];
   }
   );
-  let uncategorized = drive_doc_ids.filter((doc) => doc.catagory == ""||doc.catagory == undefined||doc.catagory == null);
+  let uncategorized = drive_doc_ids.filter((doc) => doc.category == ""||doc.category == undefined||doc.category == null);
   uncategorized = uncategorized.map((doc) => {
     return {
       label: doc.name,

@@ -7,7 +7,7 @@ import CustomCard from "../components/CustomCard.astro";
 import "../styles/no-padding.css";
 import { parse } from "csv/sync";
 import { Picture } from "astro:assets";
-
+import blue_logo from "../assets/logos/blue_logo.png";
 let data_sheets = await fetch(
   "https://docs.google.com/spreadsheets/d/1II800-_nlNJ_YAj_SIghSoWSaVp7FDvd6FquiHU1T84/export?format=csv"
 );
@@ -111,7 +111,7 @@ json = json.filter((senator) =>
               title={`${senator.f_name} ${senator.l_name}`}
             >
               <Picture
-                src={`${senator.pic}`}
+                src={senator.f_name === "VACANT" ? blue_logo : senator.pic}
                 alt={`${senator.f_name} ${senator.l_name}`}
                 width="300"
                 height="300"
@@ -120,7 +120,7 @@ json = json.filter((senator) =>
                 class="hover:opacity-0"
               />
               <Picture
-                src={`${senator.pic2}`}
+                src={senator.f_name === "VACANT" ? blue_logo : senator.pic2}
                 alt={`${senator.f_name} ${senator.l_name}`}
                 width="300"
                 height="300"

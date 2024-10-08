@@ -82,12 +82,14 @@
       }
     },
     {
-      "label": "Diversity, Equity, and Inclusion Officer",
+      "label": "DEI Officer",
       "content": {
         "title": "Diversity, Equity, and Inclusion Officer",
         "description": "This officer leads the Diversity, Equity, and Inclusion Committee, working closely with the Office of Inclusive Excellence to promote diversity on campus. They organize inclusivity events, address policy concerns, and report on progress within Senate meetings."
       }
-    },
+    }
+  ],
+  "Other Representatives": [
     {
       "label": "Commuter Representative",
       "content": {
@@ -100,6 +102,13 @@
       "content": {
         "title": "Residence Life Representative",
         "description": "Representing the resident student body, this role liaises with the Residence Hall Association (RHA) and attends to resident-specific concerns. They also organize and participate in resident-centered events while providing updates to the Student Affairs Committee."
+      }
+    },
+    {
+      "label": "FSL Representative",
+      "content": {
+        "title": "Fraternity/Sorority Life Representative",
+        "description": "This representative serves as a liaison between the Greek community and the Student Senate, maintaining communication between the two groups. They organize Greek-centered events, collaborate with the Greek Life Coordinator and submit two reports on Greek life issues."
       }
     }
   ]
