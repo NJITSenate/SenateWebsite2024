@@ -29,11 +29,12 @@ switch (varient) {
     headcolor = "bg-[#233251]";
     break;
 }
+console.log(link);
 ---
 
 <a
   class={`flex flex-col shadow-[10px_10px_0px_rgba(0,_0,_0,_0.5)] not-content max-w-sm m-2 dark:bg-gray-800 no-underline hover:scale-95 transition-transform duration-150 ease-in-out transform hover:shadow-[0px_0px_0px_0px] hover:translate-y-1 hover:translate-x-1 max-h-64 mx-auto ${bgcolor}`}
-  href={link}
+  href={link.length > 0 ? link : "javascript: void(0)"}
 >
   <div class=`head p-2 text-white ${headcolor}`>
     <h3 class="card_title dark:text-gray-300">

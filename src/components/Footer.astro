@@ -12,7 +12,7 @@ let footerLinks = [
   },
   {
     name: "Office Hours",
-    link: "/wiki/office-hours",
+    link: "https://docs.google.com/document/d/1O1KxcAi76sZ9yTVIOeAtKMRPLA-P92cDe8P-d921koE",
     blank: true,
   },
   {
@@ -25,30 +25,33 @@ let footerLinks = [
     link: "/minutes",
     blank: false,
   },
+  {
+    name: "Public Google Drive",
+    link: "https://drive.google.com/drive/folders/1dRdTx6p-dnzlyfG22WMCNzGCpEutX3KD",
+    blank: true,
+  },
 ];
 ---
 
-<div class="sl-flex">
+<footer class="sl-flex">
   <div class="meta sl-flex">
     <EditLink {...Astro.props} />
     <LastUpdated {...Astro.props} />
   </div>
   <Pagination {...Astro.props} />
-</div>
+</footer>
 
-<footer class="bg-[#233251] rounded-lg shadow m-4">
+<div class="bg-[#233251] rounded-lg shadow m-4">
   <div
-    class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between"
+    class="w-full mx-auto max-w-screen-xl p-4 flex md:items-center md:justify-between"
   >
-    <span class="text-sm text-gray-300 sm:text-center">
-      <Image
-        src="/Senate_Sqr_logo.png"
-        alt="logo"
-        width={100}
-        height={100}
-        class="h-full w-10"
-      />
-    </span>
+    <Image
+      src="/Senate_Sqr_logo.png"
+      alt="logo"
+      width={100}
+      height={100}
+      class="h-full w-10"
+    />
     <ul
       class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0 list-none"
     >
@@ -67,7 +70,7 @@ let footerLinks = [
       }
     </ul>
   </div>
-</footer>
+</div>
 
 <style>
   footer {

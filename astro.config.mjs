@@ -7,7 +7,7 @@ import * as jsdom from "jsdom";
 
 
   let pageDataArr = [];
-async function recursiveFolderSearch(driveId, catagory) {
+async function recursiveFolderSearch(driveId, category) {
   let folder = await fetch(
     "https://drive.google.com/drive/folders/" + driveId
   );
@@ -47,7 +47,7 @@ async function recursiveFolderSearch(driveId, catagory) {
         .querySelector("[data-list-item-target] div[jsname]")
         ?.textContent.replace(/\s+/g, "-")
         .toLowerCase(),
-      catagory: catagory,
+      category: category,
       hidden: "FALSE",//we assume these are visible
     });
   }
@@ -64,6 +64,7 @@ let itemsObject =await recursiveFolderSearch("1oTTXkMehSivsM1MM4vmqL3u6XRgIpLai"
     let data = await data_sheets.text();
     //csv to json
     let drive_doc_ids = parse(data);
+    
     drive_doc_ids = drive_doc_ids.map((doc) => {
       return {
         name: doc[0],
@@ -72,29 +73,35 @@ let itemsObject =await recursiveFolderSearch("1oTTXkMehSivsM1MM4vmqL3u6XRgIpLai"
         category: doc[4],
         hidden: doc[5],
       };
-    });
+    });    
     //merge the two arrays
-    drive_doc_ids = [...drive_doc_ids, ...pageDataArr];
+    drive_doc_ids = [...drive_doc_ids, ...pageDataArr];    
     //remove hidden pages
     drive_doc_ids = drive_doc_ids.filter((doc) => doc.hidden == "FALSE");
   // console.log(drive_doc_ids);
-  let catagorys=[]
+  let categorys=[]
 drive_doc_ids.map((doc) => {
-    catagorys.push(doc.catagory)
+  console.log(doc);
+  
+    categorys.push(doc.category)
   }
   );
  
-  catagorys = [...new Set(catagorys)];
-catagorys = catagorys.filter((catagory) => catagory != undefined);  
-  let itemsObject = catagorys.map((catagory) => {
+  categorys = [...new Set(categorys)];
+  //remove undefined, null, and empty strings
+categorys = categorys.filter((category) => category != undefined && category != "" && category != null);
+console.log(categorys);
+
+  let itemsObject = categorys.map((category) => {
     let obj={
-      label: catagory,
+      label: category,
       items: [
        ... drive_doc_ids.map((doc) => {
-          if (doc.catagory == catagory) {
+          if (doc.category == category) {
             return {
               label:doc.name,
-              link: "/wiki/" +doc.slug,
+              link: "/pages/" +doc.slug,
+              // link: doc.uri,
             };
           }
         }
@@ -104,26 +111,24 @@ catagorys = catagorys.filter((catagory) => catagory != undefined);
     }
     //remove undefined 
     obj.items = obj.items.filter((item) => item != undefined);
-
-    //add the ones without a category to the obj
-    let uncategorized = drive_doc_ids.filter((doc) => doc.catagory == ""||doc.catagory == undefined||doc.catagory == null);
-  // add to the top level
-  temp = uncategorized.map((doc) => {
-    return {
-      label: doc.name,
-      link: "/wiki/" + doc.slug,
-    };
-  }
-  );
   
     obj.items = obj.items.filter((item) => item != undefined
   );
-
-  
-    
-    return [...temp,obj];
+    return [...temp, obj];
   }
   );
+  let uncategorized = drive_doc_ids.filter((doc) => doc.category == ""||doc.category == undefined||doc.category == null);
+  uncategorized = uncategorized.map((doc) => {
+    return {
+      label: doc.name,
+      // link: "/wiki/" + doc.slug,
+      link: doc.uri,
+      attrs: { target: '_blank' }
+    };
+  }
+  );
+  itemsObject = [...uncategorized, ...itemsObject];
+
   return itemsObject;
 }
 );
@@ -131,6 +136,11 @@ catagorys = catagorys.filter((catagory) => catagory != undefined);
 
 // https://astro.build/config
 export default defineConfig({
+  image: {
+    remotePatterns: [
+      { protocol: "https" }
+    ]
+  },
   "output": "static",
   vite: {
     ssr: {
@@ -156,13 +166,14 @@ export default defineConfig({
       "discord":"https://discord.com/invite/Qh6safJNwM",
       // "github":"https://github.com/NJITSenate",
       "email":"mailto:senate@njit.edu",
+      "tiktok":"https://www.tiktok.com/@njitstudentsenate",
     },
     logo: {
       "src": "/public/SVG_Logo.svg",
       replacesTitle: true,
       alt: "NJIT Student Senate Logo"
     },
-    sidebar: (itemsObject).flat(),
+    sidebar: (itemsObject).flat().reverse(),
     customCss: ['./src/styles/custom.css',"./src/tailwind.css"],
     head:[
     {

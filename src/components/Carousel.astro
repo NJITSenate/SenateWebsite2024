@@ -4,15 +4,11 @@
 
 import { Picture } from "astro:assets";
 
-import img1 from "../assets/carousel_imgs/img1.jpg";
+import img1 from "../assets/carousel_imgs/img1.png";
 import img2 from "../assets/carousel_imgs/img2.jpg";
-import img3 from "../assets/carousel_imgs/img3.jpg";
-import img4 from "../assets/carousel_imgs/img4.jpg";
-import img5 from "../assets/carousel_imgs/img5.jpg";
-import img6 from "../assets/carousel_imgs/img6.jpg";
-import img7 from "../assets/carousel_imgs/img7.jpg";
-import img8 from "../assets/carousel_imgs/img8.jpg";
-
+import img3 from "../assets/carousel_imgs/img3.png";
+import img4 from "../assets/carousel_imgs/img4.png";
+import img5 from "../assets/carousel_imgs/img5.png";
 let carousel = [
   {
     src: img1,
@@ -34,18 +30,6 @@ let carousel = [
     src: img5,
     alt: "Student Senate Event Image 5",
   },
-  {
-    src: img6,
-    alt: "Student Senate Event Image 6",
-  },
-  {
-    src: img7,
-    alt: "Student Senate Event Image 7",
-  },
-  {
-    src: img8,
-    alt: "Student Senate Event Image 8",
-  },
 ];
 ---
 
@@ -59,14 +43,14 @@ let carousel = [
             slide,
             index //map through the images
           ) => (
-            <div class={"duration-700 ease-in-out"} data-carousel-item>
+            <div class={"duration-700 ease-in-out hidden"} data-carousel-item>
               <Picture
-                widths={[320, 640, 768, 1024, 1280, 1536, 1920]}
+                widths={[320, 768, 1280, 1920]}
                 height={1080}
                 width={1920}
                 src={slide.src}
                 formats={["avif", "webp"]}
-                class="absolute block w-full h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                class="absolute block w-full h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 object-cover"
                 alt={slide.alt}
               />
             </div>
