@@ -200,11 +200,9 @@ let { siteTitleHref, siteTitleText } = Astro.props;
     class="link-list links mx-auto !justify-center !w-max absolute sm:!left-1/2 sm:!right-[unset] sm:!transform sm:!-translate-x-1/2 right-0 sm:!flex hidden flex-col sm:!flex-row items-start sm:!items-center p-4 rounded-lg shadow-lg bg-[#233251] z-10 top-10 border border-[#A32F2C] sm:!border-[unset] border-solid sm:!border-0 sm:top-1/2 sm:-translate-y-1/2"
   >
     <a href="
-    /wiki"> Wiki Pages </a>
-    <a
-      href="https://drive.google.com/drive/folders/1dRdTx6p-dnzlyfG22WMCNzGCpEutX3KD"
-      target="_blank">Senate Drive</a
-    >
+    /pages"> Pages </a>
+    <a href="/minutes">Minutes</a>
+
     <a href="/senators">Senators</a>
   </div>
 
@@ -300,6 +298,7 @@ let { siteTitleHref, siteTitleText } = Astro.props;
   let urlParams = new URLSearchParams(window.location.search);
   let skipCountdown = urlParams.get("skipCountdown");
   if (!skipCountdown) {
+  // if (false) {
     const launchDate = new Date("2024-10-09T20:00:00Z").getTime();
     let content = document.querySelector("body .page") as HTMLElement;
     let newroot = document.body.appendChild(document.createElement("div"));

@@ -1,0 +1,130 @@
+<!-- ---
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+let { slug } = Astro.params;
+import { parse } from "csv/sync";
+import * as jsdom from "jsdom";
+export async function getStaticPaths() {
+  let pageDataArr: any = [];
+  async function thisFn(driveId: string, catagory: string) {
+    let folder = await fetch(
+      "https://drive.google.com/drive/folders/" + driveId
+    );
+    let folder_data = await folder.text();
+    const folder_doc = new jsdom.JSDOM(folder_data).window.document;
+    let links = folder_doc.querySelectorAll("[data-id]");
+    let lins_arr = [...links];
+    //if there is a aria-label="Google Drive Folder" in it, it is a folder
+    let folders = lins_arr.filter((link) =>
+      link.querySelector("[aria-label='Google Drive Folder']")
+    );
+    let docs = lins_arr.filter(
+      (link) =>
+        //not folders
+        !link.querySelector("[aria-label='Google Drive Folder']")
+    );
+    for (let i = 0; i < folders.length; i++) {
+      await thisFn(
+        folders[i].getAttribute("data-id"),
+        folders[i].querySelector("[data-tooltip]")?.textContent
+      );
+    }
+    for (let i = 0; i < docs.length; i++) {
+      if (docs[i].getAttribute("data-id") == "_gd") continue;
+      pageDataArr.push({
+        id: docs[i].getAttribute("data-id"),
+        uri:
+          "https://docs.google.com/document/d/" +
+          docs[i].getAttribute("data-id"),
+        type: docs[i].getAttribute("data-target"),
+        name: docs[i].querySelector("[data-list-item-target] div[jsname]")
+          ?.textContent,
+        slug: docs[i]
+          .querySelector("[data-list-item-target] div[jsname]")
+          ?.textContent.trim()
+          .replace(/[^A-Za-z0-9]+/g, "-")
+          .toLowerCase(),
+        catagory: catagory,
+        hidden: "TRUE",
+      });
+    }
+  }
+
+await thisFn("1UWYU7B_lb1fHq93tmFUEK2RZk6wv5ALh", "Senate Mins");
+await thisFn("1Z-_RqJjL_5FCt7qqRGnhr599iIrtnKom", "Senate Mins");
+await thisFn("1U0uYacyrh5EqdNrfVw6g5OvocL0aAMID", "Senate Mins");
+await thisFn("1VNfVc4UekdyWeNmh4iJhy10GCGzuDmvY", "Senate Mins");
+await thisFn("1uLacUo4e24qQdoTUcXhEF270ScxIwwmd", "Senate Mins");
+  return await thisFn("1_08sS8dww6UU5RcZH-rUKK6NTQ4Mcm5R", "Senate Mins").then(
+    async () => {
+      //merge the two arrays
+      let drive_doc_ids = pageDataArr;
+
+      let pages: any = [];
+      for (let i = 0; i < drive_doc_ids.length; i++) {
+        let data_doc = await fetch(`${drive_doc_ids[i].uri}/export`);
+
+        let data2 = await data_doc.text();
+        let page_info = {
+          params: { slug: drive_doc_ids[i].slug },
+          props: {
+            title: drive_doc_ids[i].name,
+            content: data2,
+            hidden: drive_doc_ids[i].hidden,
+          },
+        };
+        pages.push(page_info);
+        console.log("pushed", drive_doc_ids[i]);
+      }
+      return pages;
+    }
+  );
+}
+
+const { content, title, date, hidden } = Astro.props;
+---
+
+<StarlightPage
+  frontmatter={{
+    title: title,
+    tableOfContents: false,
+    template: hidden === "TRUE" ? "splash" : "doc",
+    head: [
+      {
+        tag: "style",
+        content: `
+          ${
+            hidden === "TRUE"
+              ? `
+      h1#_top{
+      display: none;
+      }
+      .content-panel {
+      border-top:unset!important;
+      }
+      .sl-container {
+  margin: 0 auto !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* padding: 0 20em; */
+  max-width: 90% !important;
+      }
+      `
+              : ""
+          }
+        `,
+      },
+    ],
+  }}
+>
+  <article class="[&_*]:dark:!text-gray-300" set:html={content} />
+</StarlightPage>
+
+<style>
+  @media (prefers-color-scheme: dark) {
+    #_top {
+      color: #e2e8f0 !important;
+    }
+  }
+</style> -->

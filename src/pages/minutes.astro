@@ -44,7 +44,36 @@ async function thisFn(driveId: string, catagory: string) {
     });
   }
 }
-await thisFn("1MpChG0_fguI7sX3Th43xpgmbZnERDv-K", "Senate Mins");
+pageDataArr.push("2024-2025 Senate Minutes");
+await thisFn("1MpChG0_fguI7sX3Th43xpgmbZnERDv-K", "Senate Minutes");
+pageDataArr.push("2023-2024 Senate Minutes");
+await thisFn("1UWYU7B_lb1fHq93tmFUEK2RZk6wv5ALh", "Senate Minutes");
+pageDataArr.push("2022-2023 Senate Minutes");
+await thisFn("1Z-_RqJjL_5FCt7qqRGnhr599iIrtnKom", "Senate Minutes");
+pageDataArr.push("2021-2022 Senate Minutes");
+await thisFn("1_08sS8dww6UU5RcZH-rUKK6NTQ4Mcm5R", "Senate Minutes");
+pageDataArr.push("2020-2021 Senate Minutes");
+await thisFn("1U0uYacyrh5EqdNrfVw6g5OvocL0aAMID", "Senate Minutes");
+pageDataArr.push("2019-2020 Senate Minutes");
+await thisFn("1VNfVc4UekdyWeNmh4iJhy10GCGzuDmvY", "Senate Minutes");
+pageDataArr.push("2018-2019 Senate Minutes");
+await thisFn("1uLacUo4e24qQdoTUcXhEF270ScxIwwmd", "Senate Minutes");
+//split the array by year
+let pageDataArr2 = [];
+//split and add arrays into pageDataArr2 for each year
+let tempArr = [];
+for (let i = 0; i < pageDataArr.length; i++) {
+  if (/^\d{4}-\d{4} Senate Minutes$/.test(pageDataArr[i])) {
+    if (tempArr.length > 0) {
+      pageDataArr2.push(tempArr);
+      tempArr = [];
+    }
+    tempArr.push(pageDataArr[i]);
+  } else {
+    tempArr.push(pageDataArr[i]);
+  }
+}
+pageDataArr2.push(tempArr);
 ---
 
 <StarlightPage
@@ -86,13 +115,18 @@ await thisFn("1MpChG0_fguI7sX3Th43xpgmbZnERDv-K", "Senate Mins");
     </p>
     <br />
     {
-      pageDataArr.map((page) => (
-        <>
-          <a href={`/minutes/${page.slug}`} target="_blank">
-            {page.name}
-          </a>
-          <br />
-        </>
+      pageDataArr2.map((year: any) => (
+        <details>
+          <summary>{year[0]}</summary>
+          <ul class="list-none">
+            {year.slice(1).map((doc: any) => (
+              <li class="list-none">
+                {/* <a href={`/minutes/${doc.slug}`}>{doc.name}</a> */}
+                <a href={`${doc.uri}`}>{doc.name}</a>
+              </li>
+            ))}
+          </ul>
+        </details>
       ))
     }
   </div>

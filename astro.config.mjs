@@ -64,6 +64,7 @@ let itemsObject =await recursiveFolderSearch("1oTTXkMehSivsM1MM4vmqL3u6XRgIpLai"
     let data = await data_sheets.text();
     //csv to json
     let drive_doc_ids = parse(data);
+    
     drive_doc_ids = drive_doc_ids.map((doc) => {
       return {
         name: doc[0],
@@ -74,7 +75,7 @@ let itemsObject =await recursiveFolderSearch("1oTTXkMehSivsM1MM4vmqL3u6XRgIpLai"
       };
     });
     //merge the two arrays
-    drive_doc_ids = [...drive_doc_ids, ...pageDataArr];
+    drive_doc_ids = [...drive_doc_ids, ...pageDataArr];    
     //remove hidden pages
     drive_doc_ids = drive_doc_ids.filter((doc) => doc.hidden == "FALSE");
   // console.log(drive_doc_ids);
@@ -94,7 +95,8 @@ catagorys = catagorys.filter((catagory) => catagory != undefined);
           if (doc.catagory == catagory) {
             return {
               label:doc.name,
-              link: "/wiki/" +doc.slug,
+              link: "/pages/" +doc.slug,
+              // link: doc.uri,
             };
           }
         }
@@ -104,26 +106,24 @@ catagorys = catagorys.filter((catagory) => catagory != undefined);
     }
     //remove undefined 
     obj.items = obj.items.filter((item) => item != undefined);
-
-    //add the ones without a category to the obj
-    let uncategorized = drive_doc_ids.filter((doc) => doc.catagory == ""||doc.catagory == undefined||doc.catagory == null);
-  // add to the top level
-  temp = uncategorized.map((doc) => {
-    return {
-      label: doc.name,
-      link: "/wiki/" + doc.slug,
-    };
-  }
-  );
   
     obj.items = obj.items.filter((item) => item != undefined
   );
-
-  
-    
-    return [...temp,obj];
+    return [...temp, obj];
   }
   );
+  let uncategorized = drive_doc_ids.filter((doc) => doc.catagory == ""||doc.catagory == undefined||doc.catagory == null);
+  uncategorized = uncategorized.map((doc) => {
+    return {
+      label: doc.name,
+      // link: "/wiki/" + doc.slug,
+      link: doc.uri,
+      attrs: { target: '_blank' }
+    };
+  }
+  );
+  itemsObject = [...uncategorized, ...itemsObject];
+
   return itemsObject;
 }
 );
@@ -167,7 +167,7 @@ export default defineConfig({
       replacesTitle: true,
       alt: "NJIT Student Senate Logo"
     },
-    sidebar: (itemsObject).flat(),
+    sidebar: (itemsObject).flat().reverse(),
     customCss: ['./src/styles/custom.css',"./src/tailwind.css"],
     head:[
     {
