@@ -166,6 +166,7 @@ export default defineConfig({
       "discord":"https://discord.com/invite/Qh6safJNwM",
       // "github":"https://github.com/NJITSenate",
       "email":"mailto:senate@njit.edu",
+      "tiktok":"https://www.tiktok.com/@njitstudentsenate",
     },
     logo: {
       "src": "/public/SVG_Logo.svg",
