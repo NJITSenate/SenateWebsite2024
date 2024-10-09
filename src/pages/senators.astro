@@ -40,8 +40,10 @@ metadata_json = metadata_json.slice(1, metadata_json.length);
 metadata_json = metadata_json.map((meta) => {
   return {
     email: meta[0],
-    pic: meta[1],
-    pic2: meta[2],
+    pic1: meta[1],
+    pic1_embed: meta[2],
+    pic2: meta[3],
+    pic2_embed: meta[4],
   };
 });
 json = json.map((senator) => {
@@ -51,8 +53,14 @@ json = json.map((senator) => {
   // return senator.f_name !== "VACANT"
   return {
     ...senator,
-    pic: meta?.pic ?? senator.pic ?? "https://imageplaceholder.net/600",
-    pic2: meta?.pic2 ?? senator.pic2 ?? "https://imageplaceholder.net/600",
+    pic1_embed:
+      meta?.pic1_embed ??
+      senator.pic1_embed ??
+      "https://imageplaceholder.net/600",
+    pic2_embed:
+      meta?.pic2_embed ??
+      senator.pic2_embed ??
+      "https://imageplaceholder.net/600",
   };
   // : null;
 });
@@ -111,22 +119,26 @@ json = json.filter((senator) =>
               title={`${senator.f_name} ${senator.l_name}`}
             >
               <Picture
-                src={senator.f_name === "VACANT" ? blue_logo : senator.pic}
+                src={
+                  senator.f_name === "VACANT" ? blue_logo : senator.pic1_embed
+                }
                 alt={`${senator.f_name} ${senator.l_name}`}
                 width="300"
                 height="300"
                 formats={["avif", "webp"]}
                 widths={[320, 768, 1280, 1920]}
-                class="hover:opacity-0"
+                class="hover:opacity-0 object-cover"
               />
               <Picture
-                src={senator.f_name === "VACANT" ? blue_logo : senator.pic2}
+                src={
+                  senator.f_name === "VACANT" ? blue_logo : senator.pic2_embed
+                }
                 alt={`${senator.f_name} ${senator.l_name}`}
                 width="300"
                 height="300"
                 formats={["avif", "webp"]}
                 widths={[320, 768, 1280, 1920]}
-                class="hover:opacity-100 absolute top-0 left-0 opacity-0"
+                class="hover:opacity-100 absolute top-0 left-0 opacity-0 object-cover"
               />
               <p
                 class={`text-gray-300 p-2 absolute bottom-0 left-0 right-0 ${senator.f_name === "VACANT" ? "bg-[#bc2c43]" : "bg-[#233251]"} shadow-[0_-4px_15px_rgba(0,0,0,0.25)]`}
