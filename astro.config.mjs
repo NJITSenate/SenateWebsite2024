@@ -45,10 +45,9 @@ async function recursiveFolderSearch(driveId, category) {
         ?.textContent,
       slug: docs[i]
         .querySelector("[data-list-item-target] div[jsname]")
-        ?.textContent.replace(/\s+/g, "-")
+        ?.textContent.replace(/[^a-zA-Z0-9]+/g, "-")
         .toLowerCase(),
       category: category,
-      hidden: "FALSE",//we assume these are visible
     });
   }
 }
@@ -68,16 +67,12 @@ let itemsObject =await recursiveFolderSearch("1oTTXkMehSivsM1MM4vmqL3u6XRgIpLai"
     drive_doc_ids = drive_doc_ids.map((doc) => {
       return {
         name: doc[0],
-        slug: doc[1],
-        uri: doc[3],
-        category: doc[4],
-        hidden: doc[5],
+        uri: doc[1],
+        category: doc[2],
       };
     });    
     //merge the two arrays
     drive_doc_ids = [...drive_doc_ids, ...pageDataArr];    
-    //remove hidden pages
-    drive_doc_ids = drive_doc_ids.filter((doc) => doc.hidden == "FALSE");
   // console.log(drive_doc_ids);
   let categorys=[]
 drive_doc_ids.map((doc) => {

@@ -5,6 +5,7 @@ import type { Props } from "@astrojs/starlight/props";
 import SocialIcons from "@astrojs/starlight/components/SocialIcons.astro";
 // import LanguageSelect from "@astrojs/starlight/components/LanguageSelect.astro";
 import ThemeSelect from "@astrojs/starlight/components/ThemeSelect.astro";
+import Select from "@astrojs/starlight/components/Select.astro";
 import { Icon } from "@astrojs/starlight/components";
 let { siteTitleHref, siteTitleText } = Astro.props;
 ---
@@ -197,13 +198,53 @@ let { siteTitleHref, siteTitleText } = Astro.props;
     });
   </script>
   <div
-    class="link-list links mx-auto !justify-center !w-max absolute sm:!left-1/2 sm:!right-[unset] sm:!transform sm:!-translate-x-1/2 right-0 sm:!flex hidden flex-col sm:!flex-row items-start sm:!items-center p-4 rounded-lg shadow-lg bg-[#233251] z-10 top-10 border border-[#A32F2C] sm:!border-[unset] border-solid sm:!border-0 sm:top-1/2 sm:-translate-y-1/2"
+    class="link-list links mx-auto !justify-center !w-max absolute sm:!left-1/2 sm:!right-[unset] sm:!transform sm:!-translate-x-1/2 right-0 sm:!flex hidden flex-col sm:!flex-row items-start sm:!items-center rounded-lg bg-[#233251] z-10 top-10 border border-[#A32F2C] sm:!border-[unset] border-solid sm:!border-0 sm:top-1/2 sm:-translate-y-1/2"
   >
     <a href="
-    /pages"> Pages </a>
-    <a href="/minutes">Minutes</a>
-
+    /pages"> Info </a>
     <a href="/senators">Senators</a>
+
+    <select
+      id="page-select"
+      class="bg-transparent border-0 text-white dark:text-black"
+    >
+      <option value="/resolutions">Resolutions</option>
+      <option value="/minutes">Minutes</option>
+      <option value="/reports">Reports</option>
+      <option
+        value="https://drive.google.com/drive/folders/1dRdTx6p-dnzlyfG22WMCNzGCpEutX3KD"
+      >
+        Public Google Drive
+      </option>
+      <!-- <option value="/senators">Senators</option> -->
+    </select>
+    <script>
+      document
+        .getElementById("page-select")
+        ?.addEventListener("change", (e) => {
+          window.location.href = e.target.value;
+        });
+
+      //select the option that matches the current page
+      const pageSelect = document.getElementById(
+        "page-select"
+      ) as HTMLSelectElement;
+      const currentPage = window.location.pathname;
+      // pageSelect.value = currentPage;
+      //check if the current page is in the select options
+      if (
+        !Array.from(pageSelect.options).some(
+          (option) => option.value === currentPage
+        )
+      ) {
+        //if not, show the first option
+        pageSelect.selectedIndex = 0;
+      } else {
+        pageSelect.value = currentPage;
+      }
+    </script>
+
+    <!-- <a href="/minutes">Minutes</a> -->
   </div>
 
   <div
@@ -298,7 +339,7 @@ let { siteTitleHref, siteTitleText } = Astro.props;
   let urlParams = new URLSearchParams(window.location.search);
   let skipCountdown = urlParams.get("skipCountdown");
   if (!skipCountdown) {
-  // if (false) {
+    // if (false) {
     const launchDate = new Date("2024-10-09T20:00:00Z").getTime();
     let content = document.querySelector("body .page") as HTMLElement;
     let newroot = document.body.appendChild(document.createElement("div"));
