@@ -62,7 +62,10 @@ let itemsObject =await recursiveFolderSearch("1oTTXkMehSivsM1MM4vmqL3u6XRgIpLai"
 
     let data = await data_sheets.text();
     //csv to json
-    let drive_doc_ids = parse(data);
+    let drive_doc_ids = parse(data,{
+      from_line: 2,
+    }
+    );
     
     drive_doc_ids = drive_doc_ids.map((doc) => {
       return {
@@ -76,7 +79,7 @@ let itemsObject =await recursiveFolderSearch("1oTTXkMehSivsM1MM4vmqL3u6XRgIpLai"
   // console.log(drive_doc_ids);
   let categorys=[]
 drive_doc_ids.map((doc) => {
-  console.log(doc);
+  // console.log(doc);
   
     categorys.push(doc.category)
   }
@@ -85,7 +88,7 @@ drive_doc_ids.map((doc) => {
   categorys = [...new Set(categorys)];
   //remove undefined, null, and empty strings
 categorys = categorys.filter((category) => category != undefined && category != "" && category != null);
-console.log(categorys);
+// console.log(categorys);
 
   let itemsObject = categorys.map((category) => {
     let obj={
