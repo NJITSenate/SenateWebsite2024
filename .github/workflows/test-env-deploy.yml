@@ -61,7 +61,7 @@ jobs:
   deploy:
     environment:
       name: test
-      url: ${{ steps.step_name.outputs.url_output }}
+      url: https://NJITSenate.github.io/SenateWebsite2024
     needs: build
     runs-on: ubuntu-latest
     name: Deploy
