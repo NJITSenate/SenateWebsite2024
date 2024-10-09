@@ -110,10 +110,11 @@ json = json.filter((senator) => !senator.role.includes("Student at Large"));
       {
         json.map((senator) =>
           senator.f_name === "" ? (
-            //  make a full row for the heading that is the type of role
-            <h2 class="ribbon text-xs lg:text-xl !w-full mx-20 lg:!mx-60 font-bold">
-              {senator.role}
-            </h2>
+            senator.role.toLowerCase() !== "Student-at-Large".toLowerCase() ? (
+              <h2 class="ribbon text-xs lg:text-xl !w-full mx-20 lg:!mx-60 font-bold">
+                {senator.role}
+              </h2>
+            ) : null
           ) : (
             <a
               href={`mailto:${senator.email}`}
