@@ -204,14 +204,12 @@ let { siteTitleHref, siteTitleText } = Astro.props;
     /pages"> Info </a>
     <a href="/senators">Senators</a>
 
-    <select
-      id="page-select"
-      class="bg-transparent border-0 text-white dark:text-black"
-    >
-      <option value="/resolutions">Resolutions</option>
-      <option value="/minutes">Minutes</option>
-      <option value="/reports">Reports</option>
+    <select id="page-select" class="bg-transparent border-0 text-black">
+      <option class="text-black" value="/resolutions">Resolutions</option>
+      <option class="text-black" value="/minutes">Minutes</option>
+      <option class="text-black" value="/reports">Reports</option>
       <option
+        class="text-black"
         value="https://drive.google.com/drive/folders/1dRdTx6p-dnzlyfG22WMCNzGCpEutX3KD"
       >
         Public Google Drive
@@ -335,57 +333,3 @@ let { siteTitleHref, siteTitleText } = Astro.props;
     }
   </style>
 </div>
-<script>
-  let urlParams = new URLSearchParams(window.location.search);
-  let skipCountdown = urlParams.get("skipCountdown");
-  if (!skipCountdown) {
-    // if (false) {
-    const launchDate = new Date("2024-10-09T20:00:00Z").getTime();
-    let content = document.querySelector("body .page") as HTMLElement;
-    let newroot = document.body.appendChild(document.createElement("div"));
-
-    function updateCountdown() {
-      const now = new Date().getTime();
-      const timeLeft = launchDate - now;
-
-      if (timeLeft <= 0) {
-        newroot.innerHTML = `
-      `;
-        content.style.display = "";
-        clearInterval(countdownInterval);
-        return;
-      }
-
-      const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-      const hours = Math.floor(
-        (timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
-      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-      newroot.innerHTML = `
-      <div class="h-screen flex justify-center items-center flex-col">
-        <h1 class="text-4xl"
-        >Countdown to Website Launch</h1> <br/>
-        <p class="text-4xl"
-        >${days}d ${hours}h ${minutes}m ${seconds}s</p>
-      
-        <p>
-  <br />
-  <br />
-
-    For up to date information, please check
-    <a href="https://njit.gg/senatedrive">the public google drive</a>
-  </p>
-  <br />
-  <p>
-    Make sure to join our
-    <a href="https://discord.gg/Qh6safJNwM">discord server</a> for the latest updates
-    and announcements!</div>
-    `;
-    }
-
-    const countdownInterval = setInterval(updateCountdown, 1000);
-    content.style.display = "none";
-    updateCountdown();
-  }
-</script>
