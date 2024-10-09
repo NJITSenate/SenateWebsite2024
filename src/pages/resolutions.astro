@@ -1,0 +1,126 @@
+---
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+let { slug } = Astro.params;
+import { parse } from "csv/sync";
+import * as jsdom from "jsdom";
+let pageDataArr: any = [];
+async function thisFn(driveId: string, catagory: string) {
+  let folder = await fetch("https://drive.google.com/drive/folders/" + driveId);
+  let folder_data = await folder.text();
+  const folder_doc = new jsdom.JSDOM(folder_data).window.document;
+  let links = folder_doc.querySelectorAll("[data-id]");
+  let lins_arr = [...links];
+  //if there is a aria-label="Google Drive Folder" in it, it is a folder
+  let folders = lins_arr.filter((link) =>
+    link.querySelector("[aria-label='Google Drive Folder']")
+  );
+  let docs = lins_arr.filter(
+    (link) =>
+      //not folders
+      !link.querySelector("[aria-label='Google Drive Folder']")
+  );
+  for (let i = 0; i < folders.length; i++) {
+    await thisFn(
+      folders[i].getAttribute("data-id"),
+      folders[i].querySelector("[data-tooltip]")?.textContent
+    );
+  }
+  for (let i = 0; i < docs.length; i++) {
+    if (docs[i].getAttribute("data-id") == "_gd") continue;
+    pageDataArr.push({
+      id: docs[i].getAttribute("data-id"),
+      uri:
+        "https://docs.google.com/document/d/" + docs[i].getAttribute("data-id"),
+      type: docs[i].getAttribute("data-target"),
+      name: docs[i].querySelector("[data-list-item-target] div[jsname]")
+        ?.textContent,
+      slug: docs[i]
+        .querySelector("[data-list-item-target] div[jsname]")
+        ?.textContent.trim()
+        .replace(/[^A-Za-z0-9]+/g, "-")
+        .toLowerCase(),
+      catagory: catagory,
+      hidden: "TRUE",
+    });
+  }
+}
+pageDataArr.push("Resolutions");
+await thisFn("1gfNRHYOiDHxZqt-WLX42OZFh25R8Fgpj", "Senate Resolutions");
+//split the array by year
+let pageDataArr2 = [];
+//split and add arrays into pageDataArr2 for each year
+let tempArr = [];
+for (let i = 0; i < pageDataArr.length; i++) {
+  if (/^\d{4}-\d{4} Senate Resolutions$/.test(pageDataArr[i])) {
+    if (tempArr.length > 0) {
+      pageDataArr2.push(tempArr);
+      tempArr = [];
+    }
+    tempArr.push(pageDataArr[i]);
+  } else {
+    tempArr.push(pageDataArr[i]);
+  }
+}
+pageDataArr2.push(tempArr);
+---
+
+<StarlightPage
+  frontmatter={{
+    title: "Resolutions",
+    tableOfContents: false,
+    template: "splash",
+    head: [
+      {
+        tag: "style",
+        content: `
+          ${`
+      h1#_top{
+      display: none;
+      }
+      .content-panel {
+      border-top:unset!important;
+      }
+      .sl-container {
+  margin: 0 auto !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* padding: 0 20em; */
+  max-width: 90% !important;
+      }
+      `}
+        `,
+      },
+    ],
+  }}
+>
+  <div class="text-center">
+    <h1>Resolutions</h1>
+    <p>Here are the Resolutions from past years.</p>
+    <br />
+    {
+      pageDataArr2.map((year: any) => (
+        <details>
+          <summary>{year[0]}</summary>
+          <ul class="list-none">
+            {year.slice(1).map((doc: any) => (
+              <li class="list-none">
+                {/* <a href={`/minutes/${doc.slug}`}>{doc.name}</a> */}
+                <a href={`${doc.uri}`}>{doc.name}</a>
+              </li>
+            ))}
+          </ul>
+        </details>
+      ))
+    }
+  </div>
+</StarlightPage>
+
+<style>
+  @media (prefers-color-scheme: dark) {
+    #_top {
+      color: #e2e8f0 !important;
+    }
+  }
+</style>
