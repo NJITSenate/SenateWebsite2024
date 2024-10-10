@@ -118,31 +118,33 @@ json = json.filter((senator) => !senator.role.includes("Student at Large"));
           ) : (
             <a
               href={`mailto:${senator.email}`}
-              class={`col-span-1 flex align-center club justify-center relative overflow-hidden `}
+              class={` col-span-1 flex align-center club justify-center relative overflow-hidden `}
               title={`${senator.f_name} ${senator.l_name}`}
             >
-              <Picture
-                src={
-                  senator.f_name === "VACANT" ? blue_logo : senator.pic1_embed
-                }
-                alt={`${senator.f_name} ${senator.l_name}`}
-                width="300"
-                height="300"
-                formats={["avif", "webp"]}
-                widths={[320, 768, 1280, 1920]}
-                class="hover:opacity-0 object-cover"
-              />
-              <Picture
-                src={
-                  senator.f_name === "VACANT" ? blue_logo : senator.pic2_embed
-                }
-                alt={`${senator.f_name} ${senator.l_name}`}
-                width="300"
-                height="300"
-                formats={["avif", "webp"]}
-                widths={[320, 768, 1280, 1920]}
-                class="hover:opacity-100 absolute top-0 left-0 opacity-0 object-cover"
-              />
+              <div class="mb-16">
+                <Picture
+                  src={
+                    senator.f_name === "VACANT" ? blue_logo : senator.pic1_embed
+                  }
+                  alt={`${senator.f_name} ${senator.l_name}`}
+                  width="300"
+                  height="300"
+                  formats={["webp"]}
+                  widths={[768, 1920]}
+                  class="hover:opacity-0 object-cover"
+                />
+                <Picture
+                  src={
+                    senator.f_name === "VACANT" ? blue_logo : senator.pic2_embed
+                  }
+                  alt={`${senator.f_name} ${senator.l_name}`}
+                  width="300"
+                  height="300"
+                  formats={["webp"]}
+                  widths={[768, 1920]}
+                  class="hover:opacity-100 absolute top-0 left-0 opacity-0 object-cover"
+                />
+              </div>
               <p
                 class={`text-gray-300 p-2 absolute bottom-0 left-0 right-0 ${senator.f_name === "VACANT" ? "bg-[#bc2c43]" : "bg-[#233251]"} shadow-[0_-4px_15px_rgba(0,0,0,0.25)]`}
               >
