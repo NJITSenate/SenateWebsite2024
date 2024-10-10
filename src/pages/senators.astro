@@ -2,8 +2,6 @@
 import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
 let title = "Senators";
 let description = "The NJIT Student Senate members";
-import { CardGrid, LinkCard } from "@astrojs/starlight/components";
-import CustomCard from "../components/CustomCard.astro";
 import "../styles/no-padding.css";
 import { parse } from "csv/sync";
 import { Picture } from "astro:assets";
@@ -17,7 +15,7 @@ console.log(
 let data = await data_sheets.text();
 //csv to json
 let json = parse(data);
-json = json.slice(1, json.length);
+// json = json.slice(1, json.length);
 let metadata_sheet = await fetch(
   "https://docs.google.com/spreadsheets/d/1tqFA7RIWxHS_JNYORKpUAI5cNfslHdds-DLjwBgiHJo/export?format=csv"
 );
@@ -97,7 +95,7 @@ json = json.filter((senator) => !senator.role.includes("Student at Large"));
     ],
   }}
 >
-  <h1 class="title not-content">Welcome to the NJIT Student Senate website!</h1>
+  <h1 class="title not-content">Welcome to the NJIT Student Senate Website!</h1>
   <br />
   <br />
   <!-- <h2 class="ribbon text-xs !mb-20 lg:text-xl w-8/12 !mx-auto font-bold">
