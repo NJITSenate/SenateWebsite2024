@@ -53,7 +53,7 @@ export async function getStaticPaths() {
   ).then(async () => {
     let drive_doc_ids: any[] = pageDataArr;
     let pages: any = [];
-    for (let i = 1; i < drive_doc_ids.length; i++) {
+    for (let i = 0; i < drive_doc_ids.length; i++) {
       let data_doc = await fetch(`${drive_doc_ids[i].uri}/export`);
       // console.log("fetching", drive_doc_ids[i].uri);
 
