@@ -205,6 +205,7 @@ let { siteTitleHref, siteTitleText } = Astro.props;
     <a href="/senators">Senators</a>
 
     <select id="page-select" class="bg-transparent border-0 text-black">
+      <option class="text-black" value="">More</option>
       <option class="text-black" value="/resolutions">Resolutions</option>
       <option class="text-black" value="/minutes">Minutes</option>
       <option class="text-black" value="/reports">Reports</option>
@@ -220,26 +221,30 @@ let { siteTitleHref, siteTitleText } = Astro.props;
       document
         .getElementById("page-select")
         ?.addEventListener("change", (e) => {
-          window.location.href = e.target.value;
+          let elm = e?.target as HTMLSelectElement;
+          let value: string = elm.value;
+          if (value === "") return;
+          window.location.href = value;
         });
-
-      //select the option that matches the current page
-      const pageSelect = document.getElementById(
-        "page-select"
-      ) as HTMLSelectElement;
-      const currentPage = window.location.pathname;
-      // pageSelect.value = currentPage;
-      //check if the current page is in the select options
-      if (
-        !Array.from(pageSelect.options).some(
-          (option) => option.value === currentPage
-        )
-      ) {
-        //if not, show the first option
-        pageSelect.selectedIndex = 0;
-      } else {
-        pageSelect.value = currentPage;
-      }
+      document.addEventListener("DOMContentLoaded", () => {
+        //select the option that matches the current page
+        const pageSelect = document.getElementById(
+          "page-select"
+        ) as HTMLSelectElement;
+        const currentPage = window.location.pathname;
+        // pageSelect.value = currentPage;
+        //check if the current page is in the select options
+        if (
+          !Array.from(pageSelect.options).some(
+            (option) => option.value === currentPage
+          )
+        ) {
+          //if not, show the first option
+          pageSelect.selectedIndex = 0;
+        } else {
+          pageSelect.value = currentPage;
+        }
+      });
     </script>
 
     <!-- <a href="/minutes">Minutes</a> -->
