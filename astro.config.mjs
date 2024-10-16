@@ -72,6 +72,7 @@ let itemsObject =await recursiveFolderSearch("1oTTXkMehSivsM1MM4vmqL3u6XRgIpLai"
         name: doc[0],
         uri: doc[1],
         category: doc[2],
+        src:"sheet",
       };
     });    
     //merge the two arrays
@@ -95,12 +96,17 @@ categorys = categorys.filter((category) => category != undefined && category != 
       label: category,
       items: [
        ... drive_doc_ids.map((doc) => {
-          if (doc.category == category) {
+          if (doc.category == category && doc.src=="sheet") {
             return {
               label:doc.name,
-              link: "/pages/" +doc.slug,
-              // link: doc.uri,
+              link:doc.uri,
+              attrs:{target:"_blank"}
             };
+          }else if(doc.category == category){
+            return{
+              label:doc.name,
+              link:"pages/"+doc.slug
+            }
           }
         }
         )

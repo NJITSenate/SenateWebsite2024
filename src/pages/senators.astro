@@ -119,7 +119,7 @@ json = json.filter((senator) => !senator.role.includes("Student at Large"));
               class={` col-span-1 flex align-center club justify-center relative overflow-hidden `}
               title={`${senator.f_name} ${senator.l_name}`}
             >
-              <div class="mb-16">
+              <div class="mb-16 relative">
                 <Picture
                   src={
                     senator.f_name === "VACANT" ? blue_logo : senator.pic1_embed
@@ -140,7 +140,7 @@ json = json.filter((senator) => !senator.role.includes("Student at Large"));
                   height="300"
                   formats={["webp"]}
                   widths={[768, 1920]}
-                  class="hover:opacity-100 absolute top-0 left-0 opacity-0 object-cover"
+                  class="hover:opacity-100 absolute top-0 left-0 opacity-0 object-cover hover-pic"
                 />
               </div>
               <p
@@ -156,7 +156,19 @@ json = json.filter((senator) => !senator.role.includes("Student at Large"));
       }
     </div>
   </div>
-
+  <script>
+    let start = new Date("10/29/2024");
+    let end = new Date("11/2/2024");
+    let now = new Date();
+    if (now > start && now < end) {
+      //invert the hover pic
+      const hoverPics = document.querySelectorAll(".hover-pic");
+      hoverPics.forEach((pic) => {
+        pic = pic as HTMLPictureElement;
+        pic.classList.add("filter", "invert", "transform", "scale-150");
+      });
+    }
+  </script>
   <style>
     .sl-container {
       margin: 0 !important;
