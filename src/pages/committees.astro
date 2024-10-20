@@ -1,0 +1,193 @@
+---
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+let title = "Committees";
+let description = "The NJIT Student Senate committees";
+import "../styles/no-padding.css";
+import { parse } from "csv/sync";
+let data_sheets = await fetch(
+  "https://docs.google.com/spreadsheets/d/1a7MvIOCrFoD_cJmj0txVgu7eIurH7wRS6cubYHcxVzc/export?format=csv"
+);
+console.log(
+  "fetching https://docs.google.com/spreadsheets/d/1a7MvIOCrFoD_cJmj0txVgu7eIurH7wRS6cubYHcxVzc/export?format=csv"
+);
+let data = await data_sheets.text();
+//csv to json
+let json = parse(data);
+let data_sheets2 = await fetch(
+  "https://docs.google.com/spreadsheets/d/1II800-_nlNJ_YAj_SIghSoWSaVp7FDvd6FquiHU1T84/export?format=csv"
+);
+console.log(
+  "fetching https://docs.google.com/spreadsheets/d/1II800-_nlNJ_YAj_SIghSoWSaVp7FDvd6FquiHU1T84/export?format=csv"
+);
+let data2 = await data_sheets2.text();
+let json2 = parse(data2);
+
+console.log(json2);
+json = json.map((committee) => {
+  committee = committee.slice(1, committee.length).map((member) => {
+    let senator = json2.find(
+      (stor) =>
+        !(
+          stor[1].trim() == "VACANT" ||
+          stor[1].trim().length == 0 ||
+          stor[2].trim() == "VACANT" ||
+          stor[2].trim().length == 0
+        ) &&
+        member.trim().includes(stor[1].trim()) &&
+        member.trim().includes(stor[2].trim())
+    );
+    let role = senator ? senator[0].replace(/ \d+$/, "") : "Student at Large";
+    return {
+      committee: committee[0],
+      member: senator ? senator[1] + " " + senator[2] : member,
+      role: role,
+    };
+  });
+  return committee;
+});
+console.log(json);
+//remove empty members
+json = json.map((committee) => {
+  return committee.filter((member) => member.member.trim().length > 0);
+});
+---
+
+<StarlightPage
+  frontmatter={{
+    title: title,
+    description: description,
+    tableOfContents: false,
+    template: "splash",
+    head: [
+      {
+        tag: "style",
+        content: `
+      h1#_top{
+      display: none;
+      }
+      .content-panel {
+      border-top:unset!important;
+      }
+      `,
+      },
+    ],
+  }}
+>
+  <h1 class="title not-content text-center">
+    Welcome to the NJIT Student Senate Website!
+  </h1>
+  <br />
+  <br />
+  {
+    // json.map((committee: string[]) => (
+    //   <div class="text-center">
+    //     <h2 class="ribbon text-xs lg:text-xl w-8/12 !mx-auto font-bold">
+    //       {committee[0]}
+    //     </h2>
+    //     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    //       <div class="text-base col-span-full">
+    //         <p class="font-bold">Chairperson: {committee[1]}</p>
+    //       </div>
+    //       {committee.slice(2, committee.length).map((member) => (
+    //         <div class="text-base">
+    //           <p>{member}</p>
+    //         </div>
+    //       ))}{" "}
+    //     </div>
+    //   </div>
+    // ))
+    json.map((committee) => (
+      <div class="text-center">
+        <h2 class="ribbon text-xs lg:text-xl w-8/12 !mx-auto font-bold">
+          {committee[0].committee}
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div class="text-base col-span-full">
+            <p class="font-bold">Chairperson: {committee[0].member}</p>
+          </div>
+          {committee.slice(1, committee.length).map((member) => (
+            <div class="text-base">
+              <strong>{member.member}</strong>
+              <p>{member.role}</p>
+            </div>
+          ))}{" "}
+        </div>
+      </div>
+    ))
+  }
+</StarlightPage>
+<style>
+  .ribbon {
+    position: relative;
+    margin: 0 100px 20px;
+    padding: 10px 40px;
+    text-align: center;
+    background-color: var(--color-secondary);
+    color: #fff !important;
+    text-transform: uppercase;
+  }
+
+  .ribbon::before,
+  .ribbon::after {
+    content: "";
+    width: 80px;
+    height: 100%;
+    background-color: var(--color-secondary);
+
+    /* position ribbon ends behind and slightly lower */
+    position: absolute;
+    z-index: -1;
+    top: 20px;
+
+    /* clip ribbon end shape */
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 25% 50%);
+
+    /* draw and position the folded ribbon bit */
+    background-image: linear-gradient(
+      45deg,
+      transparent 50%,
+      var(--color-primary) 50%
+    );
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    background-position: bottom right;
+  }
+
+  .ribbon::before {
+    left: -60px;
+  }
+
+  .ribbon::after {
+    right: -60px;
+    transform: scaleX(-1); /* flip horizontally */
+  }
+  .title {
+    font-weight: 300 !important;
+    text-align: center;
+    position: relative;
+    display: block;
+    padding: 30px 0;
+  }
+  .title::before {
+    content: "";
+    /* make a line above */
+    position: absolute;
+    top: -5px;
+    left: 33%;
+    width: 66%;
+    height: 5px;
+    background-color: var(--color-primary);
+    transform: translateX(-50%);
+  }
+  .title::after {
+    content: "";
+    /* make a line below */
+    position: absolute;
+    bottom: -5px;
+    left: 66%;
+    width: 66%;
+    height: 5px;
+    background-color: var(--color-secondary);
+    transform: translateX(-50%);
+  }
+</style>

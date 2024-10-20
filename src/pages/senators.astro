@@ -62,16 +62,17 @@ json = json.map((senator) => {
   };
   // : null;
 });
-
+//remove nulls
 json = json.filter((senator) => senator !== null);
-//remove the vacant senators for where the role is student at large N
-// json = json.filter((senator) =>
-//   senator.role.includes("Student at Large")
-//     ? senator.f_name !== "VACANT"
-//     : senator
-// );
-//remove student at larges
+//remove student at large
 json = json.filter((senator) => !senator.role.includes("Student at Large"));
+//remove cabinet members
+let cabinetIndex = json.findIndex((senator) =>
+  senator.role.toLowerCase().includes("cabinet")
+);
+if (cabinetIndex !== -1) {
+  json = json.slice(0, cabinetIndex);
+}
 ---
 
 <StarlightPage
