@@ -41,6 +41,7 @@ async function thisFn(driveId: string, catagory: string) {
         .toLowerCase(),
       catagory: catagory,
       hidden: "TRUE",
+      icon: docs[i].querySelector("svg").outerHTML,
     });
   }
 }
@@ -121,9 +122,19 @@ pageDataArr2.push(tempArr);
           <summary>{year[0]}</summary>
           <ul class="list-none">
             {year.slice(1).map((doc: any) => (
-              <li class="list-none">
-                {/* <a href={`/minutes/${doc.slug}`}>{doc.name}</a> */}
-                <a href={`${doc.uri}`}>{doc.name}</a>
+              <li class="list-none ">
+                <a
+                  href={`${doc.uri}`}
+                  class="flex justify-center flex-row items-center"
+                  target="_blank"
+                >
+                  <div
+                    title="External Link"
+                    class="icon inline px-2"
+                    set:html={doc.icon}
+                  />
+                  {doc.name}
+                </a>
               </li>
             ))}
           </ul>
