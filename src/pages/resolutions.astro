@@ -103,10 +103,11 @@ pageDataArr2.push(tempArr);
     <br />
     {
       pageDataArr2.map((year: any) => (
-        <details>
-          <summary>{year[0]}</summary>
-          <ul class="list-none">
-            {year.slice(1).map((doc: any) => (
+        <ul class="list-none">
+          {year
+            .slice(1)
+            .reverse()
+            .map((doc: any) => (
               <li class="list-none">
                 <a
                   class="flex justify-center flex-row items-center"
@@ -115,15 +116,14 @@ pageDataArr2.push(tempArr);
                 >
                   <div
                     title="External Link"
-                    class="icon inline px-2"
+                    class="icon inline px-2 [&_*]:dark:!fill-gray-300"
                     set:html={doc.icon}
                   />
                   {doc.name}
                 </a>
               </li>
             ))}
-          </ul>
-        </details>
+        </ul>
       ))
     }
   </div>
