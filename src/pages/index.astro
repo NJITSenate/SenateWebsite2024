@@ -8,15 +8,15 @@ import Carousel from "../../src/components/Carousel.astro";
 import { Tabs, TabItem } from "@astrojs/starlight/components";
 import { parse } from "csv/sync";
 import fs from "fs";
+import { siteConfig } from "../lib/siteConfig";
+
 // //-------------------
 // //fetch roles from local roles.json for the tabs
 let roles = (await fs.promises.readFile("./public/roles.json")).toString();
 roles = JSON.parse(roles);
 // //-------------------
 // // //fetch clubs from campuslabs (so live data)
-const response = await fetch(
-  "https://njit.campuslabs.com/engage/api/discovery/search/organizations?orderBy[0]=UpperName asc&top=150&filter=(BranchId%20eq%20296346)"
-);
+const response = await fetch(siteConfig.clubDataUrl);
 let clubs: any = (await response.json()) as any;
 clubs = clubs.value.map((e) => {
   return {
@@ -30,12 +30,7 @@ clubs = clubs.value.map((e) => {
 });
 // //-----------------
 //fetch announcments from google sheets
-let announcment_data = (await fetch(
-  "https://docs.google.com/spreadsheets/d/11pXrj7FqBO5hMXyJgBB8XwrXfiBXs-nMxPtudWqcjnw/export?format=csv"
-)) as any;
-console.log(
-  "fetching https://docs.google.com/spreadsheets/d/11pXrj7FqBO5hMXyJgBB8XwrXfiBXs-nMxPtudWqcjnw/export?format=csv"
-);
+let announcment_data = (await fetch(siteConfig.announcmentsSheetUrl)) as any;
 
 announcment_data = await announcment_data.text(); //get the data in text format
 announcment_data = parse(announcment_data, { from_line: 2 }); //parse the csv data and skip the first line

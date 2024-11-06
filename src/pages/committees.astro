@@ -22,7 +22,6 @@ console.log(
 let data2 = await data_sheets2.text();
 let json2 = parse(data2);
 
-console.log(json2);
 json = json.map((committee) => {
   committee = committee.slice(1, committee.length).map((member) => {
     let senator = json2.find(
@@ -49,6 +48,18 @@ console.log(json);
 //remove empty members
 json = json.map((committee) => {
   return committee.filter((member) => member.member.trim().length > 0);
+});
+// make sure every committee member is unique
+json = json.map((committee) => {
+  let members = [];
+  return committee.filter((member) => {
+    if (members.includes(member.member)) {
+      return false;
+    } else {
+      members.push(member.member);
+      return true;
+    }
+  });
 });
 ---
 
