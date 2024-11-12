@@ -250,7 +250,17 @@ let { siteTitleHref, siteTitleText } = Astro.props;
 
     <!-- <a href="/minutes">Minutes</a> -->
   </div>
-
+  <script>
+    let start = new Date("11/26/2024");
+    let end = new Date("11/28/2024");
+    let now = new Date();
+    if (now > start && now < end) {
+      let AudioSound = new Audio("/Turkey.mp3");
+      window.addEventListener("click", () => {
+        AudioSound.play();
+      });
+    }
+  </script>
   <div
     class="sl-hidden lg:!inline-flex !w-min max-w-fit !items-center !justify-end"
   >

@@ -157,19 +157,7 @@ if (cabinetIndex !== -1) {
       }
     </div>
   </div>
-  <script>
-    let start = new Date("10/29/2024");
-    let end = new Date("11/2/2024");
-    let now = new Date();
-    if (now > start && now < end) {
-      //invert the hover pic
-      const hoverPics = document.querySelectorAll(".hover-pic");
-      hoverPics.forEach((pic) => {
-        pic = pic as HTMLPictureElement;
-        pic.classList.add("filter", "invert", "transform", "scale-150");
-      });
-    }
-  </script>
+
   <style>
     .sl-container {
       margin: 0 !important;
