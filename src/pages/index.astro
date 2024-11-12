@@ -12,8 +12,9 @@ import { siteConfig } from "../lib/siteConfig";
 
 // //-------------------
 // //fetch roles from local roles.json for the tabs
-let roles = (await fs.promises.readFile("./public/roles.json")).toString();
-roles = JSON.parse(roles);
+// let roles = (await fs.promises.readFile("./public/roles.json")).toString();
+// roles = JSON.parse(roles);
+let roles = siteConfig.roles;
 // //-------------------
 // // //fetch clubs from campuslabs (so live data)
 const response = await fetch(siteConfig.clubDataUrl);

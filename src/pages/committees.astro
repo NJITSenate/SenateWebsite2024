@@ -4,6 +4,7 @@ let title = "Committees";
 let description = "The NJIT Student Senate committees";
 import "../styles/no-padding.css";
 import { parse } from "csv/sync";
+import { siteConfig } from "../lib/siteConfig";
 let data_sheets = await fetch(
   "https://docs.google.com/spreadsheets/d/1a7MvIOCrFoD_cJmj0txVgu7eIurH7wRS6cubYHcxVzc/export?format=csv"
 );
@@ -44,8 +45,9 @@ json = json.map((committee) => {
   });
   return committee;
 });
-console.log(json);
+// console.log(json);
 //remove empty members
+
 json = json.map((committee) => {
   return committee.filter((member) => member.member.trim().length > 0);
 });
@@ -112,6 +114,15 @@ json = json.map((committee) => {
         <h2 class="ribbon text-xs lg:text-xl w-8/12 !mx-auto font-bold">
           {committee[0].committee}
         </h2>
+        <p class="text-base text-center max-w-2xl mx-auto">
+          {
+            Object.values(siteConfig.committees).find(
+              (c) =>
+                c.label.toLowerCase().trim() ==
+                committee[0].committee.toLowerCase().trim()
+            )?.description
+          }
+        </p>
         <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
           <div class="text-base col-span-full">
             <p class="font-bold">Chairperson: {committee[0].member}</p>

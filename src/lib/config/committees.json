@@ -1,0 +1,47 @@
+{
+  "Academic_Affairs": {
+    "label": "Academic Affairs",
+    "abbreviation": "AA",
+    "description": "Chaired by the Vice President of Administration, this committee focuses on academic issues, conducting hearings with faculty and administrators, gathering student input, and recommending resolutions for academic improvements."
+  },
+  "Student_Affairs": {
+    "label": "Student Affairs",
+    "abbreviation": "SA",
+    "description": "Chaired by the Vice President of Student Affairs, this committee addresses student rights and concerns on campus, liaising with administration and overseeing issues related to student life, including campus facilities."
+  },
+  "Student_Organizations": {
+    "label": "Student Organizations",
+    "abbreviation": "SO",
+    "description": "Led by the Director of Student Organizations, this committee advocates for student organizations, assesses their compliance, and makes recommendations on organization status and policies."
+  },
+  "Public_Relations": {
+    "label": "Public Relations",
+    "abbreviation": "PR",
+    "description": "Chaired by the Director of Public Relations, this committee publicizes Student Senate events and achievements, manages social media, coordinates events, and submits content to the campus newspaper."
+  },
+  "Internal_Affairs": {
+    "label": "Internal Affairs",
+    "abbreviation": "IA",
+    "description": "Chaired by the Secretary, this committee handles disciplinary issues, oversees impeachment hearings, interprets the Constitution, and manages Senate property and facility usage."
+  },
+  "External_Affairs": {
+    "label": "External Affairs",
+    "abbreviation": "EA",
+    "description": "Led by the President, this committee builds connections with the local community, other universities, and external organizations, and coordinates service opportunities."
+  },
+  "Finance": {
+    "label": "Finance",
+    "abbreviation": "FIN",
+    "description": "Led by the Vice President of Finance, this committee allocates and approves budgets, reviews financial policies, and holds hearings for student organization funding requests."
+  },
+  "Senior_Class": {
+    "label": "Senior Class",
+    "abbreviation": "SC",
+    "description": "Chaired by the Senior Class President, this committee organizes senior events, collaborates with relevant university offices, and addresses issues specific to the Senior Class."
+  },
+  "Diversity_Equity_Inclusion": {
+    "label": "DEI",
+    "abbreviation": "DEI",
+    "description": "A subcommittee of Student Affairs, chaired by the DEI Officer, this group plans DEI events, communicates with the Office of Inclusive Excellence, and advocates for DEI issues on campus."
+  }
+}
