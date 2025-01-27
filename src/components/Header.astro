@@ -247,8 +247,22 @@ let { siteTitleHref, siteTitleText } = Astro.props;
         }
       });
     </script>
-
   </div>
+  {
+    new Date() > new Date("4/01/2025") && new Date() < new Date("4/02/2025") ? (
+    <script type="module">
+    import { rainbowCursor} from "https://unpkg.com/cursor-effects@latest/dist/esm.js";
+
+  new rainbowCursor({
+  length: 15,
+  size: 5,
+});
+</script>
+    ) : null
+  }
+  <!-- <script>
+    
+  </script> -->
   <div
     class="sl-hidden lg:!inline-flex !w-min max-w-fit !items-center !justify-end"
   >
