@@ -1,9 +1,9 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
-import { loadEnv } from "vite";
 import { parse } from "csv/sync";
 import tailwind from "@astrojs/tailwind";
 import * as jsdom from "jsdom";
+import { siteConfig } from "./src/lib/siteConfig";
 
 
   let pageDataArr = [];
@@ -53,13 +53,13 @@ async function recursiveFolderSearch(driveId, category) {
 }
 let temp=[]
 
-let itemsObject =await recursiveFolderSearch("1oTTXkMehSivsM1MM4vmqL3u6XRgIpLai", undefined)//call the function with the root folder id
+let itemsObject =await recursiveFolderSearch(siteConfig.pagesFolderID, undefined)//call the function with the root folder id
 .then(
   async () => {//for other pages that are not in the drive
     let data_sheets = await fetch(
-      "https://docs.google.com/spreadsheets/d/1iO9LJBg739viwl7r_Pscbw9jrAl9U3k48KL6nFfNQ2M/export?format=csv"
+      siteConfig.pageIndexSheetUrl
     );
-
+    
     let data = await data_sheets.text();
     //csv to json
     let drive_doc_ids = parse(data,{
