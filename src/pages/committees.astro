@@ -5,21 +5,13 @@ let description = "The NJIT Student Senate committees";
 import "../styles/no-padding.css";
 import { parse } from "csv/sync";
 import { siteConfig } from "../lib/siteConfig";
-let data_sheets = await fetch(
-  "https://docs.google.com/spreadsheets/d/1a7MvIOCrFoD_cJmj0txVgu7eIurH7wRS6cubYHcxVzc/export?format=csv"
-);
-console.log(
-  "fetching https://docs.google.com/spreadsheets/d/1a7MvIOCrFoD_cJmj0txVgu7eIurH7wRS6cubYHcxVzc/export?format=csv"
-);
+let data_sheets = await fetch(siteConfig.committeesSheetUrl);
+console.log(`fetching ${siteConfig.committeesSheetUrl}`);
 let data = await data_sheets.text();
 //csv to json
 let json = parse(data);
-let data_sheets2 = await fetch(
-  "https://docs.google.com/spreadsheets/d/1II800-_nlNJ_YAj_SIghSoWSaVp7FDvd6FquiHU1T84/export?format=csv"
-);
-console.log(
-  "fetching https://docs.google.com/spreadsheets/d/1II800-_nlNJ_YAj_SIghSoWSaVp7FDvd6FquiHU1T84/export?format=csv"
-);
+let data_sheets2 = await fetch(siteConfig.rosterSheetUrl);
+console.log(`fetching ${siteConfig.rosterSheetUrl}`);
 let data2 = await data_sheets2.text();
 let json2 = parse(data2);
 

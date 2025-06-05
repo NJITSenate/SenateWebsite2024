@@ -1,21 +1,34 @@
 ---
 import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
-let title = "Senators";
-let description = "The NJIT Student Senate members";
-import "../styles/no-padding.css";
+let title = "Senators Archive";
+let description = "The NJIT Student Senate members archive";
+import "../../styles/no-padding.css";
 import { parse } from "csv/sync";
 import { Picture } from "astro:assets";
-import blue_logo from "../assets/logos/blue_logo.png";
-import { siteConfig } from "../lib/siteConfig";
-
-let data_sheets = await fetch(siteConfig.rosterSheetUrl);
-console.log(`fetching ${siteConfig.rosterSheetUrl}`);
+import blue_logo from "../../assets/logos/blue_logo.png";
+import { siteConfig } from "../../lib/siteConfig";
+// /[year].astro
+//get the year from the url and generate the pages
+export function getStaticPaths() {
+  let years = Object.keys(siteConfig.archive).map((year) => {
+    return parseInt(year);
+  });
+  return years.map((year) => {
+    return {
+      params: { year: year.toString() },
+      props: { year: year },
+    };
+  });
+}
+const { year } = Astro.params;
+let data_sheets = await fetch(siteConfig.archive[year].rosterSheetUrl);
+console.log(`fetching ${siteConfig.archive[year].rosterSheetUrl}`);
 let data = await data_sheets.text();
 //csv to json
 let json = parse(data);
 // json = json.slice(1, json.length);
-let metadata_sheet = await fetch(siteConfig.metaDataSheetUrl);
-console.log(`fetching ${siteConfig.metaDataSheetUrl}`);
+let metadata_sheet = await fetch(siteConfig.archive[year].metaDataSheetUrl);
+console.log(`fetching ${siteConfig.archive[year].metaDataSheetUrl}`);
 
 json = json.map((senator) => {
   return {
@@ -93,26 +106,10 @@ if (cabinetIndex !== -1) {
   <h1 class="title not-content">Welcome to the NJIT Student Senate Website!</h1>
   <br />
   <br />
-  <!-- <h2 class="ribbon text-xs !mb-20 lg:text-xl w-8/12 !mx-auto font-bold">
-    Senators
-  </h2> -->
-  <ul>
-    {
-      Object.keys(siteConfig.archive).map((year) => (
-        <li class="text-center list-none">
-          <a
-            target="_blank"
-            href={`/senatorsarchive/${year}`}
-            class="text-xs lg:text-xl font-bold text-center !w-full !mx-auto"
-          >
-            {year} Senators
-          </a>
-        </li>
-      ))
-    }
-  </ul>
+  <h2 class="ribbon text-xs !mb-20 lg:text-xl w-8/12 !mx-auto font-bold">
+    2024-2025 Senators Archive
+  </h2>
 
-  <br />
   <!-- <div class="gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"> -->
   <div class="not-content">
     <div class="flex flex-wrap justify-center gap-2 !w-full">

@@ -8,10 +8,17 @@
       }
     },
     {
-      "label": "VPA",
+      "label": "Cheif",
       "content": {
-        "title": "Vice President of Administration",
-        "description": "The VP of Administration oversees parliamentary procedures, manages academic affairs, and coordinates the work of representatives within the Senate. They meet regularly with key university officials and help transition new senators into their roles."
+        "title": "Chief of Staff",
+        "description": "The Chief of Staff acts as parliamentarian at NJIT Student Senate meetings, serves as an ex-officio member on all committees, manages all Senate members and staff, oversees transitions of new Senators, appoints members to committees, presents at least one Executive Report per semester, and performs duties assigned by the President."
+      }
+    },
+    {
+      "label": "VPAA",
+      "content": {
+        "title": "Vice President of Academic Affairs",
+        "description": "The Vice President of Academic Affairs chairs the Academic Affairs Committee, advocates for students' academic rights and policy improvements, meets regularly with the Provost and College Representatives, presents an Executive Report each semester, and fulfills duties assigned by the President."
       }
     },
     {
@@ -40,6 +47,13 @@
       "content": {
         "title": "Director of Public Relations",
         "description": "The Director of Public Relations is responsible for all NJIT Student Senate events and communications. They oversee social media accounts and ensures effective public relations strategies. They coordinate Senate events and manage the Senate's online presence."
+      }
+    },
+    {
+      "label": "DEX",
+      "content": {
+        "title": "Director of External Affairs",
+        "description": "The Director of External Affairs leads the External Affairs Committee, manages outreach initiatives and intergovernmental relations, delivers an Executive Report each semester, and fulfills additional duties as assigned by the President."
       }
     },
     {

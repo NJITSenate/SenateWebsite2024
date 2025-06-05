@@ -2,7 +2,7 @@
   "Academic_Affairs": {
     "label": "Academic Affairs",
     "abbreviation": "AA",
-    "description": "Chaired by the Vice President of Administration, this committee focuses on academic issues, conducting hearings with faculty and administrators, gathering student input, and recommending resolutions for academic improvements."
+    "description": "Chaired by the Vice President of Academic Affairs, this committee focuses on academic issues, conducting hearings with faculty and administrators, gathering student input, and recommending resolutions for academic improvements."
   },
   "Student_Affairs": {
     "label": "Student Affairs",
@@ -27,7 +27,7 @@
   "External_Affairs": {
     "label": "External Affairs",
     "abbreviation": "EA",
-    "description": "Led by the President, this committee builds connections with the local community, other universities, and external organizations, and coordinates service opportunities."
+    "description": "Led by the Director of External Affairs, this committee builds connections with the local community, other universities, and external organizations, and coordinates service opportunities."
   },
   "Finance": {
     "label": "Finance",
