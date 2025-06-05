@@ -57,19 +57,6 @@ export let siteConfig: SiteConfig = {
       pageIndexSheetUrl:
         "https://docs.google.com/spreadsheets/d/1iO9LJBg739viwl7r_Pscbw9jrAl9U3k48KL6nFfNQ2M/export?format=csv",
     },
-    "2324": {
-      pagesFolderID: "1oTTXkMehSivsM1MM4vmqL3u6XRgIpLai",
-      announcmentsSheetUrl:
-        "https://docs.google.com/spreadsheets/d/11pXrj7FqBO5hMXyJgBB8XwrXfiBXs-nMxPtudWqcjnw/export?format=csv",
-      metaDataSheetUrl:
-        "https://docs.google.com/spreadsheets/d/1tqFA7RIWxHS_JNYORKpUAI5cNfslHdds-DLjwBgiHJo/export?format=csv",
-      rosterSheetUrl:
-        "https://docs.google.com/spreadsheets/d/1II800-_nlNJ_YAj_SIghSoWSaVp7FDvd6FquiHU1T84/export?format=csv",
-      committeesSheetUrl:
-        "https://docs.google.com/spreadsheets/d/1a7MvIOCrFoD_cJmj0txVgu7eIurH7wRS6cubYHcxVzc/export?format=csv",
-      pageIndexSheetUrl:
-        "https://docs.google.com/spreadsheets/d/1iO9LJBg739viwl7r_Pscbw9jrAl9U3k48KL6nFfNQ2M/export?format=csv",
-    },
   },
 
   pagesFolderID: "1oTTXkMehSivsM1MM4vmqL3u6XRgIpLai",

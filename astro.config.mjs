@@ -96,6 +96,8 @@ categorys = categorys.filter((category) => category != undefined && category != 
       label: category,
       items: [
        ... drive_doc_ids.map((doc) => {
+        console.log(doc);
+        
           if (doc.category == category && doc.src=="sheet") {
             return {
               label:doc.name,
