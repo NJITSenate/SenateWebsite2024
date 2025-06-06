@@ -41,7 +41,7 @@ async function thisFn(driveId: string, catagory: string) {
         .toLowerCase(),
       catagory: catagory,
       hidden: "TRUE",
-      icon: docs[i].querySelector("svg").outerHTML,
+      icon: docs[i].querySelector("svg")?.outerHTML,
     });
   }
 }

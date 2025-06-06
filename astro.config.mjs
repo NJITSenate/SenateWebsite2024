@@ -98,18 +98,13 @@ categorys = categorys.filter((category) => category != undefined && category != 
        ... drive_doc_ids.map((doc) => {
         console.log(doc);
         
-          if (doc.category == category && doc.src=="sheet") {
+         
             return {
               label:doc.name,
               link:doc.uri,
               attrs:{target:"_blank"}
             };
-          }else if(doc.category == category){
-            return{
-              label:doc.name,
-              link:"pages/"+doc.slug
-            }
-          }
+         
         }
         )
 
