@@ -11,7 +11,7 @@ import { siteConfig } from "../../lib/siteConfig";
 //get the year from the url and generate the pages
 export function getStaticPaths() {
   let years = Object.keys(siteConfig.archive).map((year) => {
-    return parseInt(year);
+    return (year);
   });
   return years.map((year) => {
     return {

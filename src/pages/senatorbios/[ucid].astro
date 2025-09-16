@@ -1,0 +1,37 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+
+console.log("Hello World")
+export function getStaticPaths() {
+    const ucids = ["tsb32"]
+return ucids.map((ucid) => {
+    return {
+      params: { ucid: ucid.toString() },
+      props: { ucid: ucid },
+    };
+  });
+}
+
+---
+<StarlightPage>
+  frontmatter={{
+    title: "Senator Bios",
+    description: description,
+    tableOfContents: false,
+    template: "splash",
+    head: [
+      {
+        tag: "style",
+        content: `
+      h1#_top{
+      display: none;
+      }
+      .content-panel {
+      border-top:unset!important;
+      }
+      `,
+      },
+    ],
+  }}><h1>Hello</h1>
+
+<style>h1{background-color: red;}</style></StarlightPage>
