@@ -15,13 +15,6 @@
       }
     },
     {
-      "label": "VPAA",
-      "content": {
-        "title": "Vice President of Academic Affairs",
-        "description": "The Vice President of Academic Affairs chairs the Academic Affairs Committee, advocates for students' academic rights and policy improvements, meets regularly with the Provost and College Representatives, presents an Executive Report each semester, and fulfills duties assigned by the President."
-      }
-    },
-    {
       "label": "VPF",
       "content": {
         "title": "Vice President of Finance",
@@ -29,10 +22,24 @@
       }
     },
     {
+      "label": "VPAA",
+      "content": {
+        "title": "Vice President of Academic Affairs",
+        "description": "The Vice President of Academic Affairs chairs the Academic Affairs Committee, advocates for students' academic rights and policy improvements, meets regularly with the Provost and College Representatives, presents an Executive Report each semester, and fulfills duties assigned by the President."
+      }
+    },
+    {
       "label": "VPSA",
       "content": {
         "title": "Vice President of Student Affairs",
-        "description": "The VP of Student Affairs focuses on advocating for student rights and improving campus life. They chair the Student Affairs Committee, meet with university administrators, and report on governmental policies affecting students."
+        "description": "The Vice President of Student Affairs focuses on advocating for student rights and improving campus life. They chair the Student Affairs Committee, meet with university administrators, and report on governmental policies affecting students."
+      }
+    },
+    {
+      "label": "DOT",
+      "content": {
+        "title": "Director of Organizational Treasury",
+        "description": "The Director of Organizational Treasury is responsible for managing the budgets of Senate Funded Organizations, maintaining and updating financial bylaws and policies, overseeing financial documentation and resources, providing guidance on budgeting procedures, and coordinating regularly with the university’s Budget and Financial Analyst. They also chair both the Annual Budget Review and Treasury Committees."
       }
     },
     {
@@ -50,7 +57,7 @@
       }
     },
     {
-      "label": "DEX",
+      "label": "DEA",
       "content": {
         "title": "Director of External Affairs",
         "description": "The Director of External Affairs leads the External Affairs Committee, manages outreach initiatives and intergovernmental relations, delivers an Executive Report each semester, and fulfills additional duties as assigned by the President."
