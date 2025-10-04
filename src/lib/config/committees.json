@@ -1,4 +1,9 @@
 {
+  "Finance": {
+    "label": "Finance",
+    "abbreviation": "FIN",
+    "description": "Chaired by the Vice President of Finance, this committee reviews/updates financial policies for RSOs, holds grant hearings for RSOs to gain additional funding, and ensures fiscal responsibility in all aspects of the Senate."
+  },
   "Academic_Affairs": {
     "label": "Academic Affairs",
     "abbreviation": "AA",
@@ -7,37 +12,37 @@
   "Student_Affairs": {
     "label": "Student Affairs",
     "abbreviation": "SA",
-    "description": "Chaired by the Vice President of Student Affairs, this committee addresses student rights and concerns on campus, liaising with administration and overseeing issues related to student life, including campus facilities."
+    "description": "Chaired by the Vice President of Student Affairs, this committee advocates for the rights, needs, and well-being of NJIT's undergraduate community by liaising with university leadership and administration to address issues related to student life and campus facilities."
+  },
+  "Treasury": {
+    "label": "Treasury",
+    "abbreviation": "TRE",
+    "description": "Chaired by the Director of Treasury, this committee reviews SFO budgets and bylaws, holds finance and grant hearings for funding requests, and ensures compliance with organizational financial policies."
   },
   "Student_Organizations": {
     "label": "Student Organizations",
     "abbreviation": "SO",
-    "description": "Led by the Director of Student Organizations, this committee advocates for student organizations, assesses their compliance, and makes recommendations on organization status and policies."
+    "description": "Chaired by the Director of Student Organizations, this committee looks into applications for new student organizations, revises resources to be more accessible and necessary to clubs and their student leaders, as well as reviews organizations' compliance with the Student Organization bylaws."
+  },
+  "External_Affairs": {
+    "label": "External Affairs",
+    "abbreviation": "EA",
+    "description": "Chaired by the Director of External Affairs, this committee builds connections with the local community, other universities, and external organizations and coordinates service opportunities. Whether it’s creating partnerships, planning events, or giving back through community service, our goal is to help students feel connected to the world beyond NJIT."
   },
   "Public_Relations": {
     "label": "Public Relations",
     "abbreviation": "PR",
-    "description": "Chaired by the Director of Public Relations, this committee publicizes Student Senate events and achievements, manages social media, coordinates events, and submits content to the campus newspaper."
+    "description": "Chaired by the Director of Public Relations, this committee publicizes Student Senate events and achievements, manages and creates content for social media, coordinates events, and submits articles to the campus newspaper."
   },
   "Internal_Affairs": {
     "label": "Internal Affairs",
     "abbreviation": "IA",
     "description": "Chaired by the Secretary, this committee handles disciplinary issues, oversees impeachment hearings, interprets the Constitution, and manages Senate property and facility usage."
   },
-  "External_Affairs": {
-    "label": "External Affairs",
-    "abbreviation": "EA",
-    "description": "Led by the Director of External Affairs, this committee builds connections with the local community, other universities, and external organizations, and coordinates service opportunities."
-  },
-  "Finance": {
-    "label": "Finance",
-    "abbreviation": "FIN",
-    "description": "Led by the Vice President of Finance, this committee allocates and approves budgets, reviews financial policies, and holds hearings for student organization funding requests."
-  },
   "Senior_Class": {
     "label": "Senior Class",
     "abbreviation": "SC",
-    "description": "Chaired by the Senior Class President, this committee organizes senior events, collaborates with relevant university offices, and addresses issues specific to the Senior Class."
+    "description": "Chaired by the Senior Class President, this committee organizes senior events, collaborates with relevant university offices, and addresses issues specific to the Senior Class. Senior Senators are encouraged to join!"
   },
   "Diversity_Equity_Inclusion": {
     "label": "DEI",
