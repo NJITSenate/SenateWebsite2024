@@ -74,10 +74,10 @@ export let siteConfig: SiteConfig = {
   roles: roles,
   committees: committees,
   minutesIds: [
-    // {
-    //   id: "",
-    //   name: "2025-2026 Senate Minutes",
-    // },
+    {
+      id: "1aHqtOl3k3pVIm71IO8kCYGo8cTMl1SCa",
+      name: "2025-2026 Senate Minutes",
+    },
     {
       id: "1MpChG0_fguI7sX3Th43xpgmbZnERDv-K",
       name: "2024-2025 Senate Minutes",
