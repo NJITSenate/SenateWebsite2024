@@ -91,32 +91,52 @@ drive_doc_ids.map((doc) => {
 categorys = categorys.filter((category) => category != undefined && category != "" && category != null);
 // console.log(categorys);
 
-  let itemsObject = categorys.map((category) => {
-    let obj={
-      label: category,
-      items: [
-       ... drive_doc_ids.map((doc) => {
-        console.log(doc);
+  // let itemsObject = categorys.map((category) => {
+  //   let obj={
+  //     label: category,
+  //     items: [
+  //      ... drive_doc_ids.map((doc) => {
+  //       console.log(doc);
         
          
-            return {
-              label:doc.name,
-              link:doc.uri,
-              attrs:{target:"_blank"}
-            };
+  //           return {
+  //             label:doc.name,
+  //             link:doc.uri,
+  //             attrs:{target:"_blank"}
+  //           };
          
-        }
-        )
+  //       }
+  //       )
 
-    ]
-    }
-    //remove undefined 
-    obj.items = obj.items.filter((item) => item != undefined);
+  //   ]
+  //   }
+  //   //remove undefined 
+  //   obj.items = obj.items.filter((item) => item != undefined);
   
-    obj.items = obj.items.filter((item) => item != undefined
-  );
-    return [...temp, obj];
-  }
+  //   obj.items = obj.items.filter((item) => item != undefined
+  // );
+  //   return [...temp, obj];
+  // }
+  let itemsObject = categorys.map((category) => {
+    let obj = {
+      label: category,
+      items: drive_doc_ids
+        .filter((doc) => doc.category === category)
+        .map((doc) => {
+          console.log(doc);
+          return {
+            label: doc.name,
+            link: doc.uri,
+            attrs: {target: "_blank"}
+          };
+        })
+    };
+    
+    // Remove undefined items
+    obj.items = obj.items.filter((item) => item != undefined);
+    
+    return obj;  // Just return the object, not wrapped in array
+  });
   );
   let uncategorized = drive_doc_ids.filter((doc) => doc.category == ""||doc.category == undefined||doc.category == null);
   uncategorized = uncategorized.map((doc) => {
