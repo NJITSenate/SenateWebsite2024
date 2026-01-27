@@ -33,11 +33,10 @@ async function thisFn(driveId: string, catagory: string) {
       uri:
         "https://docs.google.com/document/d/" + docs[i].getAttribute("data-id"),
       type: docs[i].getAttribute("data-target"),
-      name: docs[i].querySelector("[data-list-item-target] div[jsname]")
-        ?.textContent,
+      name: docs[i].querySelector("[role=gridcell],[data-target=doc] div[jsname]").innerText.split("\n")[0]
       slug: docs[i]
-        .querySelector("[data-list-item-target] div[jsname]")
-        ?.textContent.trim()
+        .querySelector("[role=gridcell],[data-target=doc] div[jsname]").innerText.split("\n")[0]
+       .trim()
         .replace(/[^A-Za-z0-9]+/g, "-")
         .toLowerCase(),
       catagory: catagory,
