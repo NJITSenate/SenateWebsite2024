@@ -30,7 +30,7 @@ async function thisFn(driveId: string, catagory: string) {
     if (docs[i].getAttribute("data-id") == "_gd") continue;
     
     // Try nameTextz selectors to find the document name
-    const nameText = docs[i].innerText.split("\n")[0]
+    const nameText = docs[i]?.querySelector("img[data-drive-has-thumbnail]")?.alt
         
     if (!nameText) {
       console.log("Could not extract name for document:", docs[i].getAttribute("data-id"));
@@ -42,7 +42,7 @@ async function thisFn(driveId: string, catagory: string) {
       uri:
         "https://docs.google.com/document/d/" + docs[i].getAttribute("data-id"),
       type: docs[i].getAttribute("data-target"),
-      name: docs[i].querySelector("img[data-drive-has-thumbnail]").alt,
+      name: docs[i]?.querySelector("img[data-drive-has-thumbnail]")?.alt,
       slug: docs[i]
         .querySelector("img[data-drive-has-thumbnail]").alt
        .trim()
