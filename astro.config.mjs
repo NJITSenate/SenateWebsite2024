@@ -137,7 +137,7 @@ categorys = categorys.filter((category) => category != undefined && category != 
     
     return obj;  // Just return the object, not wrapped in array
   });
-  );
+ 
   let uncategorized = drive_doc_ids.filter((doc) => doc.category == ""||doc.category == undefined||doc.category == null);
   uncategorized = uncategorized.map((doc) => {
     return {
