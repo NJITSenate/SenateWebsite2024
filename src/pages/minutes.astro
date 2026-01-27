@@ -29,13 +29,9 @@ async function thisFn(driveId: string, catagory: string) {
   for (let i = 0; i < docs.length; i++) {
     if (docs[i].getAttribute("data-id") == "_gd") continue;
     
-    // Try multiple selectors to find the document name
-    const nameElement = docs[i].querySelector("[role=gridcell] div[jsname]") || 
-                       docs[i].querySelector("[data-target=doc] div[jsname]") ||
-                       docs[i].querySelector("[data-list-item-target] div[jsname]");
-    
-    const nameText = nameElement?.textContent?.replace("More actions","").trim();
-    
+    // Try nameTextz selectors to find the document name
+    const nameText = docs[i].innerText.split("\n")[0]
+        
     if (!nameText) {
       console.log("Could not extract name for document:", docs[i].getAttribute("data-id"));
       continue;
