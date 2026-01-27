@@ -42,8 +42,10 @@ async function thisFn(driveId: string, catagory: string) {
       uri:
         "https://docs.google.com/document/d/" + docs[i].getAttribute("data-id"),
       type: docs[i].getAttribute("data-target"),
-      name: nameText,
-      slug: nameText
+      name: docs[i].querySelector("img[data-drive-has-thumbnail]").alt,
+      slug: docs[i]
+        querySelector("img[data-drive-has-thumbnail]").alt
+       .trim()
         .replace(/[^A-Za-z0-9]+/g, "-")
         .toLowerCase(),
       catagory: catagory,
