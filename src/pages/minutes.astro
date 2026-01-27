@@ -44,7 +44,7 @@ async function thisFn(driveId: string, catagory: string) {
       type: docs[i].getAttribute("data-target"),
       name: docs[i].querySelector("img[data-drive-has-thumbnail]").alt,
       slug: docs[i]
-        querySelector("img[data-drive-has-thumbnail]").alt
+        .querySelector("img[data-drive-has-thumbnail]").alt
        .trim()
         .replace(/[^A-Za-z0-9]+/g, "-")
         .toLowerCase(),
