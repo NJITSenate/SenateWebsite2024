@@ -108,28 +108,56 @@
         "title": "Diversity, Equity, and Inclusion Officer",
         "description": "This officer leads the Diversity, Equity, and Inclusion Committee, working closely with the Office of Inclusive Excellence to promote diversity on campus. They organize inclusivity events, address policy concerns, and report on progress within Senate meetings."
       }
+    },
+    {
+      "label": "Disability Officer",
+      "content": {
+        "title": "Disability Officer",
+        "description": "This officer advocates for students with disabilities by proactively addressing accessibility concerns and disability-related policy issues on campus. They work closely with the Office of Institutional Access and Attend inclusivity and diversity events, meetings, and programs as a representative of Student Senate."
+      }
     }
   ],
   "Other Representatives": [
     {
+      "label": "International Student Representative",
+      "content": {
+        "title": "International Student Representative",
+        "description": "Representing the international student population, this role serves as a liaison between international students, Student Senate, and the Office of Global Initiatives. They advocate for international student needs, collaborate with campus partners, and provide regular updates to the Student Affairs Committee."
+      }
+    },
+    {
       "label": "Commuter Representative",
       "content": {
         "title": "Commuter Representative",
-        "description": "This representative serves on the Student Affairs Committee, acting as a voice for the commuter student population. They organize commuter-centered events, collaborate with the Off Campus Commuter Association (OCCA), and submit reports on commuter issues."
+        "description": "Representing the commuter student population, this role bridges communication between commuters, Student Senate, and campus involvement offices. They advocate for commuter needs, attend commuter-focused events, and provide regular updates on commuter issues to the Student Affairs Committee."
       }
     },
     {
       "label": "Residence Life Representative",
       "content": {
         "title": "Residence Life Representative",
-        "description": "Representing the resident student body, this role liaises with the Residence Hall Association (RHA) and attends to resident-specific concerns. They also organize and participate in resident-centered events while providing updates to the Student Affairs Committee."
+        "description": "Representing the resident student population, this role liaises with Residence Life, the Residence Hall Association, and Student Senate to address residential concerns. They engage with resident-centered programming, attend RHA meetings, and provide regular updates to the Student Affairs Committee."
       }
     },
     {
       "label": "FSL Representative",
       "content": {
-        "title": "Fraternity/Sorority Life Representative",
-        "description": "This representative serves as a liaison between the Greek community and the Student Senate, maintaining communication between the two groups. They organize Greek-centered events, collaborate with the Greek Life Coordinator and submit two reports on Greek life issues."
+        "title": "Fraternity & Sorority Life Representative",
+        "description": "Representing the Fraternity and Sorority Life population, this role serves as a liaison between FSL organizations, Student Senate, and the FSL Coordinator. They collaborate on FSL-centered events, advocate for FSL concerns, and provide regular updates to the Student Affairs Committee."
+      }
+    },
+    {
+      "label": "Transfer Student Representative",
+      "content": {
+        "title": "Transfer Student Representative",
+        "description": "Representing the transfer student population, this role connects transfer students with Student Senate and academic leadership to address transition-related concerns. They collaborate with Academic Advising and Transfer Recruitment offices while providing consistent updates through committee work."
+      }
+    },
+    {
+      "label": "Athletics Representative",
+      "content": {
+        "title": "Athletics Representative",
+        "description": "Representing the student athlete population, this role serves as a liaison between student athletes, Student Senate, and the Athletics Department. They advocate for athletic concerns and provide regular updates to the Student Affairs Committee."
       }
     }
   ]
