@@ -28,15 +28,21 @@ async function thisFn(driveId: string, catagory: string) {
   }
   for (let i = 0; i < docs.length; i++) {
     if (docs[i].getAttribute("data-id") == "_gd") continue;
+    
+    // Fixed selector and text extraction
+    const nameElement = docs[i].querySelector("[role=gridcell],[data-target=doc] div[jsname]");
+    const nameText = nameElement?.innerText?.split("\n")[0];
+    
+    if (!nameText) continue; // Skip if name couldn't be extracted
+    
     pageDataArr.push({
       id: docs[i].getAttribute("data-id"),
       uri:
         "https://docs.google.com/document/d/" + docs[i].getAttribute("data-id"),
       type: docs[i].getAttribute("data-target"),
-      name: docs[i].querySelector("[role=gridcell],[data-target=doc] div[jsname]").innerText.split("\n")[0],
-      slug: docs[i]
-        .querySelector("[role=gridcell],[data-target=doc] div[jsname]").innerText.split("\n")[0]
-       .trim()
+      name: nameText,
+      slug: nameText
+        .trim()
         .replace(/[^A-Za-z0-9]+/g, "-")
         .toLowerCase(),
       catagory: catagory,
