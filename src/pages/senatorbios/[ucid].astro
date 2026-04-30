@@ -1,28 +1,71 @@
 ---
-import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+import { parse } from "csv/sync";
+import { siteConfig } from "../../lib/siteConfig";
+import { Picture } from "astro:assets";
 
-console.log("Hello World")
-export function getStaticPaths() {
-    const ucids = ["tsb32"]
-return ucids.map((ucid) => {
-    return {
-      params: { ucid: ucid.toString() },
-      props: { ucid: ucid },
-    };
-  });
+const { ucid } = Astro.params;
+
+let data_sheets = await fetch(siteConfig.rosterSheetUrl);
+console.log(`fetching ${siteConfig.rosterSheetUrl}`);
+let data = await data_sheets.text();
+//csv to json
+let json = parse(data);
+// json = json.slice(1, json.length);
+let metadata_sheet = await fetch(siteConfig.metaDataSheetUrl);
+console.log(`fetching ${siteConfig.metaDataSheetUrl}`);
+
+json = json
+    .filter((s) => s[3].replace("@njit.edu", "") === ucid)
+    .map((senator) => {
+        return {
+            role: senator[0],
+            f_name: senator[1],
+            l_name: senator[2],
+            email: senator[3],
+        };
+    });
+
+let metadata = parse(await metadata_sheet.text());
+metadata = metadata
+    .slice(1, metadata.length)
+    .filter((m) => m[0] === ucid + "@njit.edu")
+    .map((meta) => {
+        return {
+            email: meta[0],
+            bio: meta[5],
+            pic1: meta[2] !== "#VALUE!" ? meta[2] : "https://imageplaceholder.net/600",
+        };
+    });
+
+console.log(metadata);
+export async function getStaticPaths() {
+    let data_sheets = await fetch(siteConfig.rosterSheetUrl);
+    console.log(`fetching ${siteConfig.rosterSheetUrl}`);
+    let data = await data_sheets.text();
+    let json = parse(data);
+    console.log(json);
+    const ucids = json.map((senator) => senator[3].replace("@njit.edu", "")).filter((a : string) => a.trim() !== "");
+    console.log(ucids);
+    return ucids.map((ucid) => {
+        return {
+            params: { ucid: ucid.toString() },
+            props: { ucid: ucid },
+        };
+    });
 }
-
 ---
+
 <StarlightPage
-  frontmatter={{
-    title: "Senator Bios",
-    description: "description",
-    tableOfContents: false,
-    template: "splash",
-    head: [
-      {
-        tag: "style",
-        content: `
+    frontmatter={{
+        title: "Senator Bios",
+        description: "description",
+        tableOfContents: false,
+        template: "splash",
+        head: [
+            {
+                tag: "style",
+                content: `
       h1#_top{
       display: none;
       }
@@ -30,8 +73,24 @@ return ucids.map((ucid) => {
       border-top:unset!important;
       }
       `,
-      },
-    ],
-  }}><h1>Hello</h1>
+            },
+        ],
+    }}
+>
+    <Picture
+        src={metadata[0]?.pic1 ?? "https://imageplaceholder.net/600"}
+        alt="placeholder"
+        width="600"
+        height="600"
+        class="text-center block mx-auto"
+    />
+    <h4>"{metadata[0]?.bio}"
+    </h4>
 
-<style>h1{background-color: red;}</style></StarlightPage>
+    <style>
+        h4 {
+          text-align: center;
+          font-style: italic;
+        }
+    </style></StarlightPage
+>
