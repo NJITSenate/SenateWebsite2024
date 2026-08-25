@@ -57,17 +57,30 @@ export let siteConfig: SiteConfig = {
       pageIndexSheetUrl:
         "https://docs.google.com/spreadsheets/d/1iO9LJBg739viwl7r_Pscbw9jrAl9U3k48KL6nFfNQ2M/export?format=csv",
     },
+    "2025-2026": {
+      pagesFolderID: "1oTTXkMehSivsM1MM4vmqL3u6XRgIpLai",
+      announcmentsSheetUrl:
+        "https://docs.google.com/spreadsheets/d/1m6s44oyUdAjzqrhj1WspOKxN_tbP8pdFaFdk1bDjncQ/export?format=csv",
+      metaDataSheetUrl:
+        "https://docs.google.com/spreadsheets/d/1tiX9fDrYI0bTQ2Oeg_fQXlQ-k6vi8mbB_r6Phr_3mDc/export?format=csv",
+      rosterSheetUrl:
+        "https://docs.google.com/spreadsheets/d/16AG5QFwrYwZTXzbs3-6A1kkEjBfDVzVa0MMbFmp-r6M/export?format=csv",
+      committeesSheetUrl:
+        "https://docs.google.com/spreadsheets/d/1nVliL0vMSBYYpMRNHNlsD8up4_keWkbYW-H0O93ekcw/export?format=csv",
+      pageIndexSheetUrl:
+        "https://docs.google.com/spreadsheets/d/1tlIbLAC50bt8_VZBKEQct8Q4PMMqy7pGlvCUBCBQfps/export?format=csv",
+    },
   },
 
-  pagesFolderID: "1oTTXkMehSivsM1MM4vmqL3u6XRgIpLai",
+  pagesFolderID: "1ERjFXNH5zb63uEgdGCSBjoLIN_JSgSJM",
   announcmentsSheetUrl:
-    "https://docs.google.com/spreadsheets/d/1m6s44oyUdAjzqrhj1WspOKxN_tbP8pdFaFdk1bDjncQ/export?format=csv",
+    "https://docs.google.com/spreadsheets/d/1eY9MIltGCvVXw2MAoqqY6mq9yubvlNRRIQbI9eHBZQA/export?format=csv",
   metaDataSheetUrl:
-    "https://docs.google.com/spreadsheets/d/1tiX9fDrYI0bTQ2Oeg_fQXlQ-k6vi8mbB_r6Phr_3mDc/export?format=csv",
+    "https://docs.google.com/spreadsheets/d/1twynddwy0S-VBXK9gpLvwEkev7P9LuDuJazeyD48_nI/export?format=csv",
   rosterSheetUrl:
-    "https://docs.google.com/spreadsheets/d/16AG5QFwrYwZTXzbs3-6A1kkEjBfDVzVa0MMbFmp-r6M/export?format=csv",
+    "https://docs.google.com/spreadsheets/d/1sNo9Wk-ans-lQPH6pdemddJICRAVgZmFHqHqU-Sb27g/export?format=csv",
   committeesSheetUrl:
-    "https://docs.google.com/spreadsheets/d/1nVliL0vMSBYYpMRNHNlsD8up4_keWkbYW-H0O93ekcw/export?format=csv",
+    "https://docs.google.com/spreadsheets/d/14-QNCpW_JuC-xZ9XnL-UKBWJKTRqY0x9tm5pyqy3qRY/export?format=csv",
   pageIndexSheetUrl:
     "https://docs.google.com/spreadsheets/d/1tlIbLAC50bt8_VZBKEQct8Q4PMMqy7pGlvCUBCBQfps/export?format=csv",
 
