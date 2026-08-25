@@ -2,6 +2,7 @@
 import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
 import { parse } from "csv/sync";
 import { siteConfig } from "../../lib/siteConfig";
+import { normalizeImageUrl } from "../../lib/image";
 import { Picture } from "astro:assets";
 
 const { ucid } = Astro.params;
@@ -34,7 +35,7 @@ metadata = metadata
         return {
             email: meta[0],
             bio: meta[5],
-            pic1: meta[2] !== "#VALUE!" ? meta[2] : "https://imageplaceholder.net/600",
+            pic1: normalizeImageUrl(meta[2]),
         };
     });
 
@@ -78,7 +79,7 @@ export async function getStaticPaths() {
     }}
 >
     <Picture
-        src={metadata[0]?.pic1 ?? "https://imageplaceholder.net/600"}
+        src={normalizeImageUrl(metadata[0]?.pic1)}
         alt="placeholder"
         width="600"
         height="600"

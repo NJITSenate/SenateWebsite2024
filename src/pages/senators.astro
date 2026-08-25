@@ -6,6 +6,7 @@ import "../styles/no-padding.css";
 import { parse } from "csv/sync";
 import { Picture } from "astro:assets";
 import blue_logo from "../assets/logos/blue_logo.png";
+import { normalizeImageUrl } from "../lib/image";
 import { siteConfig } from "../lib/siteConfig";
 
 let data_sheets = await fetch(siteConfig.rosterSheetUrl);
@@ -45,14 +46,8 @@ json = json.map((senator) => {
   // return senator.f_name !== "VACANT"
   return {
     ...senator,
-    pic1_embed:
-      meta?.pic1_embed ??
-      senator.pic1_embed ??
-      "https://imageplaceholder.net/600",
-    pic2_embed:
-      meta?.pic2_embed ??
-      senator.pic2_embed ??
-      "https://imageplaceholder.net/600",
+    pic1_embed: normalizeImageUrl(meta?.pic1_embed ?? senator.pic1_embed),
+    pic2_embed: normalizeImageUrl(meta?.pic2_embed ?? senator.pic2_embed),
   };
   // : null;
 });
@@ -133,7 +128,9 @@ if (cabinetIndex !== -1) {
               <div class="mb-16 relative">
                 <Picture
                   src={
-                    senator.f_name === "VACANT" ? blue_logo : senator.pic1_embed === "#VALUE!" ? "https://imageplaceholder.net/600" : senator.pic1_embed
+                    senator.f_name === "VACANT"
+                      ? blue_logo
+                      : normalizeImageUrl(senator.pic1_embed)
                   }
                   alt={`${senator.f_name} ${senator.l_name}`}
                   width="300"
@@ -144,7 +141,9 @@ if (cabinetIndex !== -1) {
                 />
                 <Picture
                   src={
-                    senator.f_name === "VACANT" ? blue_logo : senator.pic2_embed === "#VALUE!" ? "https://imageplaceholder.net/600" : senator.pic2_embed
+                    senator.f_name === "VACANT"
+                      ? blue_logo
+                      : normalizeImageUrl(senator.pic2_embed)
                   }
                   alt={`${senator.f_name} ${senator.l_name}`}
                   width="300"

@@ -6,7 +6,9 @@ import "../../styles/no-padding.css";
 import { parse } from "csv/sync";
 import { Picture } from "astro:assets";
 import blue_logo from "../../assets/logos/blue_logo.png";
+import { normalizeImageUrl } from "../../lib/image";
 import { siteConfig } from "../../lib/siteConfig";
+
 // /[year].astro
 //get the year from the url and generate the pages
 export function getStaticPaths() {
@@ -58,14 +60,8 @@ json = json.map((senator) => {
   // return senator.f_name !== "VACANT"
   return {
     ...senator,
-    pic1_embed:
-      meta?.pic1_embed ??
-      senator.pic1_embed ??
-      "https://imageplaceholder.net/600",
-    pic2_embed:
-      meta?.pic2_embed ??
-      senator.pic2_embed ??
-      "https://imageplaceholder.net/600",
+    pic1_embed: normalizeImageUrl(meta?.pic1_embed ?? senator.pic1_embed),
+    pic2_embed: normalizeImageUrl(meta?.pic2_embed ?? senator.pic2_embed),
   };
   // : null;
 });
@@ -106,9 +102,37 @@ if (cabinetIndex !== -1) {
   <h1 class="title not-content">Welcome to the NJIT Student Senate Website!</h1>
   <br />
   <br />
-  <h2 class="ribbon text-xs !mb-20 lg:text-xl w-8/12 !mx-auto font-bold">
-    2024-2025 Senators Archive
+  <h2 class="ribbon text-xs !mb-10 lg:text-xl w-8/12 !mx-auto font-bold">
+    {year} Senators Archive
   </h2>
+
+  <ul class="mb-10 block">
+    <li class="text-center list-none">
+          <a
+            target="_blank"
+            href={`/senators`}
+            class="text-xs lg:text-xl font-extrabold text-center !w-full !mx-auto"
+          >
+            View this year's senators!
+          </a>
+        </li>
+        <span class="mx-auto my-4 text-xs lg:text-xl text-center w-full inline-block">
+          or check out another year's archive:
+        </span>
+    {
+      Object.keys(siteConfig.archive).map((year) => (
+        <li class="text-center list-none">
+          <a
+            target="_blank"
+            href={`/senatorsarchive/${year}`}
+            class="text-xs lg:text-xl font-bold text-center !w-full !mx-auto"
+          >
+            {year} Senators
+          </a>
+        </li>
+      ))
+    }
+  </ul>
 
   <!-- <div class="gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"> -->
   <div class="not-content">
@@ -130,7 +154,9 @@ if (cabinetIndex !== -1) {
               <div class="mb-16 relative">
                 <Picture
                   src={
-                    senator.f_name === "VACANT" ? blue_logo : senator.pic1_embed
+                    senator.f_name === "VACANT"
+                      ? blue_logo
+                      : normalizeImageUrl(senator.pic1_embed)
                   }
                   alt={`${senator.f_name} ${senator.l_name}`}
                   width="300"
@@ -141,7 +167,9 @@ if (cabinetIndex !== -1) {
                 />
                 <Picture
                   src={
-                    senator.f_name === "VACANT" ? blue_logo : senator.pic2_embed
+                    senator.f_name === "VACANT"
+                      ? blue_logo
+                      : normalizeImageUrl(senator.pic2_embed)
                   }
                   alt={`${senator.f_name} ${senator.l_name}`}
                   width="300"
