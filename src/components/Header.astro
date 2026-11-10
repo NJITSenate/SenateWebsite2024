@@ -200,11 +200,10 @@ let { siteTitleHref, siteTitleText } = Astro.props;
   <div
     class="link-list links mx-auto !justify-center !w-max absolute sm:!left-1/2 sm:!right-[unset] sm:!transform sm:!-translate-x-1/2 right-0 sm:!flex hidden flex-col sm:!flex-row items-start sm:!items-center rounded-lg bg-[#233251] z-10 top-10 border border-[#A32F2C] sm:!border-[unset] border-solid sm:!border-0 sm:top-1/2 sm:-translate-y-1/2 p-4 sm:p-0"
   >
-    <a href="
-    /pages"> Info </a>
-    <a href="/senators">Senators</a>
+    <a class="w-full block text-center" href="/pages"> Info </a>
+    <a class="w-full block text-center" href="/senators">Senators</a>
 
-    <select id="page-select" class="bg-transparent border-0 text-black">
+    <select id="page-select" class="bg-transparent border-0 text-black text-center cursor-pointer">
       <option class="text-black" value="">More</option>
       <option class="text-black" value="/resolutions">Resolutions</option>
       <option class="text-black" value="/minutes">Minutes</option>
@@ -338,7 +337,7 @@ let { siteTitleHref, siteTitleText } = Astro.props;
       }
     }
     .links {
-      display: flex;
+      /* display: flex; */
       gap: 1rem;
       justify-content: flex-end;
       align-items: center;
