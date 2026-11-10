@@ -122,7 +122,7 @@ if (cabinetIndex !== -1) {
           ) : (
             <a
               href={`mailto:${senator.email}`}
-              class={` col-span-1 flex align-center club justify-center relative overflow-hidden `}
+              class={` col-span-1 flex align-center club senator-card justify-center relative overflow-hidden `}
               title={`${senator.f_name} ${senator.l_name}`}
             >
               <div class="mb-16 relative">
@@ -137,7 +137,7 @@ if (cabinetIndex !== -1) {
                   height="300"
                   formats={["webp"]}
                   widths={[768,800]}
-                  class="hover:opacity-0 object-cover"
+                  class="senator-picture senator-picture--first object-cover"
                 />
                 <Picture
                   src={
@@ -150,7 +150,7 @@ if (cabinetIndex !== -1) {
                   height="300"
                   formats={["webp"]}
                   widths={[768,800]}
-                  class="hover:opacity-100 absolute top-0 left-0 opacity-0 object-cover hover-pic"
+                  class="senator-picture senator-picture--second absolute top-0 left-0 object-cover hover-pic"
                 />
               </div>
               <p

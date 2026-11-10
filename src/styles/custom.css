@@ -66,6 +66,20 @@ header select {
 body {
   background: var(--color-background) !important;
 }
+.senator-picture {
+  transition: opacity 900ms ease-out;
+}
+.senator-picture--second {
+  opacity: 0;
+}
+.senator-card:hover .senator-picture--first,
+.senator-card:focus-visible .senator-picture--first {
+  opacity: 0;
+}
+.senator-card:hover .senator-picture--second,
+.senator-card:focus-visible .senator-picture--second {
+  opacity: 1;
+}
 :root {
   --sl-color-bg-sidebar: #242525 !important;
 }
